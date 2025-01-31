@@ -1,0 +1,327 @@
+---
+services:
+  qbittorrent:
+    image: lscr.io/linuxserver/qbittorrent:latest
+    container_name: qbittorrent
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Asia/Kolkata
+      - WEBUI_PORT=8080
+      - TORRENTING_PORT=6881
+    volumes:
+      - ./config/qbittorrent:/config
+      - ./downloads:/downloads
+    ports:
+      - 8080:8080
+      - 6881:6881
+      - 6881:6881/udp
+    restart: unless-stopped
+
+  portainer:
+    image: portainer/portainer-ce:latest
+    container_name: portainer
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Asia/Kolkata
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /portainer_data:/data
+    ports:
+      - 8000:8000
+      - 9443:9443
+      - 9000:9000
+    restart: unless-stopped
+
+  prowlarr:
+    image: lscr.io/linuxserver/prowlarr:latest
+    container_name: prowlarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Asia/Kolkata
+    ports:
+      - 9696:9696
+    volumes:
+      - ./config/prowlarr:/config
+    restart: unless-stopped
+
+  jackett:
+    image: lscr.io/linuxserver/jackett:latest
+    container_name: jackett
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - AUTO_UPDATE=true
+      - TZ=Asia/Kolkata
+    ports:
+      - 9117:9117
+    volumes:
+      - ./config/jackett:/config
+      - ./downloads:/downloads
+    restart: unless-stopped
+
+  jellyfin:
+    image: lscr.io/linuxserver/jellyfin:latest
+    container_name: jellyfin
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Asia/Kolkata
+    devices:
+      - "/dev/dri:/dev/dri"
+    volumes:
+      - ./config/jellyfin:/config
+      - ./media:/data
+    ports:
+      - 8096:8096
+      - 8920:8920
+      - 7359:7359/udp
+    restart: unless-stopped
+
+  sonarr:
+    image: lscr.io/linuxserver/sonarr:latest
+    container_name: sonarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Asia/Kolkata
+    volumes:
+      - ./config/sonarr:/config
+      - ./media:/data
+      - ./downloads:/downloads
+    ports:
+      - 8989:8989
+    restart: unless-stopped
+
+  filebrowser:
+    image: hurlenko/filebrowser
+    user: 1000:1000
+    ports:
+      - 700:8080
+    volumes:
+      - ./data:/data
+      - ./config/filebrowser:/config
+    environment:
+      - FB_BASEURL=/filebrowser
+    restart: always
+
+  watchtower:
+    image: containrrr/watchtower:latest
+    container_name: watchtower
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - 2800:8080
+    command: --debug --http-api-update --schedule "00 10 * * *"
+    environment:
+      - TZ=Asia/Kolkata
+      - WATCHTOWER_NOTIFICATIONS=shoutrrr
+      - WATCHTOWER_NOTIFICATION_URL=telegram://BOT_TOKEN@telegram/?channels=CHANNEL_ID
+      - WATCHTOWER_CLEANUP=true
+      - WATCHTOWER_HTTP_API_METRICS=true
+      - WATCHTOWER_HTTP_API_PERIODIC_POLLS=true
+      - WATCHTOWER_HTTP_API_TOKEN=your_token_here
+    restart: unless-stopped
+
+  radarr:
+    image: lscr.io/linuxserver/radarr:latest
+    container_name: radarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Asia/Kolkata
+    volumes:
+      - ./config/radarr:/config
+      - ./media:/data
+      - ./downloads:/downloads
+    ports:
+      - 7878:7878
+    restart: unless-stopped
+
+  bazarr:
+    image: lscr.io/linuxserver/bazarr:latest
+    container_name: bazarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Asia/Kolkata
+    volumes:
+      - ./config/bazarr:/config
+      - ./media:/data
+    ports:
+      - 6767:6767
+    restart: unless-stopped
+
+  homepage:
+    image: ghcr.io/gethomepage/homepage:latest
+    container_name: homepage
+    environment:
+      PUID: 1000
+      PGID: 1000
+    ports:
+      - 2500:3000
+    volumes:
+      - ./config/homepage:/app/config
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./media:/media
+    restart: unless-stopped
+
+  jellyseerr:
+    image: fallenbagel/jellyseerr:latest
+    container_name: jellyseerr
+    environment:
+      - LOG_LEVEL=debug
+      - TZ=Asia/Kolkata
+    ports:
+      - 5055:5055
+    volumes:
+      - ./config/jellyseerr:/app/config
+    restart: unless-stopped
+
+  duplicati:
+    image: lscr.io/linuxserver/duplicati:latest
+    container_name: duplicati
+    ports:
+      - 8200:8200
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Asia/Kolkata
+      - SETTINGS_ENCRYPTION_KEY=your_key_here
+      - DUPLICATI__WEBSERVICE_PASSWORD=your_password_here
+    volumes:
+      - ./config/duplicati:/config
+      - ./backups:/backups
+      - ./source:/source
+    restart: unless-stopped
+
+  tailscale:
+    image: tailscale/tailscale
+    container_name: tailscaler
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TS_USERSPACE=true
+      - TS_AUTH_KEY=your_auth_key_here
+      - TS_ROUTES=192.168.1.0/24
+      - TS_EXTRA_ARGS=--advertise-routes=192.168.1.0/24 --accept-routes --accept-risk=all
+    volumes:
+      - ./data:/var/lib
+      - /dev/net/tun:/dev/net/tun
+    network_mode: host
+    restart: unless-stopped
+
+  plex:
+    image: lscr.io/linuxserver/plex:latest
+    container_name: plex
+    network_mode: host
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Asia/Kolkata
+      - VERSION=docker
+      - PLEX_CLAIM=your_claim_token_here
+    devices:
+      - "/dev/dri:/dev/dri"
+    volumes:
+      - ./config/plex:/config
+      - ./media:/data
+    restart: unless-stopped
+
+  dockerproxy:
+    image: ghcr.io/tecnativa/docker-socket-proxy:latest
+    container_name: dockerproxy
+    environment:
+      - CONTAINERS=1
+      - SERVICES=1  
+      - TASKS=1 
+      - POST=0
+    ports:
+      - 127.0.0.1:2375:2375
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    restart: unless-stopped
+
+  watchstate:
+    image: ghcr.io/arabcoders/watchstate:latest
+    user: "0:0"
+    container_name: watchstate
+    ports:
+      - 8500:8080
+      - 8600:9000
+    restart: unless-stopped
+    volumes:
+      - ./config/watchstate:/config:rw
+
+  suwayomi:
+    image: ghcr.io/suwayomi/tachidesk:preview
+    environment:
+      - TZ=Asia/Kolkata
+      - FLARESOLVERR_ENABLED=true
+      - FLARESOLVERR_URL=http://flaresolverr:8191
+    volumes:
+      - ./config/tachiyomi:/home/suwayomi/.local/share/Tachidesk
+    ports:
+      - "4567:4567"
+    restart: unless-stopped
+    
+  flaresolverr:
+    image: ghcr.io/flaresolverr/flaresolverr:latest
+    container_name: flaresolverr
+    environment:
+      - TZ=Asia/Kolkata
+    ports:
+      - "8191:8191"
+    restart: unless-stopped    
+
+  free-games-claimer:
+    image: ghcr.io/vogler/free-games-claimer
+    command: bash -c "node epic-games; node gog; echo sleeping; sleep 1d"
+    environment:
+      - NOTIFY=tgram://BOT_TOKEN/CHANNEL_ID
+      - NOTIFY_TITLE=My Free Games Claimer      
+    ports:
+      - "6080:6080"
+    volumes:
+      - ./config/free-games-claimer:/fgc/data      
+    restart: unless-stopped
+
+  nginx:  
+    image: lscr.io/linuxserver/nginx:latest
+    container_name: nginx
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Asia/Kolkata
+    volumes:
+      - ./config/nginx:/config
+    ports:
+      - 80:80
+      - 443:443
+    restart: unless-stopped
+
+  spotdl:
+    container_name: spotdl
+    image: spotdl/spotify-downloader
+    command: web --host 0.0.0.0 --web-use-output-dir
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Asia/Kolkata
+      - UMASK=002
+    ports:
+      - 8800:8800
+    volumes:
+      - ./media/music:/music
+    restart: unless-stopped
+    
+volumes:
+  portainer_data:
+    external: true
+  spotdl:
+    external: true
