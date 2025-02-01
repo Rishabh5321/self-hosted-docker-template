@@ -224,13 +224,11 @@ Before using this setup, ensure you have the following:
 ### Configuration
 1. Clone this repository:
    ```bash
-   git clone https://github.com/your-username/your-repo.git
-   cd your-repo
-
+   git clone https://github.com/Rishabh5321/Docker-Compose_Template
+   cd Docker-Compose_Template
 2. Start the services:
    ```bash
    docker-compose up -d
-
 ### Security Best Practices
 
   Use a reverse proxy (e.g., nginx) with HTTPS for external access.
@@ -261,3 +259,10 @@ Before using this setup, ensure you have the following:
    To debug issues, check the logs of a specific container:
    ```bash
    docker logs <container_name>
+## Contributing
+
+Contributions are welcome! Please open an issue or submit a pull request.
+
+## License
+
+This project is licensed under the MIT License. See the LICENSE file for details.
