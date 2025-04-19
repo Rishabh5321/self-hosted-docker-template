@@ -1,268 +1,123 @@
-# Docker Media Server Setup
+# My Personal Docker Media Server & Homelab Stack
 
-This repository contains a Docker Compose configuration for a self-hosted media server. It includes services for torrenting, media management, automation, and more. Below is a detailed explanation of each service and how to configure and use them securely.
+This repository contains a `docker-compose.yml` file to deploy a comprehensive suite of media management, download, streaming, and utility services using Docker and Traefik as a reverse proxy.
 
----
+## Overview
 
-## Table of Contents
-1. [Prerequisites](#prerequisites)
-2. [Services Overview](#services-overview)
-3. [Configuration](#configuration)
-4. [Security Best Practices](#security-best-practices)
-5. [Usage](#usage)
-6. [Troubleshooting](#troubleshooting)
-7. [Contributing](#contributing)
-8. [License](#license)
+This setup uses Docker Compose to define and run multiple services in containers. Traefik handles routing traffic to the appropriate service based on hostname rules (e.g., `sonarr.yourdomain.com`), simplifying access and enabling potential future HTTPS via Let's Encrypt. Configuration is managed primarily through an `.env` file to keep sensitive information and environment-specific settings separate from the main compose file.
 
----
+## Services Included
+
+* **Traefik:** Reverse proxy and load balancer, handling incoming requests and directing them to the correct service. Also provides a dashboard.
+* **qBittorrent:** Popular BitTorrent client with a web UI.
+* **Resilio Sync:** Peer-to-peer file synchronization tool.
+* **Portainer CE:** Web UI for managing Docker containers, volumes, networks, etc.
+* **Prowlarr:** Indexer manager for Sonarr, Radarr, etc., supporting various indexer types.
+* **Jackett:** Indexer proxy/aggregator (can be used alongside or instead of Prowlarr).
+* **Jellyfin:** Free and open-source media server for streaming movies, TV shows, music, etc.
+* **Sonarr:** TV show download management and automation.
+* **File Browser:** Web-based interface for Browse files on the server (use with caution!).
+* **Watchtower:** Monitors running Docker containers and automatically updates them to the latest image.
+* **Radarr:** Movie download management and automation.
+* **Bazarr:** Companion application for Sonarr and Radarr to manage and download subtitles.
+* **Jellyseerr:** Request management and media discovery tool for Jellyfin (and Plex).
+* **Duplicati:** Backup client to store encrypted backups online or locally.
+* **Tachidesk (Suwayomi):** A free and open source manga reader server.
+* **Flaresolverr:** Proxy server designed to help bypass Cloudflare protection for web scraping/API access.
+* **Free Games Claimer:** Automatically claims free games from GOG.com (Epic Games support commented out).
+* **Syncify:** Syncs Spotify playlists/albums/artists to local music files.
 
 ## Prerequisites
-Before using this setup, ensure you have the following:
-- **Docker** and **Docker Compose** installed on your system.
-- A basic understanding of Docker and containerization.
-- A server or machine with sufficient resources (CPU, RAM, and storage).
-- A domain name (optional but recommended for external access).
 
----
+* **Docker Engine:** Install Docker for your operating system.
+* **Docker Compose:** Install Docker Compose (v2 syntax recommended).
+* **Git:** (Optional) For cloning this repository.
+* **Host Machine:** A Linux-based system is recommended for compatibility and features like hardware transcoding (`/dev/dri`).
+* **Directory Structure:** You need to create the directories on your host machine that will be mounted as volumes. These paths are defined in the `.env` file.
+* **`.env` File:** A correctly configured `.env` file is mandatory (see Configuration section).
 
-## Services Overview
+## Configuration
 
-### 1. qBittorrent
-- **Purpose**: A BitTorrent client for downloading files.
-- **Ports**: `8080` (Web UI), `6881` (Torrenting).
-- **Volumes**:
-  - `./config/qbittorrent`: Configuration files.
-  - `./downloads`: Downloaded files.
-- **Environment**:
-  - `PUID`, `PGID`: User and group IDs for file permissions.
-  - `TZ`: Timezone (e.g., `Asia/Kolkata`).
+This setup relies heavily on an `.env` file placed in the same directory as the `docker-compose.yml` file. **This file contains sensitive information and environment-specific paths and MUST NOT be committed to version control (e.g., Git).**
 
----
+1.  **Create the `.env` file:** You can copy the example structure below or use `cp .env.example .env` if you create an example file.
+2.  **Edit `.env`:** Fill in the values specific to your environment.
 
-### 2. Portainer
-- **Purpose**: A web-based Docker management tool.
-- **Ports**: `8000`, `9443`, `9000`.
-- **Volumes**:
-  - `/var/run/docker.sock`: Docker socket access.
-  - `portainer_data`: Persistent data.
-- **Environment**:
-  - `PUID`, `PGID`, `TZ`: Standard configuration.
+### `.env` File Structure Example (`.env.example`)
 
----
+```dotenv
+# --- General Settings ---
+# Timezone (e.g., America/New_York, Europe/London, Asia/Kolkata)
+TZ=Asia/Kolkata
+# User and Group ID for file permissions. Find yours with `id $USER` on Linux.
+PUID=1000
+PGID=1000
+# Base domain for accessing services via Traefik (e.g., yourdomain.com, home.local)
+BASE_DOMAIN=server
 
-### 3. Prowlarr
-- **Purpose**: Indexer manager for Sonarr, Radarr, and Lidarr.
-- **Ports**: `9696`.
-- **Volumes**:
-  - `./config/prowlarr`: Configuration files.
+# --- Base Paths (IMPORTANT: Adjust to your actual host system paths) ---
+# Base directory for storing Docker application configurations
+DOCKER_CONFIG_BASE=/mnt/Docker/Docker
+# Base directory for other Docker data (if needed, otherwise combine with config base)
+# DOCKER_DATA_BASE=/mnt/Docker
+# Path for downloaded files (used by qBittorrent, Sonarr, Radarr, etc.)
+MEDIA_DOWNLOADS_PATH=/mnt/Raid/Downloads
+# Path(s) for your main media library (used by Jellyfin, Sonarr, Radarr, Bazarr, etc.)
+MEDIA_LIBRARY_PATH_RAID=/mnt/Raid/Learn/Bonus
+MEDIA_LIBRARY_PATH_EDISK=/mnt/E_Disk/Learn/Bonus
+# Path for Duplicati backup destination
+BACKUP_PATH=/mnt/Raid/Backup
+# Path to host's /mnt directory (Used by File Browser, Duplicati - USE CAREFULLY!)
+HOST_MNT_PATH=/mnt
+# Path to host's user home directory (Used by File Browser - USE CAREFULLY!)
+HOST_HOME_PATH=/home/your_user # Change 'your_user'
+# Path for Traefik Let's Encrypt certificates (if used)
+TRAEFIK_ACME_PATH=/mnt/Docker/Docker/Traefik_Acme
 
----
+# --- Service Specific ---
+# Portainer external volume name (must match volume definition at end of compose file)
+PORTAINER_DATA_VOLUME=portainer_data
+# Watchtower update schedule (cron format: Min Hour Day Month DayOfWeek)
+WATCHTOWER_SCHEDULE="00 10 * * *"
+# Watchtower API token (create a strong, unique token)
+WATCHTOWER_API_TOKEN=YourSecureWatchtowerToken
+# Watchtower Telegram Notification URL (replace with your Bot Token and Channel ID)
+WATCHTOWER_TELEGRAM_URL=telegram://BOT_TOKEN@telegram/?channels=CHANNEL_ID
+# Duplicati Settings Encryption Key (random string, keep safe)
+DUPLICATI_SETTINGS_KEY=YourDuplicatiSettingsKey
+# Duplicati Web UI Password (change this!)
+DUPLICATI_PASSWORD=YourDuplicatiPassword
+# GOG Credentials (replace with your actual credentials)
+GOG_EMAIL=your_gog_email@example.com
+GOG_PASSWORD=YourGogPassword!
+# Free Games Claimer Notification URL (Telegram format)
+FREE_GAMES_NOTIFY_URL=tgram://BOT_TOKEN/CHANNEL_ID
+# Syncify Settings
+SYNCIFY_THREAD_LIMIT=5
+SYNCIFY_CROP_ALBUM_ART=false
 
-### 4. Jackett
-- **Purpose**: Proxy server for torrent trackers.
-- **Ports**: `9117`.
-- **Volumes**:
-  - `./config/jackett`: Configuration files.
-  - `./downloads`: Shared downloads folder.
+# --- System Paths ---
+# Path to Docker socket
+DOCKER_SOCKET_PATH=/var/run/docker.sock
+# Path to DRI device for hardware transcoding (Intel iGPU example)
+DRI_DEVICE_PATH=/dev/dri
 
----
-
-### 5. Jellyfin
-- **Purpose**: Media server for streaming movies, TV shows, and music.
-- **Ports**: `8096`, `8920`, `7359/udp`.
-- **Volumes**:
-  - `./config/jellyfin`: Configuration files.
-  - `./media`: Media files.
-- **Devices**:
-  - `/dev/dri`: GPU passthrough for hardware acceleration.
-
----
-
-### 6. Sonarr
-- **Purpose**: TV show management and automation.
-- **Ports**: `8989`.
-- **Volumes**:
-  - `./config/sonarr`: Configuration files.
-  - `./media`: Media files.
-  - `./downloads`: Shared downloads folder.
-
----
-
-### 7. Filebrowser
-- **Purpose**: Web-based file manager.
-- **Ports**: `700`.
-- **Volumes**:
-  - `./data`: Managed files.
-  - `./config/filebrowser`: Configuration files.
-
----
-
-### 8. Watchtower
-- **Purpose**: Automatically updates Docker containers.
-- **Ports**: `2800`.
-- **Environment**:
-  - `WATCHTOWER_NOTIFICATIONS`: Notifications via Telegram.
-  - `WATCHTOWER_CLEANUP`: Cleans up old images.
-
----
-
-### 9. Radarr
-- **Purpose**: Movie management and automation.
-- **Ports**: `7878`.
-- **Volumes**:
-  - `./config/radarr`: Configuration files.
-  - `./media`: Media files.
-  - `./downloads`: Shared downloads folder.
-
----
-
-### 10. Bazarr
-- **Purpose**: Subtitle management for media.
-- **Ports**: `6767`.
-- **Volumes**:
-  - `./config/bazarr`: Configuration files.
-  - `./media`: Media files.
-
----
-
-### 11. Homepage
-- **Purpose**: A dashboard for managing services.
-- **Ports**: `2500`.
-- **Volumes**:
-  - `./config/homepage`: Configuration files.
-  - `/var/run/docker.sock`: Docker socket access.
-
----
-
-### 12. Jellyseerr
-- **Purpose**: A request management tool for Jellyfin.
-- **Ports**: `5055`.
-- **Volumes**:
-  - `./config/jellyseerr`: Configuration files.
-
----
-
-### 13. Duplicati
-- **Purpose**: Backup tool for data.
-- **Ports**: `8200`.
-- **Environment**:
-  - `SETTINGS_ENCRYPTION_KEY`: Encryption key for backups.
-  - `DUPLICATI__WEBSERVICE_PASSWORD`: Web UI password.
-
----
-
-### 14. Tailscale
-- **Purpose**: VPN for secure access to services.
-- **Environment**:
-  - `TS_AUTH_KEY`: Tailscale authentication key.
-  - `TS_ROUTES`: Network routes.
-
----
-
-### 15. Plex
-- **Purpose**: Media server for streaming.
-- **Environment**:
-  - `PLEX_CLAIM`: Plex claim token.
-- **Devices**:
-  - `/dev/dri`: GPU passthrough for hardware acceleration.
-
----
-
-### 16. Dockerproxy
-- **Purpose**: Proxy for Docker socket access.
-- **Ports**: `127.0.0.1:2375`.
-- **Volumes**:
-  - `/var/run/docker.sock`: Docker socket access.
-
----
-
-### 17. Watchstate
-- **Purpose**: Tracks watched media.
-- **Ports**: `8500`, `8600`.
-- **Volumes**:
-  - `./config/watchstate`: Configuration files.
-
----
-
-### 18. Suwayomi
-- **Purpose**: Manga reader and manager.
-- **Ports**: `4567`.
-- **Volumes**:
-  - `./config/tachiyomi`: Configuration files.
-
----
-
-### 19. Flaresolverr
-- **Purpose**: Solves Cloudflare challenges for scraping.
-- **Ports**: `8191`.
-
----
-
-### 20. Free-Games-Claimer
-- **Purpose**: Claims free games from platforms like Epic Games and GOG.
-- **Environment**:
-  - `NOTIFY`: Telegram notifications.
-
----
-
-### 21. Nginx
-- **Purpose**: Reverse proxy for external access.
-- **Ports**: `80`, `443`.
-- **Volumes**:
-  - `./config/nginx`: Configuration files.
-
----
-
-### 22. SpotDL
-- **Purpose**: Downloads music from Spotify.
-- **Ports**: `8800`.
-- **Volumes**:
-  - `./media/music`: Downloaded music.
-
----
-
-### Configuration
-1. Clone this repository:
-   ```bash
-   git clone https://github.com/Rishabh5321/Docker-Compose_Template
-   cd Docker-Compose_Template
-2. Start the services:
-   ```bash
-   docker-compose up -d
-### Security Best Practices
-
-  Use a reverse proxy (e.g., nginx) with HTTPS for external access.
-  Avoid exposing unnecessary ports to the internet.
-  Use strong passwords and encryption keys.
-  Regularly update Docker images and dependencies.
-
-## Usage
-
-1. **Access Services**:
-   - Services can be accessed via their respective ports. For example:
-     - qBittorrent: `http://localhost:8080`
-     - Portainer: `http://localhost:9000`
-     - Jellyfin: `http://localhost:8096`
-   - Use a reverse proxy (e.g., `nginx`) for secure external access.
-
-2. **Manage Containers**:
-   - Use **Portainer** (`http://localhost:9000`) to manage Docker containers.
-
-3. **Central Dashboard**:
-   - Use **Homepage** (`http://localhost:2500`) as a central dashboard to monitor and access all services.
-
----
-
-## Troubleshooting
-
-1. **Check Container Logs**:
-   To debug issues, check the logs of a specific container:
-   ```bash
-   docker logs <container_name>
-## Contributing
-
-Contributions are welcome! Please open an issue or submit a pull request.
-
-## License
-
-This project is licensed under the MIT License. See the LICENSE file for details.
+# --- Image Versions (Recommended: Use specific versions instead of 'latest' for stability) ---
+TRAEFIK_VERSION=latest
+QBITTORRENT_VERSION=latest
+RESILIO_VERSION=latest
+PORTAINER_VERSION=latest
+PROWLARR_VERSION=latest
+JACKETT_VERSION=latest
+JELLYFIN_VERSION=latest
+SONARR_VERSION=latest
+FILEBROWSER_VERSION=latest
+WATCHTOWER_VERSION=latest
+RADARR_VERSION=latest
+BAZARR_VERSION=latest
+JELLYSEERR_VERSION=latest
+DUPLICATI_VERSION=latest
+TACHIDESK_VERSION=preview
+FLARESOLVERR_VERSION=latest
+FREE_GAMES_CLAIMER_VERSION=latest
+SYNCIFY_VERSION=latest
