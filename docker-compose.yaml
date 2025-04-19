@@ -1,327 +1,379 @@
 ---
 services:
+  traefik:
+    image: traefik:${TRAEFIK_VERSION}
+    container_name: traefik
+    command:
+      - "--api.insecure=true" 
+      - "--providers.docker=true"
+      - "--providers.docker.exposedByDefault=false"
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.websecure.address=:443"
+      - "--log.level=INFO"
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8081:8080"
+    volumes:
+      - ${TRAEFIK_ACME_PATH}:/acme
+      - ${DOCKER_SOCKET_PATH}:/var/run/docker.sock:ro
+    networks:
+      - proxy_network
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.traefik-dashboard.rule=Host(`traefik.${BASE_DOMAIN}`)"
+      - "traefik.http.routers.traefik-dashboard.entrypoints=web" 
+      - "traefik.http.routers.traefik-dashboard.service=api@internal"
+     
   qbittorrent:
-    image: lscr.io/linuxserver/qbittorrent:latest
+    image: lscr.io/linuxserver/qbittorrent:${QBITTORRENT_VERSION}
     container_name: qbittorrent
     environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Asia/Kolkata
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
       - WEBUI_PORT=8080
       - TORRENTING_PORT=6881
     volumes:
-      - ./config/qbittorrent:/config
-      - ./downloads:/downloads
+      - ${DOCKER_CONFIG_BASE}/Qbittorrent_Config:/config
+      - ${MEDIA_DOWNLOADS_PATH}:/downloads
+      - ${MEDIA_LIBRARY_PATH_RAID}:/mnt/Raid/Learn/Bonus 
     ports:
-      - 8080:8080
       - 6881:6881
       - 6881:6881/udp
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.qbit.rule=Host(`qbit.${BASE_DOMAIN}`)"
+      - "traefik.http.routers.qbit.entrypoints=web" 
+      - "traefik.http.services.qbit.loadbalancer.server.port=8080"
+    networks:
+      - proxy_network
+    restart: unless-stopped
+
+  resilio-sync:
+    image: lscr.io/linuxserver/resilio-sync:${RESILIO_VERSION}
+    container_name: resilio-sync
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+    volumes:
+      - ${DOCKER_CONFIG_BASE}/Resilio_Config:/config
+      - ${MEDIA_DOWNLOADS_PATH}:/downloads
+      - ${MEDIA_LIBRARY_PATH_RAID}/Music:/sync
+    networks:
+      - proxy_network
+    ports:
+      - 55555:55555
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.resilio.rule=Host(`resilio.${BASE_DOMAIN}`)"
+      - "traefik.http.routers.resilio.entrypoints=web"
+      - "traefik.http.services.resilio.loadbalancer.server.port=8888"
     restart: unless-stopped
 
   portainer:
-    image: portainer/portainer-ce:latest
+    image: portainer/portainer-ce:${PORTAINER_VERSION}
     container_name: portainer
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Asia/Kolkata
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - /portainer_data:/data
-    ports:
-      - 8000:8000
-      - 9443:9443
-      - 9000:9000
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.portainer.rule=Host(`portainer.${BASE_DOMAIN}`)"
+      - "traefik.http.routers.portainer.entrypoints=web"
+      - "traefik.http.services.portainer.loadbalancer.server.port=9000"
+    networks:
+      - proxy_network
     restart: unless-stopped
 
   prowlarr:
-    image: lscr.io/linuxserver/prowlarr:latest
+    image: lscr.io/linuxserver/prowlarr:${PROWLARR_VERSION}
     container_name: prowlarr
     environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Asia/Kolkata
-    ports:
-      - 9696:9696
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+    networks:
+      - proxy_network
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.prowlarr.rule=Host(`prowlarr.${BASE_DOMAIN}`)"
+      - "traefik.http.routers.prowlarr.entrypoints=web"
+      - "traefik.http.services.prowlarr.loadbalancer.server.port=9696"
     volumes:
-      - ./config/prowlarr:/config
+      - ${DOCKER_CONFIG_BASE}/Prowlarr_Config:/config
     restart: unless-stopped
 
   jackett:
-    image: lscr.io/linuxserver/jackett:latest
+    image: lscr.io/linuxserver/jackett:${JACKETT_VERSION}
     container_name: jackett
     environment:
-      - PUID=1000
-      - PGID=1000
+      - PUID=${PUID}
+      - PGID=${PGID}
       - AUTO_UPDATE=true
-      - TZ=Asia/Kolkata
-    ports:
-      - 9117:9117
+      - TZ=${TZ}
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.jackett.rule=Host(`jackett.${BASE_DOMAIN}`)"
+      - "traefik.http.routers.jackett.entrypoints=web"
+      - "traefik.http.services.jackett.loadbalancer.server.port=9117"
+    networks:
+      - proxy_network
     volumes:
-      - ./config/jackett:/config
-      - ./downloads:/downloads
+      - ${DOCKER_CONFIG_BASE}/Jackett_Config:/config
+      - ${MEDIA_DOWNLOADS_PATH}:/downloads
     restart: unless-stopped
 
+
   jellyfin:
-    image: lscr.io/linuxserver/jellyfin:latest
+    image: lscr.io/linuxserver/jellyfin:${JELLYFIN_VERSION}
     container_name: jellyfin
     environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Asia/Kolkata
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+      - JELLYFIN_PublishedServerUrl=jellyfin.${BASE_DOMAIN}
     devices:
-      - "/dev/dri:/dev/dri"
+      - "${DRI_DEVICE_PATH}:${DRI_DEVICE_PATH}" 
+    networks:
+      - proxy_network
     volumes:
-      - ./config/jellyfin:/config
-      - ./media:/data
+      - ${DOCKER_CONFIG_BASE}/JellyFin_Docker:/config
+      - ${MEDIA_LIBRARY_PATH_RAID}:/data/media_raid
+      - ${MEDIA_LIBRARY_PATH_EDISK}:/data/media_edisk
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.jellyfin.rule=Host(`jellyfin.${BASE_DOMAIN}`)"
+      - "traefik.http.routers.jellyfin.entrypoints=web"
+      - "traefik.http.services.jellyfin.loadbalancer.server.port=8096"
     ports:
-      - 8096:8096
-      - 8920:8920
-      - 7359:7359/udp
+      - 8920:8920 
+      - 7359:7359/udp 
     restart: unless-stopped
 
   sonarr:
-    image: lscr.io/linuxserver/sonarr:latest
+    image: lscr.io/linuxserver/sonarr:${SONARR_VERSION}
     container_name: sonarr
     environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Asia/Kolkata
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+    networks:
+      - proxy_network
     volumes:
-      - ./config/sonarr:/config
-      - ./media:/data
-      - ./downloads:/downloads
-    ports:
-      - 8989:8989
+      - ${DOCKER_CONFIG_BASE}/Sonarr_Config:/config
+      - ${MEDIA_LIBRARY_PATH_RAID}:/data
+      - ${MEDIA_LIBRARY_PATH_EDISK}:/data1
+      - ${MEDIA_DOWNLOADS_PATH}:/downloads
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.sonarr.rule=Host(`sonarr.${BASE_DOMAIN}`)"
+      - "traefik.http.routers.sonarr.entrypoints=web"
+      - "traefik.http.services.sonarr.loadbalancer.server.port=8989"
     restart: unless-stopped
 
   filebrowser:
-    image: hurlenko/filebrowser
-    user: 1000:1000
-    ports:
-      - 700:8080
+    image: hurlenko/filebrowser:${FILEBROWSER_VERSION}
+    container_name: filebrowser
+    user: "${PUID}:${PGID}" 
     volumes:
-      - ./data:/data
-      - ./config/filebrowser:/config
-    environment:
-      - FB_BASEURL=/filebrowser
+      - ${HOST_MNT_PATH}:/data/mnt
+      - ${HOST_HOME_PATH}:/data/home
+      - ${DOCKER_CONFIG_BASE}/FileBrowser_Config:/config
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.file.rule=Host(`file.${BASE_DOMAIN}`)"
+      - "traefik.http.routers.file.entrypoints=web"
+      - "traefik.http.services.file.loadbalancer.server.port=8080"
+    networks:
+      - proxy_network
     restart: always
 
   watchtower:
-    image: containrrr/watchtower:latest
+    image: containrrr/watchtower:${WATCHTOWER_VERSION}
     container_name: watchtower
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
+      - ${DOCKER_SOCKET_PATH}:/var/run/docker.sock
     ports:
-      - 2800:8080
-    command: --debug --http-api-update --schedule "00 10 * * *"
+      - 2800:8080 
+    command: --debug --http-api-update --schedule "${WATCHTOWER_SCHEDULE}" --cleanup --http-api-metrics --http-api-periodic-polls # Use variable
     environment:
-      - TZ=Asia/Kolkata
+      - TZ=${TZ}
       - WATCHTOWER_NOTIFICATIONS=shoutrrr
-      - WATCHTOWER_NOTIFICATION_URL=telegram://BOT_TOKEN@telegram/?channels=CHANNEL_ID
+      - WATCHTOWER_NOTIFICATION_URL=${WATCHTOWER_TELEGRAM_URL}
       - WATCHTOWER_CLEANUP=true
       - WATCHTOWER_HTTP_API_METRICS=true
       - WATCHTOWER_HTTP_API_PERIODIC_POLLS=true
-      - WATCHTOWER_HTTP_API_TOKEN=your_token_here
+      - WATCHTOWER_HTTP_API_TOKEN=${WATCHTOWER_API_TOKEN} 
     restart: unless-stopped
 
   radarr:
-    image: lscr.io/linuxserver/radarr:latest
+    image: lscr.io/linuxserver/radarr:${RADARR_VERSION}
     container_name: radarr
     environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Asia/Kolkata
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
     volumes:
-      - ./config/radarr:/config
-      - ./media:/data
-      - ./downloads:/downloads
-    ports:
-      - 7878:7878
+      - ${DOCKER_CONFIG_BASE}/Radarr_Config:/config
+      - ${MEDIA_LIBRARY_PATH_RAID}:/data
+      - ${MEDIA_LIBRARY_PATH_EDISK}:/data1
+      - ${MEDIA_DOWNLOADS_PATH}:/downloads 
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.radarr.rule=Host(`radarr.${BASE_DOMAIN}`)"
+      - "traefik.http.routers.radarr.entrypoints=web"
+      - "traefik.http.services.radarr.loadbalancer.server.port=7878"
+    networks:
+      - proxy_network
     restart: unless-stopped
 
   bazarr:
-    image: lscr.io/linuxserver/bazarr:latest
+    image: lscr.io/linuxserver/bazarr:${BAZARR_VERSION}
     container_name: bazarr
     environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Asia/Kolkata
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
     volumes:
-      - ./config/bazarr:/config
-      - ./media:/data
-    ports:
-      - 6767:6767
-    restart: unless-stopped
-
-  homepage:
-    image: ghcr.io/gethomepage/homepage:latest
-    container_name: homepage
-    environment:
-      PUID: 1000
-      PGID: 1000
-    ports:
-      - 2500:3000
-    volumes:
-      - ./config/homepage:/app/config
-      - /var/run/docker.sock:/var/run/docker.sock
-      - ./media:/media
+      - ${DOCKER_CONFIG_BASE}/Bazarr_Docker:/config
+      - ${MEDIA_LIBRARY_PATH_RAID}:/data
+      - ${MEDIA_LIBRARY_PATH_EDISK}:/data1
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.bazarr.rule=Host(`bazarr.${BASE_DOMAIN}`)"
+      - "traefik.http.routers.bazarr.entrypoints=web"
+      - "traefik.http.services.bazarr.loadbalancer.server.port=6767"
+    networks:
+      - proxy_network
     restart: unless-stopped
 
   jellyseerr:
-    image: fallenbagel/jellyseerr:latest
+    image: fallenbagel/jellyseerr:${JELLYSEERR_VERSION}
     container_name: jellyseerr
     environment:
-      - LOG_LEVEL=debug
-      - TZ=Asia/Kolkata
-    ports:
-      - 5055:5055
+      - LOG_LEVEL=info 
+      - TZ=${TZ}
+      - PUID=${PUID}
+      - PGID=${PGID}
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.jellyseerr.rule=Host(`jellyseerr.${BASE_DOMAIN}`)"
+      - "traefik.http.routers.jellyseerr.entrypoints=web"
+      - "traefik.http.services.jellyseerr.loadbalancer.server.port=5055"
+    networks:
+      - proxy_network
     volumes:
-      - ./config/jellyseerr:/app/config
+      - ${DOCKER_CONFIG_BASE}/Jellyseer_Config:/app/config
     restart: unless-stopped
 
   duplicati:
-    image: lscr.io/linuxserver/duplicati:latest
+    image: lscr.io/linuxserver/duplicati:${DUPLICATI_VERSION}
     container_name: duplicati
-    ports:
-      - 8200:8200
     environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Asia/Kolkata
-      - SETTINGS_ENCRYPTION_KEY=your_key_here
-      - DUPLICATI__WEBSERVICE_PASSWORD=your_password_here
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+      - SETTINGS_ENCRYPTION_KEY=${DUPLICATI_SETTINGS_KEY}
+      - DUPLICATI__WEBSERVICE_PASSWORD=${DUPLICATI_PASSWORD}
     volumes:
-      - ./config/duplicati:/config
-      - ./backups:/backups
-      - ./source:/source
+      - ${DOCKER_CONFIG_BASE}/Duplicati_Config:/config
+      - ${BACKUP_PATH}:/backups
+      - ${DOCKER_CONFIG_MNT}/:/source
+      - ${HOST_MNT_PATH}:/data
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.duplicati.rule=Host(`duplicati.${BASE_DOMAIN}`)"
+      - "traefik.http.routers.duplicati.entrypoints=web"
+      - "traefik.http.services.duplicati.loadbalancer.server.port=8200"
+    networks:
+      - proxy_network
     restart: unless-stopped
 
-  tailscale:
-    image: tailscale/tailscale
-    container_name: tailscaler
-    cap_add:
-      - NET_ADMIN
-      - NET_RAW
+  suwayomi: # Tachidesk service
+    image: ghcr.io/suwayomi/tachidesk:${TACHIDESK_VERSION}
+    container_name: tachidesk
     environment:
-      - PUID=1000
-      - PGID=1000
-      - TS_USERSPACE=true
-      - TS_AUTH_KEY=your_auth_key_here
-      - TS_ROUTES=192.168.1.0/24
-      - TS_EXTRA_ARGS=--advertise-routes=192.168.1.0/24 --accept-routes --accept-risk=all
-    volumes:
-      - ./data:/var/lib
-      - /dev/net/tun:/dev/net/tun
-    network_mode: host
-    restart: unless-stopped
-
-  plex:
-    image: lscr.io/linuxserver/plex:latest
-    container_name: plex
-    network_mode: host
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Asia/Kolkata
-      - VERSION=docker
-      - PLEX_CLAIM=your_claim_token_here
-    devices:
-      - "/dev/dri:/dev/dri"
-    volumes:
-      - ./config/plex:/config
-      - ./media:/data
-    restart: unless-stopped
-
-  dockerproxy:
-    image: ghcr.io/tecnativa/docker-socket-proxy:latest
-    container_name: dockerproxy
-    environment:
-      - CONTAINERS=1
-      - SERVICES=1  
-      - TASKS=1 
-      - POST=0
-    ports:
-      - 127.0.0.1:2375:2375
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-    restart: unless-stopped
-
-  watchstate:
-    image: ghcr.io/arabcoders/watchstate:latest
-    user: "0:0"
-    container_name: watchstate
-    ports:
-      - 8500:8080
-      - 8600:9000
-    restart: unless-stopped
-    volumes:
-      - ./config/watchstate:/config:rw
-
-  suwayomi:
-    image: ghcr.io/suwayomi/tachidesk:preview
-    environment:
-      - TZ=Asia/Kolkata
+      - TZ=${TZ}
+      - PUID=${PUID} 
+      - PGID=${PGID}
       - FLARESOLVERR_ENABLED=true
       - FLARESOLVERR_URL=http://flaresolverr:8191
     volumes:
-      - ./config/tachiyomi:/home/suwayomi/.local/share/Tachidesk
-    ports:
-      - "4567:4567"
+      - ${DOCKER_CONFIG_BASE}/Tachiyomi_Config:/home/suwayomi/.local/share/Tachidesk
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.tachidesk.rule=Host(`tachidesk.${BASE_DOMAIN}`)"
+      - "traefik.http.routers.tachidesk.entrypoints=web"
+      - "traefik.http.services.tachidesk.loadbalancer.server.port=4567"
+    networks:
+      - proxy_network
+    depends_on:
+      - flaresolverr
     restart: unless-stopped
-    
+
   flaresolverr:
-    image: ghcr.io/flaresolverr/flaresolverr:latest
+    image: ghcr.io/flaresolverr/flaresolverr:${FLARESOLVERR_VERSION}
     container_name: flaresolverr
     environment:
-      - TZ=Asia/Kolkata
-    ports:
-      - "8191:8191"
-    restart: unless-stopped    
+      - TZ=${TZ}
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.flaresolverr.rule=Host(`flaresolverr.${BASE_DOMAIN}`)"
+      - "traefik.http.routers.flaresolverr.entrypoints=web"
+      - "traefik.http.services.flaresolverr.loadbalancer.server.port=8191"
+    networks:
+      - proxy_network
+    restart: unless-stopped
 
   free-games-claimer:
-    image: ghcr.io/vogler/free-games-claimer
+    image: ghcr.io/vogler/free-games-claimer:${FREE_GAMES_CLAIMER_VERSION}
+    container_name: free-games-claimer
     command: bash -c "node epic-games; node gog; echo sleeping; sleep 1d"
     environment:
-      - NOTIFY=tgram://BOT_TOKEN/CHANNEL_ID
-      - NOTIFY_TITLE=My Free Games Claimer      
-    ports:
-      - "6080:6080"
+      - NOTIFY=${FREE_GAMES_NOTIFY_URL} 
+      - NOTIFY_TITLE=My Free Games Claimer
+      - GOG_EMAIL=${GOG_EMAIL}
+      - GOG_PASSWORD=${GOG_PASSWORD}
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.game.rule=Host(`game.${BASE_DOMAIN}`)"
+      - "traefik.http.routers.game.entrypoints=web"
+      - "traefik.http.services.game.loadbalancer.server.port=6080"
     volumes:
-      - ./config/free-games-claimer:/fgc/data      
+      - ${DOCKER_CONFIG_BASE}/Free_Game_Claim_Config:/fgc/data
+    networks:
+      - proxy_network
     restart: unless-stopped
 
-  nginx:  
-    image: lscr.io/linuxserver/nginx:latest
-    container_name: nginx
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Asia/Kolkata
+  syncify:
+    image: thewicklowwolf/syncify:${SYNCIFY_VERSION}
+    container_name: syncify
     volumes:
-      - ./config/nginx:/config
-    ports:
-      - 80:80
-      - 443:443
+      - ${DOCKER_CONFIG_BASE}/Syncify_Config:/syncify/config
+      - ${MEDIA_LIBRARY_PATH_RAID}/Music:/syncify/downloads
+      - /etc/localtime:/etc/localtime:ro
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.syncify.rule=Host(`syncify.${BASE_DOMAIN}`)"
+      - "traefik.http.routers.syncify.entrypoints=web"
+      - "traefik.http.services.syncify.loadbalancer.server.port=5000"
+    environment:
+      - thread_limit=${SYNCIFY_THREAD_LIMIT:-5}
+      - crop_album_art=${SYNCIFY_CROP_ALBUM_ART:-false}
+      - PUID=${PUID} 
+      - PGID=${PGID}
+      - TZ=${TZ}
+    networks:
+      - proxy_network
     restart: unless-stopped
 
-  spotdl:
-    container_name: spotdl
-    image: spotdl/spotify-downloader
-    command: web --host 0.0.0.0 --web-use-output-dir
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Asia/Kolkata
-      - UMASK=002
-    ports:
-      - 8800:8800
-    volumes:
-      - ./media/music:/music
-    restart: unless-stopped
-    
 volumes:
   portainer_data:
     external: true
-  spotdl:
-    external: true
+
+networks:
+  proxy_network:
+    driver: bridge
