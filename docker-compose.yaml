@@ -134,23 +134,23 @@ services:
       - PUID=${PUID}
       - PGID=${PGID}
       - TZ=${TZ}
-      - JELLYFIN_PublishedServerUrl=jellyfin.${BASE_DOMAIN}
+      - JELLYFIN_PublishedServerUrl=http://jellyfin.server
     devices:
-      - "${DRI_DEVICE_PATH}:${DRI_DEVICE_PATH}" 
+      - "/dev/dri:/dev/dri" 
     networks:
       - proxy_network
     volumes:
       - ${DOCKER_CONFIG_BASE}/JellyFin_Docker:/config
-      - ${MEDIA_LIBRARY_PATH_RAID}:/data/media_raid
-      - ${MEDIA_LIBRARY_PATH_EDISK}:/data/media_edisk
+      - ${MEDIA_LIBRARY_PATH_RAID}:/data
+      - ${MEDIA_LIBRARY_PATH_EDISK}:/data1
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.jellyfin.rule=Host(`jellyfin.${BASE_DOMAIN}`)"
       - "traefik.http.routers.jellyfin.entrypoints=web"
       - "traefik.http.services.jellyfin.loadbalancer.server.port=8096"
-    ports:
-      - 8920:8920 
-      - 7359:7359/udp 
+    # ports:
+    #   - 8920:8920 
+    #   - 7359:7359/udp 
     restart: unless-stopped
 
   sonarr:
