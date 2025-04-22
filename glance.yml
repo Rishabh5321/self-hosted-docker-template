@@ -61,3 +61,27 @@ pages:
                 name: GoldBees
               - symbol: SILVERBEES.NS
                 name: SilverBees
+
+
+  - name: News & Reddit
+    columns:
+      - size: full
+        widgets:
+          - type: rss
+            title: News
+            style: detailed-list
+            feeds:
+              - url: http://timesofindia.indiatimes.com/rssfeedstopstories.cms
+                title: timesofindia
+              - url: https://www.news18.com/commonfeeds/v1/eng/rss/india.xml
+                title: news18
+
+      - size: full
+        widgets:
+        - type: reddit
+          style: vertical-list
+          show-thumbnails: true
+          subreddit: nix
+        - type: reddit
+          show-thumbnails: true
+          subreddit: selfhosted
