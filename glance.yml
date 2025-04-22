@@ -1,0 +1,65 @@
+theme:
+  background-color: 229 19 23
+  contrast-multiplier: 1.2
+  primary-color: 222 74 74
+  positive-color: 96 44 68
+  negative-color: 359 68 71
+
+pages:
+  - name: Home
+    columns:
+      - size: small
+        widgets:
+          - type: clock
+            hour-format: 12h
+
+          - type: calendar
+            first-day-of-week: monday
+
+          - type: bookmarks
+            groups:
+              - title: General
+                links:
+                  - title: Gmail
+                    url: https://mail.google.com/mail/u/0/
+                  - title: Github
+                    url: https://github.com/
+              - title: Entertainment
+                links:
+                  - title: YouTube
+                    url: https://www.youtube.com/
+              - title: Social
+                links:
+                  - title: Reddit
+                    url: https://www.reddit.com/
+                    
+      - size: full
+        widgets:
+          - type: docker-containers
+            hide-by-default: false
+
+          - type: videos
+            channels:
+              - UCXuqSBlHAE6Xw-yeJA0Tunw # Linus Tech Tips
+              - UCBJycsmduvYEL83R_U4JriQ # Marques Brownlee
+              - UCdBK94H6oZT2Q7l0-b0xmMg # ShortCircuit
+              - UCeeFfhMcJa1kjtfZAGskOCA # TechLinked
+              - UC8ENHE5xdFSwx71u3fDH5Xw # ThePrimeagen
+
+      - size: small
+        widgets:
+          - type: weather
+            location: Nashik, India
+            units: metric
+            hour-format: 12h
+
+          - type: markets
+            markets:
+              - symbol: ^NSEI
+                name: Nifty 50
+              - symbol: ^BSESN
+                name: Sensex
+              - symbol: GOLDBEES.NS
+                name: GoldBees
+              - symbol: SILVERBEES.NS
+                name: SilverBees

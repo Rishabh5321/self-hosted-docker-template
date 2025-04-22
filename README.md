@@ -6,6 +6,9 @@ This repository contains a `docker-compose.yml` file to deploy a comprehensive s
 
 This setup uses Docker Compose to define and run multiple services in containers. Traefik handles routing traffic to the appropriate service based on hostname rules (e.g., `sonarr.yourdomain.com`), simplifying access and enabling potential future HTTPS via Let's Encrypt. Configuration is managed primarily through an `.env` file to keep sensitive information and environment-specific settings separate from the main compose file.
 
+![Homelab Dashboard Screenshot](/.github/assessts/screenshot-20250422-174920.png)
+
+
 ## Services Included
 
 * **Traefik:** Reverse proxy and load balancer, handling incoming requests and directing them to the correct service. Also provides a dashboard.
