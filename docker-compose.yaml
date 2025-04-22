@@ -25,6 +25,29 @@ services:
       - "traefik.http.routers.traefik-dashboard.rule=Host(`traefik.${BASE_DOMAIN}`)"
       - "traefik.http.routers.traefik-dashboard.entrypoints=web" 
       - "traefik.http.routers.traefik-dashboard.service=api@internal"
+      - "glance.name=Traefik"
+      - "glance.icon=sh:traefik"
+      - "glance.url=http://traefik.${BASE_DOMAIN}/"
+      - "glance.description=Proxy Management"
+
+  glance:
+    container_name: glance
+    image: glanceapp/glance:${GLANCE_VERSION}
+    restart: unless-stopped
+    volumes:
+      - ${DOCKER_CONFIG_BASE}/Glance_Config:/app/config
+      - /var/run/docker.sock:/var/run/docker.sock
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.dashboard.rule=Host(`dashboard.${BASE_DOMAIN}`)"
+      - "traefik.http.routers.dashboard.entrypoints=web" 
+      - "traefik.http.services.dashboard.loadbalancer.server.port=8080"
+      - "glance.name=Glance"
+      - "glance.icon=sh:glance"
+      - "glance.url=http://dashboard.${BASE_DOMAIN}/"
+      - "glance.description=Service Overview"
+    networks:
+    - proxy_network 
      
   qbittorrent:
     image: lscr.io/linuxserver/qbittorrent:${QBITTORRENT_VERSION}
@@ -43,6 +66,10 @@ services:
       - 6881:6881
       - 6881:6881/udp
     labels:
+      - "glance.name=qBittorrent"
+      - "glance.icon=sh:qbittorrent"
+      - "glance.url=http://qbit.${BASE_DOMAIN}/"
+      - "glance.description=Torrent Client"
       - "traefik.enable=true"
       - "traefik.http.routers.qbit.rule=Host(`qbit.${BASE_DOMAIN}`)"
       - "traefik.http.routers.qbit.entrypoints=web" 
@@ -67,6 +94,10 @@ services:
     ports:
       - 55555:55555
     labels:
+      - "glance.name=Resilio Sync"
+      - "glance.icon=sh:resilio-sync"
+      - "glance.url=http://resilio.${BASE_DOMAIN}/"
+      - "glance.description=File Sync Service"
       - "traefik.enable=true"
       - "traefik.http.routers.resilio.rule=Host(`resilio.${BASE_DOMAIN}`)"
       - "traefik.http.routers.resilio.entrypoints=web"
@@ -80,6 +111,10 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - /portainer_data:/data
     labels:
+      - "glance.name=Portainer"
+      - "glance.icon=sh:portainer"
+      - "glance.url=http://portainer.${BASE_DOMAIN}/"
+      - "glance.description=Docker Management"
       - "traefik.enable=true"
       - "traefik.http.routers.portainer.rule=Host(`portainer.${BASE_DOMAIN}`)"
       - "traefik.http.routers.portainer.entrypoints=web"
@@ -98,6 +133,10 @@ services:
     networks:
       - proxy_network
     labels:
+      - "glance.name=Prowlarr"
+      - "glance.icon=sh:prowlarr"
+      - "glance.url=http://prowlarr.${BASE_DOMAIN}/"
+      - "glance.description=Indexer Manager"
       - "traefik.enable=true"
       - "traefik.http.routers.prowlarr.rule=Host(`prowlarr.${BASE_DOMAIN}`)"
       - "traefik.http.routers.prowlarr.entrypoints=web"
@@ -115,6 +154,10 @@ services:
       - AUTO_UPDATE=true
       - TZ=${TZ}
     labels:
+      - "glance.name=Jackett"
+      - "glance.icon=sh:jackett"
+      - "glance.url=http://jackett.${BASE_DOMAIN}/"
+      - "glance.description=Indexer Manager"
       - "traefik.enable=true"
       - "traefik.http.routers.jackett.rule=Host(`jackett.${BASE_DOMAIN}`)"
       - "traefik.http.routers.jackett.entrypoints=web"
@@ -144,6 +187,10 @@ services:
       - ${MEDIA_LIBRARY_PATH_RAID}:/data
       - ${MEDIA_LIBRARY_PATH_EDISK}:/data1
     labels:
+      - "glance.name=Jellyfin"
+      - "glance.icon=sh:jellyfin"
+      - "glance.url=http://jellyfin.${BASE_DOMAIN}/"
+      - "glance.description=Movies & TV Shows"
       - "traefik.enable=true"
       - "traefik.http.routers.jellyfin.rule=Host(`jellyfin.${BASE_DOMAIN}`)"
       - "traefik.http.routers.jellyfin.entrypoints=web"
@@ -168,6 +215,10 @@ services:
       - ${MEDIA_LIBRARY_PATH_EDISK}:/data1
       - ${MEDIA_DOWNLOADS_PATH}:/downloads
     labels:
+      - "glance.name=Sonarr"
+      - "glance.icon=sh:sonarr"
+      - "glance.url=http://sonarr.${BASE_DOMAIN}/"
+      - "glance.description=TV Shows Management"
       - "traefik.enable=true"
       - "traefik.http.routers.sonarr.rule=Host(`sonarr.${BASE_DOMAIN}`)"
       - "traefik.http.routers.sonarr.entrypoints=web"
@@ -183,6 +234,10 @@ services:
       - ${HOST_HOME_PATH}:/data/home
       - ${DOCKER_CONFIG_BASE}/FileBrowser_Config:/config
     labels:
+      - "glance.name=File Browser"
+      - "glance.icon=http://file.server/filebrowser/static/img/logo.svg"
+      - "glance.url=http://file.${BASE_DOMAIN}/"
+      - "glance.description=File browser"
       - "traefik.enable=true"
       - "traefik.http.routers.file.rule=Host(`file.${BASE_DOMAIN}`)"
       - "traefik.http.routers.file.entrypoints=web"
@@ -207,6 +262,10 @@ services:
       - WATCHTOWER_HTTP_API_METRICS=true
       - WATCHTOWER_HTTP_API_PERIODIC_POLLS=true
       - WATCHTOWER_HTTP_API_TOKEN=${WATCHTOWER_API_TOKEN} 
+    labels:
+      - "glance.name=Watchtowerr"
+      - "glance.icon=https://raw.githubusercontent.com/containrrr/watchtower/main/logo.png"
+      - "glance.description=Image Updater"
     restart: unless-stopped
 
   radarr:
@@ -222,6 +281,10 @@ services:
       - ${MEDIA_LIBRARY_PATH_EDISK}:/data1
       - ${MEDIA_DOWNLOADS_PATH}:/downloads 
     labels:
+      - "glance.name=Radarr"
+      - "glance.icon=sh:radarr"
+      - "glance.url=http://radarr.${BASE_DOMAIN}/"
+      - "glance.description=Movie Downloader"
       - "traefik.enable=true"
       - "traefik.http.routers.radarr.rule=Host(`radarr.${BASE_DOMAIN}`)"
       - "traefik.http.routers.radarr.entrypoints=web"
@@ -242,6 +305,10 @@ services:
       - ${MEDIA_LIBRARY_PATH_RAID}:/data
       - ${MEDIA_LIBRARY_PATH_EDISK}:/data1
     labels:
+      - "glance.name=Bazarr"
+      - "glance.icon=https://raw.githubusercontent.com/linuxserver/docker-templates/master/linuxserver.io/img/bazarr.png"
+      - "glance.url=http://bazarr.${BASE_DOMAIN}/"
+      - "glance.description=Subtitle Downloader"
       - "traefik.enable=true"
       - "traefik.http.routers.bazarr.rule=Host(`bazarr.${BASE_DOMAIN}`)"
       - "traefik.http.routers.bazarr.entrypoints=web"
@@ -259,6 +326,10 @@ services:
       - PUID=${PUID}
       - PGID=${PGID}
     labels:
+      - "glance.name=Jellyseerr"
+      - "glance.icon=sh:jellyseerr"
+      - "glance.url=http://jellyseerr.${BASE_DOMAIN}/"
+      - "glance.description=Request Manager"
       - "traefik.enable=true"
       - "traefik.http.routers.jellyseerr.rule=Host(`jellyseerr.${BASE_DOMAIN}`)"
       - "traefik.http.routers.jellyseerr.entrypoints=web"
@@ -284,6 +355,10 @@ services:
       - ${DOCKER_CONFIG_MNT}/:/source
       - ${HOST_MNT_PATH}:/data
     labels:
+      - "glance.name=Duplicati"
+      - "glance.icon=sh:duplicati"
+      - "glance.url=http://duplicati.${BASE_DOMAIN}/"
+      - "glance.description=Backups"
       - "traefik.enable=true"
       - "traefik.http.routers.duplicati.rule=Host(`duplicati.${BASE_DOMAIN}`)"
       - "traefik.http.routers.duplicati.entrypoints=web"
@@ -304,6 +379,11 @@ services:
     volumes:
       - ${DOCKER_CONFIG_BASE}/Tachiyomi_Config:/home/suwayomi/.local/share/Tachidesk
     labels:
+      - "glance.name=Tachidesk"
+      - "glance.icon=https://raw.githubusercontent.com/Suwayomi/Suwayomi-Server/master/server/src/main/resources/icon/faviconlogo.png"
+      - "glance.url=http://tachidesk.${BASE_DOMAIN}/"
+      - "glance.description=Manga Server"
+      - "glance.id=tachidesk"
       - "traefik.enable=true"
       - "traefik.http.routers.tachidesk.rule=Host(`tachidesk.${BASE_DOMAIN}`)"
       - "traefik.http.routers.tachidesk.entrypoints=web"
@@ -320,6 +400,8 @@ services:
     environment:
       - TZ=${TZ}
     labels:
+      - "glance.parent=tachidesk"
+      - "glance.name=solver"
       - "traefik.enable=true"
       - "traefik.http.routers.flaresolverr.rule=Host(`flaresolverr.${BASE_DOMAIN}`)"
       - "traefik.http.routers.flaresolverr.entrypoints=web"
@@ -338,6 +420,10 @@ services:
       - GOG_EMAIL=${GOG_EMAIL}
       - GOG_PASSWORD=${GOG_PASSWORD}
     labels:
+      - "glance.name=Free Games Claimer"
+      - "glance.icon=https://raw.githubusercontent.com/game-icons/icons/846f3e9699d4199e35aeb9b454b4d07809c3441a/delapouite/gamepad.svg"
+      - "glance.url=http://game.${BASE_DOMAIN}/"
+      - "glance.description=Free Games Claimer"
       - "traefik.enable=true"
       - "traefik.http.routers.game.rule=Host(`game.${BASE_DOMAIN}`)"
       - "traefik.http.routers.game.entrypoints=web"
@@ -356,6 +442,10 @@ services:
       - ${MEDIA_LIBRARY_PATH_RAID}/Music:/syncify/downloads
       - /etc/localtime:/etc/localtime:ro
     labels:
+      - "glance.name=Syncify"
+      - "glance.icon=https://raw.githubusercontent.com/TheWicklowWolf/Syncify/main/src/static/syncify_full_logo.png"
+      - "glance.url=http://syncify.${BASE_DOMAIN}/"
+      - "glance.description=Spotify Downloader"
       - "traefik.enable=true"
       - "traefik.http.routers.syncify.rule=Host(`syncify.${BASE_DOMAIN}`)"
       - "traefik.http.routers.syncify.entrypoints=web"
