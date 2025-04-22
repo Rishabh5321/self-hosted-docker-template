@@ -1,9 +1,7 @@
 theme:
-  background-color: 229 19 23
-  contrast-multiplier: 1.2
-  primary-color: 222 74 74
-  positive-color: 96 44 68
-  negative-color: 359 68 71
+  background-color: 50 1 6
+  primary-color: 24 97 58
+  negative-color: 209 88 54
 
 pages:
   - name: Home
