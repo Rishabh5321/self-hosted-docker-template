@@ -179,7 +179,7 @@ services:
       - TZ=${TZ}
       - JELLYFIN_PublishedServerUrl=http://jellyfin.server
     devices:
-      - "/dev/dri:/dev/dri" 
+      - "${DRI_DEVICE_PATH}:/dev/dri" 
     networks:
       - proxy_network
     volumes:
