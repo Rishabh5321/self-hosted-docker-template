@@ -35,7 +35,7 @@ services:
     image: glanceapp/glance:${GLANCE_VERSION}
     restart: unless-stopped
     volumes:
-      - ${DOCKER_CONFIG_BASE}/Glance_Config:/app/config
+      - ${DOCKER_CONFIG_BASE}/Glance_Config/glance.yml:/app/config/glance.yml
       - /var/run/docker.sock:/var/run/docker.sock
     labels:
       - "traefik.enable=true"
