@@ -13,7 +13,7 @@ services:
     ports:
       - "80:80"
       - "443:443"
-      - "8081:8080"
+      # - "8081:8080"
     volumes:
       - ${TRAEFIK_ACME_PATH}:/acme
       - ${DOCKER_SOCKET_PATH}:/var/run/docker.sock:ro
@@ -36,7 +36,11 @@ services:
     restart: unless-stopped
     volumes:
       - ${DOCKER_CONFIG_BASE}/Glance_Config/glance.yml:/app/config/glance.yml
-      - /var/run/docker.sock:/var/run/docker.sock
+      - ${DOCKER_SOCKET_PATH}:/var/run/docker.sock
+      - ${MEDIA_LIBRARY_PATH_RAID}:/Raid
+      - ${MEDIA_LIBRARY_PATH_EDISK}:/External
+      - ${HOST_HOME_PATH}:/Home
+      - ${HOST_MNT_PATH}:/Mnt      
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.dashboard.rule=Host(`dashboard.${BASE_DOMAIN}`)"

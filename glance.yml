@@ -14,35 +14,59 @@ pages:
           - type: calendar
             first-day-of-week: monday
 
-          - type: bookmarks
-            groups:
-              - title: General
-                links:
-                  - title: Gmail
-                    url: https://mail.google.com/mail/u/0/
-                  - title: Github
-                    url: https://github.com/
-              - title: Entertainment
-                links:
-                  - title: YouTube
-                    url: https://www.youtube.com/
-              - title: Social
-                links:
-                  - title: Reddit
-                    url: https://www.reddit.com/
+          - type: server-stats
+            servers:
+              - type: local
+                name: Services
+                hide-mountpoints-by-default: true
+                mountpoints:
+                  "/Raid":
+                    hide: false
+                  "/External":
+                    hide: false
+                  "/Home":
+                    hide: false
+                  "/Mnt":
+                    hide: false
+          # - type: bookmarks
+          #   groups:
+          #     - title: General
+          #       links:
+          #         - title: Gmail
+          #           url: https://mail.google.com/mail/u/0/
+          #         - title: Github
+          #           url: https://github.com/
+          #     - title: Entertainment
+          #       links:
+          #         - title: YouTube
+          #           url: https://www.youtube.com/
+          #     - title: Social
+          #       links:
+          #         - title: Reddit
+          #           url: https://www.reddit.com/
                     
       - size: full
         widgets:
           - type: docker-containers
             hide-by-default: false
+          - type: split-column
+            widgets:
+            - type: repository
+              repository: rishabh5321/dotfiles
+              pull-requests-limit: 5
+              commits-limit: 3
+            - type: repository
+              repository: rishabh5321/better-control-flake
+              pull-requests-limit: 5
+              commits-limit: 3
 
-          - type: videos
-            channels:
-              - UCXuqSBlHAE6Xw-yeJA0Tunw # Linus Tech Tips
-              - UCBJycsmduvYEL83R_U4JriQ # Marques Brownlee
-              - UCdBK94H6oZT2Q7l0-b0xmMg # ShortCircuit
-              - UCeeFfhMcJa1kjtfZAGskOCA # TechLinked
-              - UC8ENHE5xdFSwx71u3fDH5Xw # ThePrimeagen
+          # - type: videos
+          #   channels:
+          #     - UCXuqSBlHAE6Xw-yeJA0Tunw # Linus Tech Tips
+          #     - UCBJycsmduvYEL83R_U4JriQ # Marques Brownlee
+          #     - UCdBK94H6oZT2Q7l0-b0xmMg # ShortCircuit
+          #     - UCeeFfhMcJa1kjtfZAGskOCA # TechLinked
+          #     - UC8ENHE5xdFSwx71u3fDH5Xw # ThePrimeagen
 
       - size: small
         widgets:
@@ -50,6 +74,7 @@ pages:
             location: Nashik, India
             units: metric
             hour-format: 12h
+            show-area-name: true
 
           - type: markets
             markets:
@@ -87,4 +112,57 @@ pages:
           show-thumbnails: true
           show-flairs: true
           subreddit: selfhosted
+
+  - name: Docker Services
+  
+    columns:
+      - size: full
+        widgets:
+          - type: monitor
+            cache: 1m
+            title: ARR APPS
+            sites:
+              - title: Bazarr
+                url: http://bazarr.server
+                icon: https://raw.githubusercontent.com/linuxserver/docker-templates/master/linuxserver.io/img/bazarr.png
+              - title: Prowlarr
+                url: http://prowlarr.server
+                icon: sh:prowlarr
+              - title: Sonarr
+                url: http://sonarr.server
+                icon: sh:sonarr
+              - title: Radarr
+                url: http://radarr.server
+                icon: sh:radarr
+              - title: jellyseerr
+                url: http://jellyseerr.server
+                icon: sh:jellyseerr
+
+          - type: monitor
+            cache: 1m
+            title: Management
+            sites:
+              - title: OpenWRT
+                url: http://openwrt
+                icon: sh:openwrt
+              - title: Portainer
+                url: http://portainer.server
+                icon: sh:portainer
+              - title: Jellyfin
+                url: http://jellyfin.server
+                icon: sh:jellyfin
+              - title: filebrowser
+                url: http://file.server
+                icon: http://file.server/filebrowser/static/img/logo.svg
+              - title: Duplicati
+                url: http://duplicati.server
+                icon: sh:duplicati
+
+          - type: releases
+            show-source-icon: true
+            repositories:
+              - quantumvoid0/better-control
+              - Alex313031/thorium
+              - 5rahim/seanime
+          
 
