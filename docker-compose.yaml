@@ -5,7 +5,7 @@ include:
 
   # Include reverse proxy and DNS service
   - ./services/traefik.yaml
-  - ./services/pi-hole.yaml
+  #- ./services/pi-hole.yaml
 
   # Include media management services
   - ./services/sonarr.yaml
