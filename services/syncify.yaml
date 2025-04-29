@@ -1,0 +1,26 @@
+services:
+  syncify:
+    image: thewicklowwolf/syncify:${SYNCIFY_VERSION}
+    container_name: syncify
+    volumes:
+      - ${DOCKER_CONFIG_BASE}/Syncify_Config:/syncify/config
+      - ${MEDIA_LIBRARY_PATH_RAID}/Music:/syncify/downloads
+      - /etc/localtime:/etc/localtime:ro
+    labels:
+      - "glance.name=Syncify"
+      - "glance.icon=https://raw.githubusercontent.com/TheWicklowWolf/Syncify/main/src/static/syncify_full_logo.png"
+      - "glance.url=http://syncify.${BASE_DOMAIN}/"
+      - "glance.description=Spotify Downloader"
+      - "traefik.enable=true"
+      - "traefik.http.routers.syncify.rule=Host(`syncify.${BASE_DOMAIN}`)"
+      - "traefik.http.routers.syncify.entrypoints=web"
+      - "traefik.http.services.syncify.loadbalancer.server.port=5000"
+    environment:
+      - thread_limit=${SYNCIFY_THREAD_LIMIT:-5}
+      - crop_album_art=${SYNCIFY_CROP_ALBUM_ART:-false}
+      - PUID=${PUID} 
+      - PGID=${PGID}
+      - TZ=${TZ}
+    networks:
+      - proxy_network
+    restart: unless-stopped

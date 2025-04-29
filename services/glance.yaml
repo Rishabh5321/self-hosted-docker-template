@@ -1,0 +1,24 @@
+# services/glance.yaml
+services:
+  glance:
+    container_name: glance
+    image: glanceapp/glance:${GLANCE_VERSION}
+    restart: unless-stopped
+    volumes:
+      - ${GLANCE_FILE_PATH}:/app/config/glance.yml
+      - ${DOCKER_SOCKET_PATH}:/var/run/docker.sock
+      - ${MEDIA_LIBRARY_PATH_RAID}:/Raid
+      - ${MEDIA_LIBRARY_PATH_EDISK}:/External
+      - ${HOST_HOME_PATH}:/Home
+      - ${HOST_MNT_PATH}:/Mnt      
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.dashboard.rule=Host(`dashboard.${BASE_DOMAIN}`)"
+      - "traefik.http.routers.dashboard.entrypoints=web" 
+      - "traefik.http.services.dashboard.loadbalancer.server.port=8080"
+      - "glance.name=Glance"
+      - "glance.icon=sh:glance"
+      - "glance.url=http://dashboard.${BASE_DOMAIN}/"
+      - "glance.description=Service Overview"
+    networks:
+    - proxy_network 

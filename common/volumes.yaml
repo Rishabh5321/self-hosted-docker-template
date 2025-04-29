@@ -1,0 +1,4 @@
+# common/volumes.yaml
+volumes:
+  portainer_data:
+    external: true

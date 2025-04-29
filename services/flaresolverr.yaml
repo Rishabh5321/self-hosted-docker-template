@@ -1,0 +1,16 @@
+services:
+  flaresolverr:
+    image: ghcr.io/flaresolverr/flaresolverr:${FLARESOLVERR_VERSION}
+    container_name: flaresolverr
+    environment:
+      - TZ=${TZ}
+    labels:
+      - "glance.parent=tachidesk"
+      - "glance.name=solver"
+      - "traefik.enable=true"
+      - "traefik.http.routers.flaresolverr.rule=Host(`flaresolverr.${BASE_DOMAIN}`)"
+      - "traefik.http.routers.flaresolverr.entrypoints=web"
+      - "traefik.http.services.flaresolverr.loadbalancer.server.port=8191"
+    networks:
+      - proxy_network
+    restart: unless-stopped

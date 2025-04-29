@@ -1,0 +1,4 @@
+# common/networks.yaml
+networks:
+  proxy_network:
+    driver: bridge

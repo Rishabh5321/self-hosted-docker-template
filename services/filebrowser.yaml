@@ -1,0 +1,21 @@
+services:
+  filebrowser:
+    image: hurlenko/filebrowser:${FILEBROWSER_VERSION}
+    container_name: filebrowser
+    user: "${PUID}:${PGID}" 
+    volumes:
+      - ${HOST_MNT_PATH}:/data/mnt
+      - ${HOST_HOME_PATH}:/data/home
+      - ${DOCKER_CONFIG_BASE}/FileBrowser_Config:/config
+    labels:
+      - "glance.name=File Browser"
+      - "glance.icon=http://file.server/filebrowser/static/img/logo.svg"
+      - "glance.url=http://file.${BASE_DOMAIN}/"
+      - "glance.description=File browser"
+      - "traefik.enable=true"
+      - "traefik.http.routers.file.rule=Host(`file.${BASE_DOMAIN}`)"
+      - "traefik.http.routers.file.entrypoints=web"
+      - "traefik.http.services.file.loadbalancer.server.port=8080"
+    networks:
+      - proxy_network
+    restart: always

@@ -1,0 +1,31 @@
+# services/traefik.yaml
+services:
+  traefik:
+    image: traefik:${TRAEFIK_VERSION}
+    container_name: traefik
+    command:
+      - "--api.insecure=true" 
+      - "--providers.docker=true"
+      - "--providers.docker.exposedByDefault=false"
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.websecure.address=:443"
+      - "--log.level=INFO"
+    ports:
+      - "80:80"
+      - "443:443"
+      # - "8081:8080"
+    volumes:
+      - ${TRAEFIK_ACME_PATH}:/acme
+      - ${DOCKER_SOCKET_PATH}:/var/run/docker.sock:ro
+    networks:
+      - proxy_network
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.traefik-dashboard.rule=Host(`traefik.${BASE_DOMAIN}`)"
+      - "traefik.http.routers.traefik-dashboard.entrypoints=web" 
+      - "traefik.http.routers.traefik-dashboard.service=api@internal"
+      - "glance.name=Traefik"
+      - "glance.icon=sh:traefik"
+      - "glance.url=http://traefik.${BASE_DOMAIN}/"
+      - "glance.description=Proxy Management"

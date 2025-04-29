@@ -1,0 +1,19 @@
+services:
+  portainer:
+    image: portainer/portainer-ce:${PORTAINER_VERSION}
+    container_name: portainer
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /portainer_data:/data
+    labels:
+      - "glance.name=Portainer"
+      - "glance.icon=sh:portainer"
+      - "glance.url=http://portainer.${BASE_DOMAIN}/"
+      - "glance.description=Docker Management"
+      - "traefik.enable=true"
+      - "traefik.http.routers.portainer.rule=Host(`portainer.${BASE_DOMAIN}`)"
+      - "traefik.http.routers.portainer.entrypoints=web"
+      - "traefik.http.services.portainer.loadbalancer.server.port=9000"
+    networks:
+      - proxy_network
+    restart: unless-stopped

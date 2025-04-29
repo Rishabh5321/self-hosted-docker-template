@@ -1,0 +1,23 @@
+services:
+  jellyseerr:
+    image: fallenbagel/jellyseerr:${JELLYSEERR_VERSION}
+    container_name: jellyseerr
+    environment:
+      - LOG_LEVEL=info 
+      - TZ=${TZ}
+      - PUID=${PUID}
+      - PGID=${PGID}
+    labels:
+      - "glance.name=Jellyseerr"
+      - "glance.icon=sh:jellyseerr"
+      - "glance.url=http://jellyseerr.${BASE_DOMAIN}/"
+      - "glance.description=Request Manager"
+      - "traefik.enable=true"
+      - "traefik.http.routers.jellyseerr.rule=Host(`jellyseerr.${BASE_DOMAIN}`)"
+      - "traefik.http.routers.jellyseerr.entrypoints=web"
+      - "traefik.http.services.jellyseerr.loadbalancer.server.port=5055"
+    networks:
+      - proxy_network
+    volumes:
+      - ${DOCKER_CONFIG_BASE}/Jellyseer_Config:/app/config
+    restart: unless-stopped
