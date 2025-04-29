@@ -3,8 +3,9 @@ include:
   - ./common/networks.yaml
   - ./common/volumes.yaml
 
-  # Include reverse proxy service
+  # Include reverse proxy and DNS service
   - ./services/traefik.yaml
+  - ./services/pi-hole.yaml
 
   # Include media management services
   - ./services/sonarr.yaml
