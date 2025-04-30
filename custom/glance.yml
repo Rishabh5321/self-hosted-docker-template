@@ -11,9 +11,6 @@ pages:
           - type: clock
             hour-format: 12h
 
-          - type: calendar
-            first-day-of-week: monday
-
           - type: server-stats
             servers:
               - type: local
@@ -28,45 +25,58 @@ pages:
                     hide: false
                   "/Mnt":
                     hide: false
-          # - type: bookmarks
-          #   groups:
-          #     - title: General
-          #       links:
-          #         - title: Gmail
-          #           url: https://mail.google.com/mail/u/0/
-          #         - title: Github
-          #           url: https://github.com/
-          #     - title: Entertainment
-          #       links:
-          #         - title: YouTube
-          #           url: https://www.youtube.com/
-          #     - title: Social
-          #       links:
-          #         - title: Reddit
-          #           url: https://www.reddit.com/
-                    
+
+          - type: bookmarks
+            groups:
+              - title: General
+                links:
+                  - title: Gmail
+                    url: https://mail.google.com/mail/u/0/
+                  - title: Github
+                    url: https://github.com/
+                  - title: ChatGPT
+                    url: https://chat.openai.com/
+              - title: Entertainment
+                links:
+                  - title: YouTube
+                    url: https://www.youtube.com/
+              - title: Social
+                links:
+                  - title: Reddit
+                    url: https://www.reddit.com/
+              - title: AI
+                links:
+                  - title: ChatGPT
+                    url: https://chat.openai.com/
+                  - title: Gemini
+                    url: https://gemini.google.com/app
+                  - title: Deepseek
+                    url: https://deepseek.com/
+                  - title: Claude AI
+                    url: https://claude.ai/
+
       - size: full
         widgets:
           - type: docker-containers
             hide-by-default: false
           - type: split-column
             widgets:
-            - type: repository
-              repository: rishabh5321/dotfiles
-              pull-requests-limit: 5
-              commits-limit: 3
-            - type: repository
-              repository: rishabh5321/better-control-flake
-              pull-requests-limit: 5
-              commits-limit: 3
-
-          # - type: videos
-          #   channels:
-          #     - UCXuqSBlHAE6Xw-yeJA0Tunw # Linus Tech Tips
-          #     - UCBJycsmduvYEL83R_U4JriQ # Marques Brownlee
-          #     - UCdBK94H6oZT2Q7l0-b0xmMg # ShortCircuit
-          #     - UCeeFfhMcJa1kjtfZAGskOCA # TechLinked
-          #     - UC8ENHE5xdFSwx71u3fDH5Xw # ThePrimeagen
+              - type: repository
+                repository: rishabh5321/dotfiles
+                pull-requests-limit: 5
+                commits-limit: 3
+              - type: repository
+                repository: rishabh5321/better-control-flake
+                pull-requests-limit: 5
+                commits-limit: 3
+              - type: repository
+                repository: rishabh5321/seanime-flake
+                pull-requests-limit: 5
+                commits-limit: 3
+              - type: repository
+                repository: rishabh5321/thorium_flake
+                pull-requests-limit: 5
+                commits-limit: 3
 
       - size: small
         widgets:
@@ -87,6 +97,13 @@ pages:
               - symbol: SILVERBEES.NS
                 name: SilverBees
 
+          - type: monitor
+            cache: 1m
+            title: Management
+            sites:
+              - title: OpenWRT
+                url: http://openwrt
+                icon: sh:openwrt
 
   - name: News & Reddit
     columns:
@@ -103,18 +120,18 @@ pages:
 
       - size: full
         widgets:
-        - type: reddit
-          style: vertical-list
-          show-thumbnails: true
-          show-flairs: true
-          subreddit: nix
-        - type: reddit
-          show-thumbnails: true
-          show-flairs: true
-          subreddit: selfhosted
+          - type: reddit
+            style: vertical-list
+            show-thumbnails: true
+            show-flairs: true
+            subreddit: nix
+          - type: reddit
+            show-thumbnails: true
+            show-flairs: true
+            subreddit: selfhosted
 
   - name: Docker Services
-  
+
     columns:
       - size: full
         widgets:
@@ -164,5 +181,3 @@ pages:
               - quantumvoid0/better-control
               - Alex313031/thorium
               - 5rahim/seanime
-          
-
