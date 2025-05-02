@@ -2,3 +2,7 @@
 volumes:
   portainer_data:
     external: true
+  grafana-data:
+    external: true
+  prometheus-data:
+    external: true

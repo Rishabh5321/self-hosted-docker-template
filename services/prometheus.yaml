@@ -1,0 +1,19 @@
+services:
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    volumes:
+      - prometheus-data:/prometheus
+      - ../common/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    networks:
+      - proxy_network
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.prometheus.rule=Host(`prometheus.${BASE_DOMAIN}`)"
+      - "traefik.http.routers.prometheus.entrypoints=web"
+      - "traefik.http.services.prometheus.loadbalancer.server.port=9090"
+      - "glance.name=Prometheus"
+      - "glance.icon=mdi:chart-bar"
+      - "glance.url=http://prometheus.${BASE_DOMAIN}"
+      - "glance.description=Monitoring DB"

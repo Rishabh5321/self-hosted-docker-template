@@ -23,6 +23,9 @@ include:
   - ./services/portainer.yaml
   - ./services/watchtower.yaml
   - ./services/glance.yaml
+  - ./services/grafana.yaml
+  - ./services/prometheus.yaml
+  - ./services/cadvisor.yaml
 
   # Include indexer services
   - ./services/prowlarr.yaml
@@ -33,6 +36,6 @@ include:
   - ./services/duplicati.yaml
 
   # Include miscellaneous services
-  - ./services/flaresolverr.yaml 
+  - ./services/flaresolverr.yaml
   - ./services/suwayomi.yaml
   - ./services/free-games-claimer.yaml

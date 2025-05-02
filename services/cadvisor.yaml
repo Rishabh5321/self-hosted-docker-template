@@ -1,0 +1,17 @@
+services:
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor
+    container_name: cadvisor
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:rw
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+    networks:
+      - proxy_network
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.cadvisor.rule=Host(`cadvisor.${BASE_DOMAIN}`)"
+      - "traefik.http.routers.cadvisor.entrypoints=web"
+      - "traefik.http.services.cadvisor.loadbalancer.server.port=8080"
