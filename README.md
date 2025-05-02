@@ -124,3 +124,15 @@ TACHIDESK_VERSION=preview
 FLARESOLVERR_VERSION=latest
 FREE_GAMES_CLAIMER_VERSION=latest
 SYNCIFY_VERSION=latest
+
+```
+
+Ensure the .env file is in the repo folder and `docker-compose.yaml` and `.env` file should have the same path
+
+After that just do 
+
+```
+docker-compose up -d
+```
+
+And you containers are now ready to use.
