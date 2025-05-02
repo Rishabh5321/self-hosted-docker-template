@@ -26,6 +26,7 @@ include:
   - ./services/grafana.yaml
   - ./services/prometheus.yaml
   - ./services/cadvisor.yaml
+  - ./services/nodeexporter.yaml
 
   # Include indexer services
   - ./services/prowlarr.yaml

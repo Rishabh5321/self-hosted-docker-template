@@ -16,7 +16,6 @@ services:
       - WATCHTOWER_HTTP_API_PERIODIC_POLLS=true
       - WATCHTOWER_HTTP_API_TOKEN=${WATCHTOWER_API_TOKEN} 
     labels:
-      - "glance.name=Watchtowerr"
-      - "glance.icon=https://raw.githubusercontent.com/containrrr/watchtower/main/logo.png"
-      - "glance.description=Image Updater"
+      - "glance.parent=portainer"
+      - "glance.name=updater"
     restart: unless-stopped

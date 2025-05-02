@@ -1,6 +1,6 @@
 services:
   prometheus:
-    image: prom/prometheus
+    image: prom/prometheus:${PROMETHEUS_VERSION}
     container_name: prometheus
     volumes:
       - prometheus-data:/prometheus
@@ -8,12 +8,17 @@ services:
     networks:
       - proxy_network
     restart: unless-stopped
+    links:
+      - cadvisor:cadvisor
+      - node-exporter:node-exporter
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.prometheus.rule=Host(`prometheus.${BASE_DOMAIN}`)"
       - "traefik.http.routers.prometheus.entrypoints=web"
       - "traefik.http.services.prometheus.loadbalancer.server.port=9090"
-      - "glance.name=Prometheus"
-      - "glance.icon=mdi:chart-bar"
-      - "glance.url=http://prometheus.${BASE_DOMAIN}"
-      - "glance.description=Monitoring DB"
+      - "glance.parent=grafana"
+      - "glance.name=prometheus"
+      # - "glance.name=Prometheus"
+      # - "glance.icon=sh:prometheus"
+      # - "glance.url=http://prometheus.${BASE_DOMAIN}"
+      # - "glance.description=Monitoring DB"

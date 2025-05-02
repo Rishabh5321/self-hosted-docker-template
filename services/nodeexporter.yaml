@@ -1,0 +1,14 @@
+services:
+  node-exporter:
+    image: prom/node-exporter:latest
+    container_name: nodeexporter
+    restart: unless-stopped
+    networks:
+      - proxy_network
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.nodeexporter.rule=Host(`nodeexporter.${BASE_DOMAIN}`)"
+      - "traefik.http.routers.nodeexporter.entrypoints=web"
+      - "traefik.http.services.nodeexporter.loadbalancer.server.port=9100"
+      - "glance.parent=grafana"
+      - "glance.name=nodeexporter"

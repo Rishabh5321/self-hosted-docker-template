@@ -10,6 +10,7 @@ services:
       - "glance.icon=sh:portainer"
       - "glance.url=http://portainer.${BASE_DOMAIN}/"
       - "glance.description=Docker Management"
+      - "glance.id=portainer"
       - "traefik.enable=true"
       - "traefik.http.routers.portainer.rule=Host(`portainer.${BASE_DOMAIN}`)"
       - "traefik.http.routers.portainer.entrypoints=web"

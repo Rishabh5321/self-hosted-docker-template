@@ -1,6 +1,6 @@
 services:
   cadvisor:
-    image: gcr.io/cadvisor/cadvisor
+    image: gcr.io/cadvisor/cadvisor:${CADVISOR_VERSION}
     container_name: cadvisor
     volumes:
       - /:/rootfs:ro
@@ -15,3 +15,9 @@ services:
       - "traefik.http.routers.cadvisor.rule=Host(`cadvisor.${BASE_DOMAIN}`)"
       - "traefik.http.routers.cadvisor.entrypoints=web"
       - "traefik.http.services.cadvisor.loadbalancer.server.port=8080"
+      - "glance.parent=grafana"
+      - "glance.name=cadvisor"
+      # - "glance.name=cadvisor"
+      # - "glance.icon=sh:cadvisor"
+      # - "glance.url=http://cadvisor.${BASE_DOMAIN}/"
+      # - "glance.description=Metrics"

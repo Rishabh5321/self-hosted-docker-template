@@ -1,23 +1,27 @@
 services:
   grafana:
-    image: grafana/grafana:latest
+    image: grafana/grafana:${GRAFANA_VERSION}
     container_name: grafana
     environment:
       - TZ=${TZ}
       - GF_USERS_ALLOW_SIGN_UP=false
       - GF_AUTH_ANONYMOUS_ENABLED=true
       - GF_AUTH_ANONYMOUS_ORG_ROLE=Viewer
+      - GF_SERVER_DOMAIN=grafana.${BASE_DOMAIN}
     volumes:
       - grafana-data:/var/lib/grafana
       - ../common/grafana/provisioning:/etc/grafana/provisioning
     networks:
       - proxy_network
+    links:
+      - prometheus:prometheus
     restart: unless-stopped
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.grafana.rule=Host(`grafana.${BASE_DOMAIN}`)"
       - "traefik.http.routers.grafana.entrypoints=web"
       - "traefik.http.services.grafana.loadbalancer.server.port=3000"
+      - "glance.id=grafana"
       - "glance.name=Grafana"
       - "glance.icon=sh:grafana"
       - "glance.url=http://grafana.${BASE_DOMAIN}"
