@@ -1,0 +1,16 @@
+# .github/workflows/lint-compose.yaml
+name: Lint Docker Compose
+
+on: [push, pull_request]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install Docker Compose
+        run: sudo apt-get update && sudo apt-get install docker-compose -y
+
+      - name: Merge and validate Docker Compose
+        run: docker-compose -f docker-compose.yaml config
