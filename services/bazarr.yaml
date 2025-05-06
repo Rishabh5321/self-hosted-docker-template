@@ -16,6 +16,7 @@ services:
       - "glance.url=http://bazarr.${BASE_DOMAIN}/"
       - "glance.description=Subtitle Downloader"
       - "traefik.enable=true"
+      - "traefik.http.routers.bazarr.middlewares=authentik@docker" 
       - "traefik.http.routers.bazarr.rule=Host(`bazarr.${BASE_DOMAIN}`)"
       - "traefik.http.routers.bazarr.entrypoints=web"
       - "traefik.http.services.bazarr.loadbalancer.server.port=6767"

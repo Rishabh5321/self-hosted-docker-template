@@ -3,11 +3,18 @@ services:
     image: grafana/grafana:${GRAFANA_VERSION}
     container_name: grafana
     environment:
-      - TZ=${TZ}
-      - GF_USERS_ALLOW_SIGN_UP=false
-      - GF_AUTH_ANONYMOUS_ENABLED=true
-      - GF_AUTH_ANONYMOUS_ORG_ROLE=Viewer
-      - GF_SERVER_DOMAIN=grafana.${BASE_DOMAIN}
+      GF_AUTH_GENERIC_OAUTH_ENABLED: "true"
+      GF_AUTH_GENERIC_OAUTH_NAME: "authentik"
+      GF_SERVER_ROOT_URL: "http://grafana.${BASE_DOMAIN}"
+      GF_AUTH_GENERIC_OAUTH_CLIENT_ID: "${GF_AUTH_GENERIC_OAUTH_CLIENT_ID}"
+      GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET: "${GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET}"
+      GF_AUTH_GENERIC_OAUTH_SCOPES: "openid profile email"
+      GF_AUTH_GENERIC_OAUTH_AUTH_URL: "http://authentik.server/application/o/authorize/"
+      GF_AUTH_GENERIC_OAUTH_TOKEN_URL: "http://authentik.server/application/o/token/"
+      GF_AUTH_GENERIC_OAUTH_API_URL: "http://authentik.server/application/o/userinfo/"
+      GF_AUTH_SIGNOUT_REDIRECT_URL: "http://authentik.server/application/o/grafana/end-session/"
+      # Optionally enable auto-login (bypasses Grafana login screen)
+      #GF_AUTH_OAUTH_AUTO_LOGIN: "true"
     volumes:
       - grafana-data:/var/lib/grafana
       - ../common/grafana/provisioning:/etc/grafana/provisioning

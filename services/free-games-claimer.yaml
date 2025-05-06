@@ -14,6 +14,7 @@ services:
       - "glance.url=http://game.${BASE_DOMAIN}/"
       - "glance.description=Free Games Claimer"
       - "traefik.enable=true"
+      - "traefik.http.routers.game.middlewares=authentik@docker" 
       - "traefik.http.routers.game.rule=Host(`game.${BASE_DOMAIN}`)"
       - "traefik.http.routers.game.entrypoints=web"
       - "traefik.http.services.game.loadbalancer.server.port=6080"

@@ -13,6 +13,7 @@ services:
       - "glance.description=Spotify Downloader"
       - "traefik.enable=true"
       - "traefik.http.routers.syncify.rule=Host(`syncify.${BASE_DOMAIN}`)"
+      - "traefik.http.routers.syncify.middlewares=authentik@docker" 
       - "traefik.http.routers.syncify.entrypoints=web"
       - "traefik.http.services.syncify.loadbalancer.server.port=5000"
     environment:

@@ -13,12 +13,11 @@ services:
       - ${HOST_MNT_PATH}:/Mnt      
     labels:
       - "traefik.enable=true"
+      - "traefik.http.routers.game.middlewares=authentik@docker" 
       - "traefik.http.routers.dashboard.rule=Host(`dashboard.${BASE_DOMAIN}`)"
       - "traefik.http.routers.dashboard.entrypoints=web" 
       - "traefik.http.services.dashboard.loadbalancer.server.port=8080"
-      - "glance.name=Glance"
-      - "glance.icon=sh:glance"
-      - "glance.url=http://dashboard.${BASE_DOMAIN}/"
-      - "glance.description=Service Overview"
+      - "glance.parent=portainer"
+      - "glance.name=glance"
     networks:
     - proxy_network 

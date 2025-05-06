@@ -7,7 +7,7 @@ services:
       - PGID=${PGID}
       - TZ=${TZ}
       - SETTINGS_ENCRYPTION_KEY=${DUPLICATI_SETTINGS_KEY}
-      - DUPLICATI__WEBSERVICE_PASSWORD=${DUPLICATI_PASSWORD}
+      #- DUPLICATI__WEBSERVICE_PASSWORD=${DUPLICATI_PASSWORD}
     volumes:
       - ${DOCKER_CONFIG_BASE}/Duplicati_Config:/config
       - ${BACKUP_PATH}:/backups

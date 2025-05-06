@@ -14,6 +14,7 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.cadvisor.rule=Host(`cadvisor.${BASE_DOMAIN}`)"
       - "traefik.http.routers.cadvisor.entrypoints=web"
+      - "traefik.http.routers.cadvisor.middlewares=authentik@docker" 
       - "traefik.http.services.cadvisor.loadbalancer.server.port=8080"
       - "glance.parent=grafana"
       - "glance.name=cadvisor"

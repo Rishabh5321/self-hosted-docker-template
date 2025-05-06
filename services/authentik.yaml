@@ -1,0 +1,137 @@
+services:
+  postgresql:
+    image: docker.io/library/postgres:16-alpine
+    container_name: authentik-postgresql
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}"]
+      start_period: 20s
+      interval: 30s
+      retries: 5
+      timeout: 5s
+    volumes:
+      - database:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: ${PG_PASS:?database password required}
+      POSTGRES_USER: ${PG_USER:-authentik}
+      POSTGRES_DB: ${PG_DB:-authentik}
+    networks:
+      - proxy_network
+    labels:
+      - "glance.parent=authentik"
+      - "glance.name=postgresql"
+    env_file:
+      - ../.env
+  redis:
+    image: docker.io/library/redis:alpine
+    command: --save 60 1 --loglevel warning
+    container_name: authentik-redis
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "redis-cli ping | grep PONG"]
+      start_period: 20s
+      interval: 30s
+      retries: 5
+      timeout: 3s
+    networks:
+      - proxy_network
+    labels:
+      - "glance.parent=authentik"
+      - "glance.name=redis"
+    volumes:
+      - redis:/data
+  server:
+    image: ${AUTHENTIK_IMAGE:-ghcr.io/goauthentik/server}:${AUTHENTIK_TAG:-2025.4.0}
+    restart: unless-stopped
+    container_name: authentik-server
+    command: server
+    environment:
+      AUTHENTIK_HOST: https://authentik.${BASE_DOMAIN}
+      AUTHENTIK_INSECURE: "false"
+      AUTHENTIK_SECRET_KEY: ${AUTHENTIK_SECRET_KEY:?secret key required}
+      AUTHENTIK_REDIS__HOST: redis
+      AUTHENTIK_POSTGRESQL__HOST: postgresql
+      AUTHENTIK_POSTGRESQL__USER: ${PG_USER:-authentik}
+      AUTHENTIK_POSTGRESQL__NAME: ${PG_DB:-authentik}
+      AUTHENTIK_POSTGRESQL__PASSWORD: ${PG_PASS}
+    networks:
+      - proxy_network
+    volumes:
+      -  ${DOCKER_CONFIG_BASE}/Authentik_Config/media:/media
+      -  ${DOCKER_CONFIG_BASE}/Authentik_Config/custom-templates:/templates
+    env_file:
+      - ../.env
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.authentik-ui.rule=Host(`authentik.${BASE_DOMAIN}`)"
+      - "traefik.http.routers.authentik-ui.entrypoints=web"
+      - "traefik.http.services.authentik-ui-svc.loadbalancer.server.port=9000"
+      - "glance.name=authentik"
+      - "glance.icon=sh:authentik"
+      - "glance.url=http://authentik.${BASE_DOMAIN}/"
+      - "glance.description=Authentication"
+      - "glance.id=authentik"
+    #   - "traefik.http.middlewares.authentik-ui-middleware.forwardauth.address=http://authentik.server/outpost.goauthentik.io/auth/traefik"
+    #   - "traefik.http.middlewares.authentik-ui-middleware.forwardauth.authResponseHeaders=X-authentik-username,X-authentik-groups,X-authentik-entitlements,X-authentik-email,X-authentik-name,X-authentik-uid,X-authentik-jwt,X-authentik-meta-jwks,X-authentik-meta-outpost,X-authentik-meta-provider,X-authentik-meta-app,X-authentik-meta-version"
+    depends_on:
+      postgresql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+  worker:
+    image: ${AUTHENTIK_IMAGE:-ghcr.io/goauthentik/server}:${AUTHENTIK_TAG:-2025.4.0}
+    restart: unless-stopped
+    container_name: authentik-worker
+    command: worker
+    environment:
+      AUTHENTIK_SECRET_KEY: ${AUTHENTIK_SECRET_KEY:?secret key required}
+      AUTHENTIK_REDIS__HOST: redis
+      AUTHENTIK_POSTGRESQL__HOST: postgresql
+      AUTHENTIK_POSTGRESQL__USER: ${PG_USER:-authentik}
+      AUTHENTIK_POSTGRESQL__NAME: ${PG_DB:-authentik}
+      AUTHENTIK_POSTGRESQL__PASSWORD: ${PG_PASS}
+    networks:
+      - proxy_network
+    user: root
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ${DOCKER_CONFIG_BASE}/Authentik_Config/media:/media
+      - ${DOCKER_CONFIG_BASE}/Authentik_Config/certs:/certs
+      - ${DOCKER_CONFIG_BASE}/Authentik_Config/custom-templates:/templates
+    env_file:
+      - ../.env
+    labels:
+      - "glance.parent=authentik"
+      - "glance.name=goauthentik"
+    depends_on:
+      postgresql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+  authentik-proxy:
+    image: ghcr.io/goauthentik/proxy:${AUTHENTIK_TAG:-2025.4.0}
+    restart: unless-stopped
+    container_name: authentik-proxy
+    ports:
+      - 9000:9000
+      - 9443:9443
+    networks:
+      - proxy_network
+    environment:
+      AUTHENTIK_HOST: http://authentik.${BASE_DOMAIN}
+      AUTHENTIK_INSECURE: "true"
+      AUTHENTIK_TOKEN: ${AUTHENTIK_SECRET_KEY}
+    labels:
+      - "glance.parent=authentik"
+      - "glance.name=authentik-proxy"
+      - "traefik.enable=true"
+      - "traefik.port=9000"
+      - "traefik.http.routers.authentik.rule=Host(`authentik.server`) && PathPrefix(`/outpost.goauthentik.io/`)"
+      - "traefik.http.middlewares.authentik.forwardauth.address=http://authentik-server:9000/outpost.goauthentik.io/auth/traefik"
+      - "traefik.http.middlewares.authentik.forwardauth.authResponseHeaders=X-authentik-username,X-authentik-groups,X-authentik-entitlements,X-authentik-email,X-authentik-name,X-authentik-uid,X-authentik-jwt,X-authentik-meta-jwks,X-authentik-meta-outpost,X-authentik-meta-provider,X-authentik-meta-app,X-authentik-meta-version"
+
+volumes:
+  database:
+    driver: local
+  redis:
+    driver: local

@@ -27,6 +27,7 @@ include:
   - ./services/prometheus.yaml
   - ./services/cadvisor.yaml
   - ./services/nodeexporter.yaml
+  - ./services/authentik.yaml
 
   # Include indexer services
   - ./services/prowlarr.yaml
