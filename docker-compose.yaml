@@ -1,43 +1,45 @@
 include:
-  # Include common configurations
-  - ./common/networks.yaml
-  - ./common/volumes.yaml
+    # Include common configurations
+    - ./common/networks.yaml
+    - ./common/volumes.yaml
 
-  # Include reverse proxy and DNS service
-  - ./services/traefik.yaml
-  #- ./services/pi-hole.yaml
+    # Include reverse proxy and DNS service
+    - ./services/traefik.yaml
+    #- ./services/pi-hole.yaml
 
-  # Include media management services
-  - ./services/sonarr.yaml
-  - ./services/radarr.yaml
-  - ./services/bazarr.yaml
-  - ./services/jellyfin.yaml
-  - ./services/jellyseerr.yaml
-  - ./services/syncify.yaml
+    # Include media management services
+    - ./services/sonarr.yaml
+    - ./services/radarr.yaml
+    - ./services/bazarr.yaml
+    - ./services/jellyfin.yaml
+    - ./services/jellyseerr.yaml
+    - ./services/syncify.yaml
 
-  # Include download and synchronization services
-  - ./services/qbittorrent.yaml
-  - ./services/resilio-sync.yaml
+    # Include download and synchronization services
+    - ./services/qbittorrent.yaml
+    - ./services/resilio-sync.yaml
 
-  # Include monitoring and management services
-  - ./services/portainer.yaml
-  - ./services/watchtower.yaml
-  - ./services/glance.yaml
-  - ./services/grafana.yaml
-  - ./services/prometheus.yaml
-  - ./services/cadvisor.yaml
-  - ./services/nodeexporter.yaml
-  - ./services/authentik.yaml
+    # Include monitoring and management services
+    - ./services/portainer.yaml
+    - ./services/watchtower.yaml
+    - ./services/glance.yaml
+    - ./services/grafana.yaml
+    - ./services/prometheus.yaml
+    - ./services/cadvisor.yaml
+    - ./services/nodeexporter.yaml
+    - ./services/authentik.yaml
+    - ./services/casa.yaml
+    #- ./services/uptime-kuma.yaml
 
-  # Include indexer services
-  - ./services/prowlarr.yaml
-  - ./services/jackett.yaml
+    # Include indexer services
+    - ./services/prowlarr.yaml
+    - ./services/jackett.yaml
 
-  # Include backup and file management services
-  - ./services/filebrowser.yaml
-  - ./services/duplicati.yaml
+    # Include backup and file management services
+    #- ./services/filebrowser.yaml
+    - ./services/duplicati.yaml
 
-  # Include miscellaneous services
-  - ./services/flaresolverr.yaml
-  - ./services/suwayomi.yaml
-  - ./services/free-games-claimer.yaml
+    # Include miscellaneous services
+    - ./services/flaresolverr.yaml
+    - ./services/suwayomi.yaml
+    - ./services/free-games-claimer.yaml
