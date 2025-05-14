@@ -25,3 +25,7 @@ scrape_configs:
     - job_name: "cadvisor"
       static_configs:
           - targets: ["cadvisor:8080"]
+
+    - job_name: "OpenWRT"
+      static_configs:
+          - targets: ["192.168.1.1:9100"]
