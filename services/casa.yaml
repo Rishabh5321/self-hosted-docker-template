@@ -15,8 +15,8 @@ services:
             - "glance.icon=https://casaos.zimaspace.com/images/casa_9c491a0f.svg"
             - "glance.url=http://casa.${BASE_DOMAIN}/"
             - "glance.description=App Store"
-            - "traefik.enable=true"
-            - "traefik.http.routers.casa.rule=Host(`casa.${BASE_DOMAIN}`)"
-            - "traefik.http.routers.casa.entrypoints=web"
-            - "traefik.http.services.casa.loadbalancer.server.port=8080"
+            # - "traefik.enable=true"
+            # - "traefik.http.routers.casa.rule=Host(`casa.${BASE_DOMAIN}`)"
+            # - "traefik.http.routers.casa.entrypoints=web"
+            # - "traefik.http.services.casa.loadbalancer.server.port=8080"
         stop_grace_period: 1m

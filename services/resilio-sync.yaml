@@ -1,27 +1,36 @@
 # services/resilio-sync.yaml
 services:
-  resilio-sync:
-    image: lscr.io/linuxserver/resilio-sync:${RESILIO_VERSION}
-    container_name: resilio-sync
-    environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=${TZ}
-    volumes:
-      - ${DOCKER_CONFIG_BASE}/Resilio_Config:/config
-      - ${MEDIA_DOWNLOADS_PATH}:/downloads
-      - ${MEDIA_LIBRARY_PATH_RAID}/Music:/sync
-    networks:
-      - proxy_network
-    ports:
-      - 55555:55555
-    labels:
-      - "glance.name=Resilio Sync"
-      - "glance.icon=sh:resilio-sync"
-      - "glance.url=http://resilio.${BASE_DOMAIN}/"
-      - "glance.description=File Sync Service"
-      - "traefik.enable=true"
-      - "traefik.http.routers.resilio.rule=Host(`resilio.${BASE_DOMAIN}`)"
-      - "traefik.http.routers.resilio.entrypoints=web"
-      - "traefik.http.services.resilio.loadbalancer.server.port=8888"
-    restart: unless-stopped
+    resilio-sync:
+        image: lscr.io/linuxserver/resilio-sync:${RESILIO_VERSION}
+        container_name: resilio-sync
+        logging:
+            driver: loki:latest
+            options:
+                loki-url: ${LOKI_URL}
+                loki-retries: 5
+                loki-max-backoff: 1800ms
+                loki-timeout: 1s
+                keep-file: "true"
+                mode: "non-blocking"
+        environment:
+            - PUID=${PUID}
+            - PGID=${PGID}
+            - TZ=${TZ}
+        volumes:
+            - ${DOCKER_CONFIG_BASE}/Resilio_Config:/config
+            - ${MEDIA_DOWNLOADS_PATH}:/downloads
+            - ${MEDIA_LIBRARY_PATH_RAID}/Music:/sync
+        networks:
+            - proxy_network
+        ports:
+            - 55555:55555
+        labels:
+            - "glance.name=Resilio Sync"
+            - "glance.icon=sh:resilio-sync"
+            - "glance.url=http://resilio.${BASE_DOMAIN}/"
+            - "glance.description=File Sync Service"
+            # - "traefik.enable=true"
+            # - "traefik.http.routers.resilio.rule=Host(`resilio.${BASE_DOMAIN}`)"
+            # - "traefik.http.routers.resilio.entrypoints=web"
+            # - "traefik.http.services.resilio.loadbalancer.server.port=8888"
+        restart: unless-stopped

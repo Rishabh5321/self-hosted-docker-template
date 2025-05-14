@@ -1,21 +1,30 @@
 services:
-  watchtower:
-    image: containrrr/watchtower:${WATCHTOWER_VERSION}
-    container_name: watchtower
-    volumes:
-      - ${DOCKER_SOCKET_PATH}:/var/run/docker.sock
-    ports:
-      - 2800:8080 
-    command: --debug --http-api-update --schedule "${WATCHTOWER_SCHEDULE}" --cleanup --http-api-metrics --http-api-periodic-polls # Use variable
-    environment:
-      - TZ=${TZ}
-      - WATCHTOWER_NOTIFICATIONS=shoutrrr
-      - WATCHTOWER_NOTIFICATION_URL=${WATCHTOWER_TELEGRAM_URL}
-      - WATCHTOWER_CLEANUP=true
-      - WATCHTOWER_HTTP_API_METRICS=true
-      - WATCHTOWER_HTTP_API_PERIODIC_POLLS=true
-      - WATCHTOWER_HTTP_API_TOKEN=${WATCHTOWER_API_TOKEN} 
-    labels:
-      - "glance.parent=portainer"
-      - "glance.name=updater"
-    restart: unless-stopped
+    watchtower:
+        image: containrrr/watchtower:${WATCHTOWER_VERSION}
+        container_name: watchtower
+        volumes:
+            - ${DOCKER_SOCKET_PATH}:/var/run/docker.sock
+        logging:
+            driver: loki:latest
+            options:
+                loki-url: ${LOKI_URL}
+                loki-retries: 5
+                loki-max-backoff: 1800ms
+                loki-timeout: 1s
+                keep-file: "true"
+                mode: "non-blocking"
+        ports:
+            - 2800:8080
+        command: --debug --http-api-update --schedule "${WATCHTOWER_SCHEDULE}" --cleanup --http-api-metrics --http-api-periodic-polls # Use variable
+        environment:
+            - TZ=${TZ}
+            - WATCHTOWER_NOTIFICATIONS=shoutrrr
+            - WATCHTOWER_NOTIFICATION_URL=${WATCHTOWER_TELEGRAM_URL}
+            - WATCHTOWER_CLEANUP=true
+            - WATCHTOWER_HTTP_API_METRICS=true
+            - WATCHTOWER_HTTP_API_PERIODIC_POLLS=true
+            - WATCHTOWER_HTTP_API_TOKEN=${WATCHTOWER_API_TOKEN}
+        labels:
+            - "glance.parent=portainer"
+            - "glance.name=updater"
+        restart: unless-stopped

@@ -1,31 +1,40 @@
 services:
-  jellyfin:
-    image: lscr.io/linuxserver/jellyfin:${JELLYFIN_VERSION}
-    container_name: jellyfin
-    environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=${TZ}
-      - JELLYFIN_PublishedServerUrl=http://jellyfin.server
-    devices:
-      - "${DRI_DEVICE_PATH}:/dev/dri" 
-    networks:
-      - proxy_network
-    volumes:
-      - ${DOCKER_CONFIG_BASE}/JellyFin_Docker:/config
-      - ${MEDIA_LIBRARY_PATH_RAID}:/data
-      - ${MEDIA_LIBRARY_PATH_EDISK}:/data1
-    labels:
-      - "glance.name=Jellyfin"
-      - "glance.icon=sh:jellyfin"
-      - "glance.url=http://jellyfin.${BASE_DOMAIN}/"
-      - "glance.description=Movies & TV Shows"
-      - "traefik.enable=true"
-      - "traefik.http.routers.jellyfin.rule=Host(`jellyfin.${BASE_DOMAIN}`)"
-      - "traefik.http.routers.jellyfin.entrypoints=web"
-      - "traefik.http.services.jellyfin.loadbalancer.server.port=8096"
-    ports:
-      - 636:636
-      - 8920:8920 
-      - 7359:7359/udp 
-    restart: unless-stopped
+    jellyfin:
+        image: lscr.io/linuxserver/jellyfin:${JELLYFIN_VERSION}
+        container_name: jellyfin
+        logging:
+            driver: loki:latest
+            options:
+                loki-url: ${LOKI_URL}
+                loki-retries: 5
+                loki-max-backoff: 1800ms
+                loki-timeout: 1s
+                keep-file: "true"
+                mode: "non-blocking"
+        environment:
+            - PUID=${PUID}
+            - PGID=${PGID}
+            - TZ=${TZ}
+            - JELLYFIN_PublishedServerUrl=http://jellyfin.server
+        devices:
+            - "${DRI_DEVICE_PATH}:/dev/dri"
+        networks:
+            - proxy_network
+        volumes:
+            - ${DOCKER_CONFIG_BASE}/JellyFin_Docker:/config
+            - ${MEDIA_LIBRARY_PATH_RAID}:/data
+            - ${MEDIA_LIBRARY_PATH_EDISK}:/data1
+        labels:
+            - "glance.name=Jellyfin"
+            - "glance.icon=sh:jellyfin"
+            - "glance.url=http://jellyfin.${BASE_DOMAIN}/"
+            - "glance.description=Movies & TV Shows"
+            - "traefik.enable=true"
+            - "traefik.http.routers.jellyfin.rule=Host(`jellyfin.${BASE_DOMAIN}`)"
+            - "traefik.http.routers.jellyfin.entrypoints=web"
+            - "traefik.http.services.jellyfin.loadbalancer.server.port=8096"
+        ports:
+            - 636:636
+            - 8920:8920
+            - 7359:7359/udp
+        restart: unless-stopped

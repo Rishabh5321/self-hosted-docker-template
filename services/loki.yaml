@@ -1,0 +1,13 @@
+services:
+    loki:
+        container_name: loki
+        image: docker.io/grafana/loki:latest
+        command: "-config.file=/etc/loki/config.yaml"
+        ports:
+            - "3100:3100" # Wanna remove this but connecting vai revese proxy miss some logs will have to look into it
+        volumes:
+            - ../common/loki/config.yaml:/etc/loki/config.yaml:ro
+            - data_loki:/loki:rw
+        networks:
+            - proxy_network
+        restart: unless-stopped

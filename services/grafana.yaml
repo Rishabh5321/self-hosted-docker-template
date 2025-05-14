@@ -1,35 +1,54 @@
 services:
-  grafana:
-    image: grafana/grafana:${GRAFANA_VERSION}
-    container_name: grafana
-    environment:
-      GF_AUTH_GENERIC_OAUTH_ENABLED: "true"
-      GF_AUTH_GENERIC_OAUTH_NAME: "authentik"
-      GF_SERVER_ROOT_URL: "http://grafana.${BASE_DOMAIN}"
-      GF_AUTH_GENERIC_OAUTH_CLIENT_ID: "${GF_AUTH_GENERIC_OAUTH_CLIENT_ID}"
-      GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET: "${GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET}"
-      GF_AUTH_GENERIC_OAUTH_SCOPES: "openid profile email"
-      GF_AUTH_GENERIC_OAUTH_AUTH_URL: "http://authentik.server/application/o/authorize/"
-      GF_AUTH_GENERIC_OAUTH_TOKEN_URL: "http://authentik.server/application/o/token/"
-      GF_AUTH_GENERIC_OAUTH_API_URL: "http://authentik.server/application/o/userinfo/"
-      GF_AUTH_SIGNOUT_REDIRECT_URL: "http://authentik.server/application/o/grafana/end-session/"
-      # Optionally enable auto-login (bypasses Grafana login screen)
-      #GF_AUTH_OAUTH_AUTO_LOGIN: "true"
-    volumes:
-      - grafana-data:/var/lib/grafana
-      - ../common/grafana/provisioning:/etc/grafana/provisioning
-    networks:
-      - proxy_network
-    links:
-      - prometheus:prometheus
-    restart: unless-stopped
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.grafana.rule=Host(`grafana.${BASE_DOMAIN}`)"
-      - "traefik.http.routers.grafana.entrypoints=web"
-      - "traefik.http.services.grafana.loadbalancer.server.port=3000"
-      - "glance.id=grafana"
-      - "glance.name=Grafana"
-      - "glance.icon=sh:grafana"
-      - "glance.url=http://grafana.${BASE_DOMAIN}"
-      - "glance.description=Metrics Dashboard"
+    # grafana:
+    #     image: grafana/grafana:${GRAFANA_VERSION}
+    #     container_name: grafana
+    #     environment:
+    #         GF_AUTH_GENERIC_OAUTH_ENABLED: "true"
+    #         GF_AUTH_GENERIC_OAUTH_NAME: "Authentik SSO"
+    #         GF_SERVER_ROOT_URL: "https://grafana.${BASE_DOMAIN}"
+    #         GF_AUTH_GENERIC_OAUTH_CLIENT_ID: "${GF_AUTH_GENERIC_OAUTH_CLIENT_ID}"
+    #         GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET: "${GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET}"
+    #         GF_AUTH_GENERIC_OAUTH_SCOPES: "openid profile email"
+    #         GF_AUTH_GENERIC_OAUTH_AUTH_URL: "https://authentik.${BASE_DOMAIN}/application/o/authorize/"
+    #         GF_AUTH_GENERIC_OAUTH_TOKEN_URL: "https://authentik.${BASE_DOMAIN}/application/o/token/"
+    #         GF_AUTH_GENERIC_OAUTH_API_URL: "https://authentik.${BASE_DOMAIN}/application/o/userinfo/"
+    #         GF_AUTH_SIGNOUT_REDIRECT_URL: "https://authentik.${BASE_DOMAIN}/application/o/grafana/end-session/"
+    #         # Optionally enable auto-login (bypasses Grafana login screen)
+    #         #GF_AUTH_OAUTH_AUTO_LOGIN: "true"
+    #     volumes:
+    #         - grafana-data:/var/lib/grafana
+    #         - ../common/grafana/provisioning:/etc/grafana/provisioning
+    #     networks:
+    #         - proxy_network
+    #     links:
+    #         - prometheus:prometheus
+    #     restart: unless-stopped
+    #     labels:
+    #         - "traefik.enable=true"
+    #         - "traefik.http.routers.grafana.rule=Host(`grafana.${BASE_DOMAIN}`)"
+    #         - "traefik.http.routers.grafana.entrypoints=web"
+    #         - "traefik.http.services.grafana.loadbalancer.server.port=3000"
+    #         - "glance.id=grafana"
+    #         - "glance.name=Grafana"
+    #         - "glance.icon=sh:grafana"
+    #         - "glance.url=https://grafana.${BASE_DOMAIN}"
+    #         - "glance.description=Metrics Dashboard"
+    grafana:
+        image: docker.io/grafana/grafana:latest
+        logging:
+            driver: loki:latest
+            options:
+                loki-url: ${LOKI_URL}
+                loki-retries: 5
+                loki-max-backoff: 1800ms
+                loki-timeout: 1s
+                keep-file: "true"
+                mode: "non-blocking"
+        container_name: grafana
+        # ports:
+        #     - "3000:3000"
+        volumes:
+            - grafana-data:/var/lib/grafana
+        networks:
+            - proxy_network
+        restart: unless-stopped

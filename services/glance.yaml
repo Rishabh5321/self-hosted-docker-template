@@ -1,23 +1,32 @@
 # services/glance.yaml
 services:
-  glance:
-    container_name: glance
-    image: glanceapp/glance:${GLANCE_VERSION}
-    restart: unless-stopped
-    volumes:
-      - ${GLANCE_FILE_PATH}:/app/config/glance.yml
-      - ${DOCKER_SOCKET_PATH}:/var/run/docker.sock
-      - ${MEDIA_LIBRARY_PATH_RAID}:/Raid
-      - ${MEDIA_LIBRARY_PATH_EDISK}:/External
-      - ${HOST_HOME_PATH}:/Home
-      - ${HOST_MNT_PATH}:/Mnt      
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.game.middlewares=authentik@docker" 
-      - "traefik.http.routers.dashboard.rule=Host(`dashboard.${BASE_DOMAIN}`)"
-      - "traefik.http.routers.dashboard.entrypoints=web" 
-      - "traefik.http.services.dashboard.loadbalancer.server.port=8080"
-      - "glance.parent=portainer"
-      - "glance.name=glance"
-    networks:
-    - proxy_network 
+    glance:
+        container_name: glance
+        image: glanceapp/glance:${GLANCE_VERSION}
+        restart: unless-stopped
+        logging:
+            driver: loki:latest
+            options:
+                loki-url: ${LOKI_URL}
+                loki-retries: 5
+                loki-max-backoff: 1800ms
+                loki-timeout: 1s
+                keep-file: "true"
+                mode: "non-blocking"
+        volumes:
+            - ${GLANCE_FILE_PATH}:/app/config/glance.yml
+            - ${DOCKER_SOCKET_PATH}:/var/run/docker.sock
+            - ${MEDIA_LIBRARY_PATH_RAID}:/Raid
+            - ${MEDIA_LIBRARY_PATH_EDISK}:/External
+            - ${HOST_HOME_PATH}:/Home
+            - ${HOST_MNT_PATH}:/Mnt
+        labels:
+            # - "traefik.enable=true"
+            # # - "traefik.http.routers.game.middlewares=authentik@docker"
+            # - "traefik.http.routers.dashboard.rule=Host(`dashboard.${BASE_DOMAIN}`)"
+            # - "traefik.http.routers.dashboard.entrypoints=web"
+            # - "traefik.http.services.dashboard.loadbalancer.server.port=8080"
+            - "glance.parent=portainer"
+            - "glance.name=glance"
+        networks:
+            - proxy_network

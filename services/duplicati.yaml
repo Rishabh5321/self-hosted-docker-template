@@ -1,27 +1,36 @@
 services:
-  duplicati:
-    image: lscr.io/linuxserver/duplicati:${DUPLICATI_VERSION}
-    container_name: duplicati
-    environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=${TZ}
-      - SETTINGS_ENCRYPTION_KEY=${DUPLICATI_SETTINGS_KEY}
-      #- DUPLICATI__WEBSERVICE_PASSWORD=${DUPLICATI_PASSWORD}
-    volumes:
-      - ${DOCKER_CONFIG_BASE}/Duplicati_Config:/config
-      - ${BACKUP_PATH}:/backups
-      - ${DOCKER_CONFIG_MNT}/:/source
-      - ${HOST_MNT_PATH}:/data
-    labels:
-      - "glance.name=Duplicati"
-      - "glance.icon=sh:duplicati"
-      - "glance.url=http://duplicati.${BASE_DOMAIN}/"
-      - "glance.description=Backups"
-      - "traefik.enable=true"
-      - "traefik.http.routers.duplicati.rule=Host(`duplicati.${BASE_DOMAIN}`)"
-      - "traefik.http.routers.duplicati.entrypoints=web"
-      - "traefik.http.services.duplicati.loadbalancer.server.port=8200"
-    networks:
-      - proxy_network
-    restart: unless-stopped
+    duplicati:
+        image: lscr.io/linuxserver/duplicati:${DUPLICATI_VERSION}
+        container_name: duplicati
+        logging:
+            driver: loki:latest
+            options:
+                loki-url: ${LOKI_URL}
+                loki-retries: 5
+                loki-max-backoff: 1800ms
+                loki-timeout: 1s
+                keep-file: "true"
+                mode: "non-blocking"
+        environment:
+            - PUID=${PUID}
+            - PGID=${PGID}
+            - TZ=${TZ}
+            - SETTINGS_ENCRYPTION_KEY=${DUPLICATI_SETTINGS_KEY}
+            #- DUPLICATI__WEBSERVICE_PASSWORD=${DUPLICATI_PASSWORD}
+        volumes:
+            - ${DOCKER_CONFIG_BASE}/Duplicati_Config:/config
+            - ${BACKUP_PATH}:/backups
+            - ${DOCKER_CONFIG_MNT}/:/source
+            - ${HOST_MNT_PATH}:/data
+        labels:
+            - "glance.name=Duplicati"
+            - "glance.icon=sh:duplicati"
+            - "glance.url=http://duplicati.${BASE_DOMAIN}/"
+            - "glance.description=Backups"
+            # - "traefik.enable=true"
+            # - "traefik.http.routers.duplicati.rule=Host(`duplicati.${BASE_DOMAIN}`)"
+            # - "traefik.http.routers.duplicati.entrypoints=web"
+            # - "traefik.http.services.duplicati.loadbalancer.server.port=8200"
+        networks:
+            - proxy_network
+        restart: unless-stopped

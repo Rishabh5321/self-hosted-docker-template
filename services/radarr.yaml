@@ -1,25 +1,34 @@
 services:
-  radarr:
-    image: lscr.io/linuxserver/radarr:${RADARR_VERSION}
-    container_name: radarr
-    environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=${TZ}
-    volumes:
-      - ${DOCKER_CONFIG_BASE}/Radarr_Config:/config
-      - ${MEDIA_LIBRARY_PATH_RAID}:/data
-      - ${MEDIA_LIBRARY_PATH_EDISK}:/data1
-      - ${MEDIA_DOWNLOADS_PATH}:/downloads 
-    labels:
-      - "glance.name=Radarr"
-      - "glance.icon=sh:radarr"
-      - "glance.url=http://radarr.${BASE_DOMAIN}/"
-      - "glance.description=Movie Downloader"
-      - "traefik.enable=true"
-      - "traefik.http.routers.radarr.rule=Host(`radarr.${BASE_DOMAIN}`)"
-      - "traefik.http.routers.radarr.entrypoints=web"
-      - "traefik.http.services.radarr.loadbalancer.server.port=7878"
-    networks:
-      - proxy_network
-    restart: unless-stopped
+    radarr:
+        image: lscr.io/linuxserver/radarr:${RADARR_VERSION}
+        container_name: radarr
+        logging:
+            driver: loki:latest
+            options:
+                loki-url: ${LOKI_URL}
+                loki-retries: 5
+                loki-max-backoff: 1800ms
+                loki-timeout: 1s
+                keep-file: "true"
+                mode: "non-blocking"
+        environment:
+            - PUID=${PUID}
+            - PGID=${PGID}
+            - TZ=${TZ}
+        volumes:
+            - ${DOCKER_CONFIG_BASE}/Radarr_Config:/config
+            - ${MEDIA_LIBRARY_PATH_RAID}:/data
+            - ${MEDIA_LIBRARY_PATH_EDISK}:/data1
+            - ${MEDIA_DOWNLOADS_PATH}:/downloads
+        labels:
+            - "glance.name=Radarr"
+            - "glance.icon=sh:radarr"
+            - "glance.url=http://radarr.${BASE_DOMAIN}/"
+            - "glance.description=Movie Downloader"
+            # - "traefik.enable=true"
+            # - "traefik.http.routers.radarr.rule=Host(`radarr.${BASE_DOMAIN}`)"
+            # - "traefik.http.routers.radarr.entrypoints=web"
+            # - "traefik.http.services.radarr.loadbalancer.server.port=7878"
+        networks:
+            - proxy_network
+        restart: unless-stopped
