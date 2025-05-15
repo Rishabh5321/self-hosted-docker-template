@@ -14,7 +14,7 @@ services:
                 keep-file: "true"
                 mode: "non-blocking"
         volumes:
-            - ${GLANCE_FILE_PATH}:/app/config/glance.yml
+            - ../custom/glance.yml:/app/config/glance.yml
             - ${DOCKER_SOCKET_PATH}:/var/run/docker.sock
             - ${MEDIA_LIBRARY_PATH_RAID}:/Raid
             - ${MEDIA_LIBRARY_PATH_EDISK}:/External

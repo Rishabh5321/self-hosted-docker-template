@@ -18,10 +18,8 @@ services:
             - GOG_EMAIL=${GOG_EMAIL}
             - GOG_PASSWORD=${GOG_PASSWORD}
         labels:
-            - "glance.name=Free Games Claimer"
-            - "glance.icon=https://raw.githubusercontent.com/game-icons/icons/846f3e9699d4199e35aeb9b454b4d07809c3441a/delapouite/gamepad.svg"
-            - "glance.url=http://game.${BASE_DOMAIN}/"
-            - "glance.description=Free Games Claimer"
+            - "glance.parent=portainer"
+            - "glance.name=game-claimer"
             # - "traefik.enable=true"
             # # - "traefik.http.routers.game.middlewares=authentik@docker"
             # - "traefik.http.routers.game.rule=Host(`game.${BASE_DOMAIN}`)"

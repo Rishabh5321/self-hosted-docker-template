@@ -16,6 +16,8 @@ services:
             - PGID=${PGID}
             - AUTO_UPDATE=true
             - TZ=${TZ}
+        ports:
+            - "9117:9117"
         labels:
             - "glance.name=Jackett"
             - "glance.icon=sh:jackett"

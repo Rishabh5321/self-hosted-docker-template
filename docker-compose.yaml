@@ -36,7 +36,7 @@ include:
 
     # # Include indexer services
     - ./services/prowlarr.yaml
-    - ./services/jackett.yaml
+    # - ./services/jackett.yaml
 
     # # Include backup and file management services
     # #- ./services/filebrowser.yaml

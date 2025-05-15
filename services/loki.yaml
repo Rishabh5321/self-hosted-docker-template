@@ -10,4 +10,7 @@ services:
             - data_loki:/loki:rw
         networks:
             - proxy_network
+        labels:
+            - "glance.parent=grafana"
+            - "glance.name=loki"
         restart: unless-stopped

@@ -23,5 +23,11 @@ services:
             - PUID=1000
             - PGID=1000
             - TZ=Asia/Kolkata
+        labels:
+            - "glance.id=nginx-proxy-manager"
+            - "glance.name=Nginx"
+            - "glance.icon=sh:nginx-proxy-manager"
+            - "glance.url=https://${BASE_DOMAIN}"
+            - "glance.description=Reverse Proxy"
         networks:
             - proxy_network
