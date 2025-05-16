@@ -63,7 +63,7 @@ services:
         volumes:
             - redis:/data
     server:
-        image: ${AUTHENTIK_IMAGE:-ghcr.io/goauthentik/server}:${AUTHENTIK_TAG:-2025.4.0}
+        image: ${AUTHENTIK_IMAGE:-ghcr.io/goauthentik/server}:${AUTHENTIK_TAG}
         restart: unless-stopped
         container_name: authentik-server
         logging:
@@ -110,7 +110,7 @@ services:
             redis:
                 condition: service_healthy
     worker:
-        image: ${AUTHENTIK_IMAGE:-ghcr.io/goauthentik/server}:${AUTHENTIK_TAG:-2025.4.0}
+        image: ${AUTHENTIK_IMAGE:-ghcr.io/goauthentik/server}:${AUTHENTIK_TAG}
         restart: unless-stopped
         container_name: authentik-worker
         logging:
