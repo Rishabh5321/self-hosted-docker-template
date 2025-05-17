@@ -21,6 +21,7 @@ include:
     - ./services/resilio-sync.yaml
 
     # # Include monitoring and management services
+    # - ./services/wud.yaml
     - ./services/portainer.yaml
     - ./services/watchtower.yaml
     - ./services/glance.yaml

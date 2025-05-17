@@ -13,13 +13,19 @@ services:
                 loki-timeout: 1s
                 keep-file: "true"
                 mode: "non-blocking"
+        environment:
+            - SONARR_URL=${SONARR_URL}
+            - SONARR_KEY=${SONARR_KEY}
+            - WUD_URL=${WUD_URL}
         volumes:
-            - ../custom/glance.yml:/app/config/glance.yml
+            - ../config:/app/config
             - ${DOCKER_SOCKET_PATH}:/var/run/docker.sock
             - ${MEDIA_LIBRARY_PATH_RAID}:/Raid
             - ${MEDIA_LIBRARY_PATH_EDISK}:/External
             - ${HOST_HOME_PATH}:/Home
             - ${HOST_MNT_PATH}:/Mnt
+        # ports:
+        #     - 8080:8080
         labels:
             # - "traefik.enable=true"
             # # - "traefik.http.routers.game.middlewares=authentik@docker"
