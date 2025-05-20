@@ -28,6 +28,9 @@ services:
             POSTGRES_PASSWORD: ${PG_PASS:?database password required}
             POSTGRES_USER: ${PG_USER:-authentik}
             POSTGRES_DB: ${PG_DB:-authentik}
+            PUID: ${PUID}
+            PGID: ${PGID}
+            TZ: ${TZ}
         networks:
             - proxy_network
         labels:
@@ -40,6 +43,10 @@ services:
         command: --save 60 1 --loglevel warning
         container_name: authentik-redis
         restart: unless-stopped
+        environment:
+            - PUID=${PUID}
+            - PGID=${PGID}
+            - TZ=${TZ}
         logging:
             driver: loki:latest
             options:
@@ -77,6 +84,9 @@ services:
                 mode: "non-blocking"
         command: server
         environment:
+            PUID: ${PUID}
+            PGID: ${PGID}
+            TZ: ${TZ}
             AUTHENTIK_HOST: https://authentik.${BASE_DOMAIN}
             AUTHENTIK_INSECURE: "false"
             AUTHENTIK_SECRET_KEY: ${AUTHENTIK_SECRET_KEY:?secret key required}
@@ -124,6 +134,9 @@ services:
                 mode: "non-blocking"
         command: worker
         environment:
+            PUID: ${PUID}
+            PGID: ${PGID}
+            TZ: ${TZ}
             AUTHENTIK_SECRET_KEY: ${AUTHENTIK_SECRET_KEY:?secret key required}
             AUTHENTIK_REDIS__HOST: redis
             AUTHENTIK_POSTGRESQL__HOST: postgresql
