@@ -1,0 +1,28 @@
+presets:
+    neon-focus:
+        background-color: 255 14 6
+        primary-color: 156 50 65
+        negative-color: 342 65 65
+        contrast-multiplier: 0.9
+        text-saturation-multiplier: 0.8
+
+    gruvbox-dark:
+        background-color: 0 0 16
+        primary-color: 43 59 81
+        positive-color: 61 66 44
+        negative-color: 6 96 59
+
+    catppuccin-macchiato:
+        background-color: 232 23 18
+        contrast-multiplier: 1.2
+        primary-color: 220 83 75
+        positive-color: 105 48 72
+        negative-color: 351 74 73
+
+    peachy:
+        light: true
+        background-color: 28 40 77
+        primary-color: 155 100 20
+        negative-color: 0 100 60
+        contrast-multiplier: 1.1
+        text-saturation-multiplier: 0.5

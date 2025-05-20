@@ -1,0 +1,6 @@
+- name: Docker
+  columns:
+      - size: full
+        widgets:
+            - type: docker-containers
+              hide-by-default: false

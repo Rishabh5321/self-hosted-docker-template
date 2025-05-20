@@ -1,0 +1,6 @@
+theme:
+    $include: theme.yml
+
+pages:
+    $include: default.yml
+    $include: docker.yml

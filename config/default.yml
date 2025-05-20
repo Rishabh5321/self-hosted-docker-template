@@ -1,0 +1,98 @@
+- name: Home
+  columns:
+      - size: small
+        widgets:
+            - type: clock
+              hour-format: 12h
+
+            - type: server-stats
+              servers:
+                  - type: local
+                    name: Services
+                    hide-mountpoints-by-default: true
+                    mountpoints:
+                        "/Raid":
+                            hide: false
+                        "/External":
+                            hide: false
+                        "/Home":
+                            hide: false
+                        "/Mnt":
+                            hide: false
+
+            - type: bookmarks
+              groups:
+                  - title: General
+                    links:
+                        - title: Gmail
+                          url: https://mail.google.com/mail/u/0/
+                        - title: Github
+                          url: https://github.com/
+                        - title: ChatGPT
+                          url: https://chat.openai.com/
+                  - title: Entertainment
+                    links:
+                        - title: YouTube
+                          url: https://www.youtube.com/
+                  - title: Social
+                    links:
+                        - title: Reddit
+                          url: https://www.reddit.com/
+                  - title: AI
+                    links:
+                        - title: ChatGPT
+                          url: https://chat.openai.com/
+                        - title: Gemini
+                          url: https://gemini.google.com/app
+                        - title: Deepseek
+                          url: https://deepseek.com/
+                        - title: Claude AI
+                          url: https://claude.ai/
+
+      - size: full
+        widgets:
+            - type: split-column
+              widgets:
+                  - type: repository
+                    repository: rishabh5321/dotfiles
+                    pull-requests-limit: 5
+                    commits-limit: 3
+                  - type: repository
+                    repository: rishabh5321/better-control-flake
+                    pull-requests-limit: 5
+                    commits-limit: 3
+                  - type: repository
+                    repository: rishabh5321/seanime-flake
+                    pull-requests-limit: 5
+                    commits-limit: 3
+                  - type: repository
+                    repository: rishabh5321/thorium_flake
+                    pull-requests-limit: 5
+                    commits-limit: 3
+
+      - size: small
+        widgets:
+            - type: weather
+              location: Nashik, India
+              units: metric
+              hour-format: 12h
+              show-area-name: true
+
+            - type: markets
+              markets:
+                  - symbol: ^NSEI
+                    name: Nifty 50
+                  - symbol: ^BSESN
+                    name: Sensex
+                  - symbol: GOLDBEES.NS
+                    name: GoldBees
+                  - symbol: SILVERBEES.NS
+                    name: SilverBees
+
+            - type: monitor
+              cache: 1m
+              title: Management
+              sites:
+                  - title: OpenWRT
+                    url: http://openwrt
+                    icon: sh:openwrt
