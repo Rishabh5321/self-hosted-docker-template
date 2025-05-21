@@ -16,13 +16,15 @@ services:
             - PGID=${PGID}
             - TZ=${TZ}
             - SETTINGS_ENCRYPTION_KEY=${DUPLICATI_SETTINGS_KEY}
-            #- DUPLICATI__WEBSERVICE_PASSWORD=
+            #- DUPLICATI__WEBSERVICE_PASSWORD=Pass,123
             #- DUPLICATI__WEBSERVICE_DISABLE_SIGNIN_TOKEN=true
         volumes:
             - ${DOCKER_CONFIG_BASE}/Duplicati_Config:/config
             - ${BACKUP_PATH}:/backups
             - ${DOCKER_CONFIG_MNT}/:/source
             - ${HOST_MNT_PATH}:/data
+        # ports:
+        #     - 8200:8200
         labels:
             - "glance.name=Duplicati"
             - "glance.icon=sh:duplicati"

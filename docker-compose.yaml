@@ -15,6 +15,7 @@ include:
     - ./services/jellyfin.yaml
     - ./services/jellyseerr.yaml
     - ./services/syncify.yaml
+    - ./services/huntarr.yaml
 
     # # Include download and synchronization services
     - ./services/qbittorrent.yaml
@@ -26,6 +27,7 @@ include:
     - ./services/watchtower.yaml
     - ./services/glance.yaml
     - ./services/loki.yaml
+    - ./services/promtail.yaml
     # - ./services/garmin-grafana.yaml
     - ./services/grafana.yaml
     - ./services/prometheus.yaml

@@ -1,0 +1,20 @@
+---
+services:
+    promtail:
+        image: docker.io/grafana/promtail:latest
+        command: "-config.file=/mnt/config/config.yaml"
+        logging:
+            driver: loki:latest
+            options:
+                loki-url: ${LOKI_URL}
+                loki-retries: 5
+                loki-max-backoff: 800ms
+                loki-timeout: 1s
+                keep-file: "true"
+                mode: "non-blocking"
+        networks:
+            - proxy_network
+        volumes:
+            - ../common/promtail/config.yaml:/mnt/config/config.yaml:ro
+            - /var/log:/var/log:ro
+        restart: unless-stopped
