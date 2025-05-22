@@ -17,4 +17,7 @@ services:
         volumes:
             - ../common/promtail/config.yaml:/mnt/config/config.yaml:ro
             - /var/log:/var/log:ro
+        labels:
+            - "glance.parent=grafana"
+            - "glance.name=promtail"
         restart: unless-stopped

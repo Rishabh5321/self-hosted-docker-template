@@ -15,7 +15,7 @@ include:
     - ./services/jellyfin.yaml
     - ./services/jellyseerr.yaml
     - ./services/syncify.yaml
-    - ./services/huntarr.yaml
+    # - ./services/huntarr.yaml
 
     # # Include download and synchronization services
     - ./services/qbittorrent.yaml

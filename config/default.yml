@@ -19,38 +19,57 @@
                             hide: false
                         "/Mnt":
                             hide: false
+            - type: to-do
 
-            - type: bookmarks
-              groups:
-                  - title: General
-                    links:
-                        - title: Gmail
-                          url: https://mail.google.com/mail/u/0/
-                        - title: Github
-                          url: https://github.com/
-                        - title: ChatGPT
-                          url: https://chat.openai.com/
-                  - title: Entertainment
-                    links:
-                        - title: YouTube
-                          url: https://www.youtube.com/
-                  - title: Social
-                    links:
-                        - title: Reddit
-                          url: https://www.reddit.com/
-                  - title: AI
-                    links:
-                        - title: ChatGPT
-                          url: https://chat.openai.com/
-                        - title: Gemini
-                          url: https://gemini.google.com/app
-                        - title: Deepseek
-                          url: https://deepseek.com/
-                        - title: Claude AI
-                          url: https://claude.ai/
+            # - type: bookmarks
+            #   groups:
+            #       - title: General
+            #         links:
+            #             - title: Gmail
+            #               url: https://mail.google.com/mail/u/0/
+            #             - title: Github
+            #               url: https://github.com/
+            #             - title: ChatGPT
+            #               url: https://chat.openai.com/
+            #       - title: Entertainment
+            #         links:
+            #             - title: YouTube
+            #               url: https://www.youtube.com/
+            #       - title: Social
+            #         links:
+            #             - title: Reddit
+            #               url: https://www.reddit.com/
+            #       - title: AI
+            #         links:
+            #             - title: ChatGPT
+            #               url: https://chat.openai.com/
+            #             - title: Gemini
+            #               url: https://gemini.google.com/app
+            #             - title: Deepseek
+            #               url: https://deepseek.com/
+            #             - title: Claude AI
+            #               url: https://claude.ai/
 
       - size: full
         widgets:
+            - type: search
+              autofocus: true
+              search-engine: google
+              new-tab: true
+              bangs:
+                  - title: YouTube
+                    shortcut: "!yt"
+                    url: https://www.youtube.com/results?search_query={QUERY}
+                  - title: Github
+                    shortcut: "!gh"
+                    url: https://github.com/search?q={QUERY}&type=
+                  - title: Google
+                    shortcut: "!g"
+                    url: https://www.google.com/search?q={QUERY}
+
+            - type: docker-containers
+              hide-by-default: false
+
             - type: split-column
               widgets:
                   - type: repository
@@ -61,14 +80,14 @@
                     repository: rishabh5321/better-control-flake
                     pull-requests-limit: 5
                     commits-limit: 3
-                  - type: repository
-                    repository: rishabh5321/seanime-flake
-                    pull-requests-limit: 5
-                    commits-limit: 3
-                  - type: repository
-                    repository: rishabh5321/thorium_flake
-                    pull-requests-limit: 5
-                    commits-limit: 3
+                  # - type: repository
+                  #   repository: rishabh5321/seanime-flake
+                  #   pull-requests-limit: 5
+                  #   commits-limit: 3
+                  # - type: repository
+                  #   repository: rishabh5321/thorium_flake
+                  #   pull-requests-limit: 5
+                  #   commits-limit: 3
 
       - size: small
         widgets:

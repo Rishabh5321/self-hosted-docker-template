@@ -1,0 +1,34 @@
+- name: India News
+  columns:
+      - size: full
+        widgets:
+            - type: group
+              widgets:
+                  - type: rss
+                    title: Times of India
+                    limit: 10
+                    cache: 12h
+                    style: detailed-list
+                    feeds:
+                        - url: https://timesofindia.indiatimes.com/rssfeeds/-2128936835.cms
+                          title: Times of India
+                          limit: 10
+                  - type: rss
+                    title: NDTV
+                    limit: 10
+                    # collapse-after: 3
+                    cache: 12h
+                    style: detailed-list
+                    feeds:
+                        - url: https://feeds.feedburner.com/NDTV-LatestNews
+                          title: NDTV
+                          limit: 10
+                  - type: rss
+                    title: India Today
+                    limit: 10
+                    cache: 12h
+                    style: detailed-list
+                    feeds:
+                        - url: https://www.indiatoday.in/rss/1206578
+                          title: India Today
+                          limit: 10
