@@ -16,7 +16,13 @@ services:
         environment:
             - SONARR_URL=${SONARR_URL}
             - SONARR_KEY=${SONARR_KEY}
+            - SONARR_API_URL=${SONARR_URL}
             - WUD_URL=${WUD_URL}
+            - SPEEDTEST_URL=${SPEEDTEST_URL}
+            - SPEEDTEST_TRACKER_API_TOKEN=${SPEEDTEST_TRACKER_API_TOKEN}
+            - RADARR_URL=${RADARR_URL}
+            - RADARR_KEY=${RADARR_KEY}
+            - RADARR_API_URL=${RADARR_URL}
         volumes:
             - ../config:/app/config
             - ${DOCKER_SOCKET_PATH}:/var/run/docker.sock

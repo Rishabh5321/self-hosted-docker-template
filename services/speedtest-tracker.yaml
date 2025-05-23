@@ -26,6 +26,7 @@ services:
             - PUID=${PUID}
             - PGID=${PGID}
             - APP_KEY=${APP_KEY}
+            - DISPLAY_TIMEZONE=${TZ}
             - APP_TIMEZONE=${TZ}
             - PRUNE_RESULTS_OLDER_THAN=3
             - DB_CONNECTION=sqlite
