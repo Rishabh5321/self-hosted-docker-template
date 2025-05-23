@@ -34,6 +34,7 @@ include:
     - ./services/cadvisor.yaml
     - ./services/nodeexporter.yaml
     - ./services/authentik.yaml
+    - ./services/speedtest-tracker.yaml
     # - ./services/casa.yaml
     # #- ./services/uptime-kuma.yaml
 

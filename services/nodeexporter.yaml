@@ -3,7 +3,10 @@ services:
         image: prom/node-exporter:latest
         container_name: nodeexporter
         restart: unless-stopped
-        command: "--path.rootfs=/host"
+        command: "
+            --path.rootfs=/host
+            --collector.textfile.directory=/var/lib/node_exporter/textfile_collector
+            "
         logging:
             driver: loki:latest
             options:
