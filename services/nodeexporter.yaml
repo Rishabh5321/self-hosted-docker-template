@@ -5,7 +5,6 @@ services:
         restart: unless-stopped
         command: "
             --path.rootfs=/host
-            --collector.textfile.directory=/var/lib/node_exporter/textfile_collector
             "
         logging:
             driver: loki:latest
