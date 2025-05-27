@@ -19,7 +19,7 @@ services:
         volumes:
             - ${DOCKER_CONFIG_BASE}/Resilio_Config:/config
             - ${MEDIA_DOWNLOADS_PATH}:/downloads
-            - ${MEDIA_LIBRARY_PATH_RAID}/Music:/sync
+            - ${MEDIA_LIBRARY_PATH_RAID}/Music:/sync/music
         networks:
             - proxy_network
         ports:
