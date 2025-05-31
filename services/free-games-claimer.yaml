@@ -12,6 +12,8 @@ services:
                 loki-timeout: 1s
                 keep-file: "true"
                 mode: "non-blocking"
+        ports:
+            - 6080:6080
         environment:
             - NOTIFY=${FREE_GAMES_NOTIFY_URL}
             - NOTIFY_TITLE=My Free Games Claimer

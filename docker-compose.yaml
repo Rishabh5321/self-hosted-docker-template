@@ -49,4 +49,4 @@ include:
     # # Include miscellaneous services
     - ./services/flaresolverr.yaml
     - ./services/suwayomi.yaml
-    - ./services/free-games-claimer.yaml
+    # - ./services/free-games-claimer.yaml
