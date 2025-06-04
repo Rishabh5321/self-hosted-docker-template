@@ -35,8 +35,10 @@ include:
     - ./services/nodeexporter.yaml
     - ./services/authentik.yaml
     - ./services/speedtest-tracker.yaml
+    # - ./services/gitlab.yaml
+    # - ./services/gitea.yaml
     # - ./services/casa.yaml
-    # #- ./services/uptime-kuma.yaml
+    # - ./services/uptime-kuma.yaml
 
     # # Include indexer services
     - ./services/prowlarr.yaml

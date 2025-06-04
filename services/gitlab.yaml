@@ -1,0 +1,22 @@
+---
+services:
+  gitlab:
+    image: docker.io/gitlab/gitlab-ce:latest
+    container_name: gitlab
+    shm_size: '256m'
+    environment: {}
+    networks:
+      - proxy_network
+    volumes:
+      - /mnt/Docker/Docker/Gitlab_Config/config/config:/etc/gitlab
+      - /mnt/Docker/Docker/Gitlab_Config/logs:/var/log/gitlab
+      - gitlab-data:/var/opt/gitlab
+    ports:
+      # - "80:80"
+      # - "443:443"
+      - '2424:22'
+    restart: unless-stopped
+
+volumes:
+  gitlab-data:
+    driver: local
