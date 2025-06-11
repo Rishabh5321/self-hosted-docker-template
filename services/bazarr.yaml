@@ -1,34 +1,34 @@
 services:
-    bazarr:
-        image: lscr.io/linuxserver/bazarr:${BAZARR_VERSION}
-        container_name: bazarr
-        logging:
-            driver: loki:latest
-            options:
-                loki-url: ${LOKI_URL}
-                loki-retries: 5
-                loki-max-backoff: 1800ms
-                loki-timeout: 1s
-                keep-file: "true"
-                mode: "non-blocking"
-        environment:
-            - PUID=${PUID}
-            - PGID=${PGID}
-            - TZ=${TZ}
-        volumes:
-            - ${DOCKER_CONFIG_BASE}/Bazarr_Docker:/config
-            - ${MEDIA_LIBRARY_PATH_RAID}:/data
-            - ${MEDIA_LIBRARY_PATH_EDISK}:/data1
-        labels:
-            - "glance.name=Bazarr"
-            - "glance.icon=https://raw.githubusercontent.com/linuxserver/docker-templates/master/linuxserver.io/img/bazarr.png"
-            - "glance.url=http://bazarr.${BASE_DOMAIN}/"
-            - "glance.description=Subtitle Downloader"
-            # - "traefik.enable=true"
-            # - "traefik.http.routers.bazarr.middlewares=authentik@docker"
-            # - "traefik.http.routers.bazarr.rule=Host(`bazarr.${BASE_DOMAIN}`)"
-            # - "traefik.http.routers.bazarr.entrypoints=web"
-            # - "traefik.http.services.bazarr.loadbalancer.server.port=6767"
-        networks:
-            - proxy_network
-        restart: unless-stopped
+  bazarr:
+    image: lscr.io/linuxserver/bazarr:${BAZARR_VERSION}
+    container_name: bazarr
+    logging:
+      driver: loki:latest
+      options:
+        loki-url: ${LOKI_URL}
+        loki-retries: 5
+        loki-max-backoff: 1800ms
+        loki-timeout: 1s
+        keep-file: "true"
+        mode: "non-blocking"
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+    volumes:
+      - ${DOCKER_CONFIG_BASE}/Bazarr_Docker:/config
+      - ${MEDIA_LIBRARY_PATH_RAID}:/data
+      - ${MEDIA_LIBRARY_PATH_EDISK}:/data1
+    labels:
+      - "glance.name=Bazarr"
+      - "glance.icon=https://raw.githubusercontent.com/linuxserver/docker-templates/master/linuxserver.io/img/bazarr.png"
+      - "glance.url=http://bazarr.${BASE_DOMAIN}/"
+      - "glance.description=Subtitle Downloader"
+      # - "traefik.enable=true"
+      # - "traefik.http.routers.bazarr.middlewares=authentik@docker"
+      # - "traefik.http.routers.bazarr.rule=Host(`bazarr.${BASE_DOMAIN}`)"
+      # - "traefik.http.routers.bazarr.entrypoints=web"
+      # - "traefik.http.services.bazarr.loadbalancer.server.port=6767"
+    networks:
+      - proxy_network
+    restart: unless-stopped

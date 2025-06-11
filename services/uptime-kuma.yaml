@@ -1,21 +1,21 @@
 services:
-    uptime-kuma:
-        image: louislam/uptime-kuma:latest
-        container_name: uptime-kuma
-        volumes:
-            - ${DOCKER_CONFIG_BASE}/Uptime_Kuma_Config:/app/data
-            - /var/run/docker.sock:/var/run/docker.sock
-        # ports:
-        #     - 3001:3001
-        networks:
-            - proxy_network
-        labels:
-            - "glance.name=uptime-kuma"
-            - "glance.icon=sh:uptime-kuma"
-            - "glance.url=http://uptime.${BASE_DOMAIN}/"
-            - "glance.description=Management"
-            - "traefik.enable=true"
-            - "traefik.http.routers.uptime.rule=Host(`uptime.${BASE_DOMAIN}`)"
-            - "traefik.http.routers.uptime.entrypoints=web"
-            - "traefik.http.services.uptime.loadbalancer.server.port=3001"
-        restart: always
+  uptime-kuma:
+    image: louislam/uptime-kuma:latest
+    container_name: uptime-kuma
+    volumes:
+      - ${DOCKER_CONFIG_BASE}/Uptime_Kuma_Config:/app/data
+      - /var/run/docker.sock:/var/run/docker.sock
+    # ports:
+    #     - 3001:3001
+    networks:
+      - proxy_network
+    labels:
+      - "glance.name=uptime-kuma"
+      - "glance.icon=sh:uptime-kuma"
+      - "glance.url=http://uptime.${BASE_DOMAIN}/"
+      - "glance.description=Management"
+      - "traefik.enable=true"
+      - "traefik.http.routers.uptime.rule=Host(`uptime.${BASE_DOMAIN}`)"
+      - "traefik.http.routers.uptime.entrypoints=web"
+      - "traefik.http.services.uptime.loadbalancer.server.port=3001"
+    restart: always

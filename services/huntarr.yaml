@@ -1,27 +1,27 @@
 services:
-    huntarr:
-        image: huntarr/huntarr:latest
-        container_name: huntarr
-        logging:
-            driver: loki:latest
-            options:
-                loki-url: ${LOKI_URL}
-                loki-retries: 5
-                loki-max-backoff: 800ms
-                loki-timeout: 1s
-                keep-file: "true"
-                mode: "non-blocking"
-        restart: always
-        networks:
-            - proxy_network
-        # ports:
-        #     - "9705:9705"
-        volumes:
-            - ${DOCKER_CONFIG_BASE}/Huntarr_Config:/config
-        labels:
-            - "glance.name=Huntarr"
-            - "glance.icon=https://raw.githubusercontent.com/plexguide/Huntarr.io/refs/heads/main/frontend/static/logo/128.png"
-            - "glance.url=http://huntarr.${BASE_DOMAIN}/"
-            - "glance.description=Missing & Upgrade Media"
-        environment:
-            - TZ=${TZ}
+  huntarr:
+    image: huntarr/huntarr:latest
+    container_name: huntarr
+    logging:
+      driver: loki:latest
+      options:
+        loki-url: ${LOKI_URL}
+        loki-retries: 5
+        loki-max-backoff: 800ms
+        loki-timeout: 1s
+        keep-file: "true"
+        mode: "non-blocking"
+    restart: always
+    networks:
+      - proxy_network
+    # ports:
+    #     - "9705:9705"
+    volumes:
+      - ${DOCKER_CONFIG_BASE}/Huntarr_Config:/config
+    labels:
+      - "glance.name=Huntarr"
+      - "glance.icon=https://raw.githubusercontent.com/plexguide/Huntarr.io/refs/heads/main/frontend/static/logo/128.png"
+      - "glance.url=http://huntarr.${BASE_DOMAIN}/"
+      - "glance.description=Missing & Upgrade Media"
+    environment:
+      - TZ=${TZ}

@@ -1,34 +1,34 @@
 services:
-    free-games-claimer:
-        image: ghcr.io/vogler/free-games-claimer:${FREE_GAMES_CLAIMER_VERSION}
-        container_name: free-games-claimer
-        command: bash -c "node epic-games; node gog; echo sleeping; sleep 1d"
-        logging:
-            driver: loki:latest
-            options:
-                loki-url: ${LOKI_URL}
-                loki-retries: 5
-                loki-max-backoff: 1800ms
-                loki-timeout: 1s
-                keep-file: "true"
-                mode: "non-blocking"
-        ports:
-            - 6080:6080
-        environment:
-            - NOTIFY=${FREE_GAMES_NOTIFY_URL}
-            - NOTIFY_TITLE=My Free Games Claimer
-            - GOG_EMAIL=${GOG_EMAIL}
-            - GOG_PASSWORD=${GOG_PASSWORD}
-        labels:
-            - "glance.parent=portainer"
-            - "glance.name=game-claimer"
-            # - "traefik.enable=true"
-            # # - "traefik.http.routers.game.middlewares=authentik@docker"
-            # - "traefik.http.routers.game.rule=Host(`game.${BASE_DOMAIN}`)"
-            # - "traefik.http.routers.game.entrypoints=web"
-            # - "traefik.http.services.game.loadbalancer.server.port=6080"
-        volumes:
-            - ${DOCKER_CONFIG_BASE}/Free_Game_Claim_Config:/fgc/data
-        networks:
-            - proxy_network
-        restart: unless-stopped
+  free-games-claimer:
+    image: ghcr.io/vogler/free-games-claimer:${FREE_GAMES_CLAIMER_VERSION}
+    container_name: free-games-claimer
+    command: bash -c "node epic-games; node gog; echo sleeping; sleep 1d"
+    logging:
+      driver: loki:latest
+      options:
+        loki-url: ${LOKI_URL}
+        loki-retries: 5
+        loki-max-backoff: 1800ms
+        loki-timeout: 1s
+        keep-file: "true"
+        mode: "non-blocking"
+    ports:
+      - 6080:6080
+    environment:
+      - NOTIFY=${FREE_GAMES_NOTIFY_URL}
+      - NOTIFY_TITLE=My Free Games Claimer
+      - GOG_EMAIL=${GOG_EMAIL}
+      - GOG_PASSWORD=${GOG_PASSWORD}
+    labels:
+      - "glance.parent=portainer"
+      - "glance.name=game-claimer"
+      # - "traefik.enable=true"
+      # # - "traefik.http.routers.game.middlewares=authentik@docker"
+      # - "traefik.http.routers.game.rule=Host(`game.${BASE_DOMAIN}`)"
+      # - "traefik.http.routers.game.entrypoints=web"
+      # - "traefik.http.services.game.loadbalancer.server.port=6080"
+    volumes:
+      - ${DOCKER_CONFIG_BASE}/Free_Game_Claim_Config:/fgc/data
+    networks:
+      - proxy_network
+    restart: unless-stopped

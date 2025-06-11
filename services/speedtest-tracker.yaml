@@ -1,36 +1,36 @@
 services:
-    speedtest-tracker:
-        image: lscr.io/linuxserver/speedtest-tracker:latest
-        restart: unless-stopped
-        container_name: speedtest-tracker
-        logging:
-            driver: loki:latest
-            options:
-                loki-url: ${LOKI_URL}
-                loki-retries: 5
-                loki-max-backoff: 1800ms
-                loki-timeout: 1s
-                keep-file: "true"
-                mode: "non-blocking"
-        networks:
-            - proxy_network
-        labels:
-            - "glance.name=speedtest-tracker"
-            - "glance.icon=sh:speedtest-tracker"
-            - "glance.url=http://speedtest.${BASE_DOMAIN}/"
-            - "glance.description=Speedtest Tracker"
-        # ports:
-        #     - 8080:80
-        #     - 8443:443
-        environment:
-            - PUID=${PUID}
-            - PGID=${PGID}
-            - APP_KEY=${APP_KEY}
-            - DISPLAY_TIMEZONE=${TZ}
-            - APP_TIMEZONE=${TZ}
-            - PRUNE_RESULTS_OLDER_THAN=3
-            - DB_CONNECTION=sqlite
-            - SPEEDTEST_SCHEDULE=0 * * * *
-            #- APP_DEBUG=true
-        volumes:
-            - ${DOCKER_CONFIG_BASE}/Speedtest_Tracker_Config:/config
+  speedtest-tracker:
+    image: lscr.io/linuxserver/speedtest-tracker:latest
+    restart: unless-stopped
+    container_name: speedtest-tracker
+    logging:
+      driver: loki:latest
+      options:
+        loki-url: ${LOKI_URL}
+        loki-retries: 5
+        loki-max-backoff: 1800ms
+        loki-timeout: 1s
+        keep-file: "true"
+        mode: "non-blocking"
+    networks:
+      - proxy_network
+    labels:
+      - "glance.name=speedtest-tracker"
+      - "glance.icon=sh:speedtest-tracker"
+      - "glance.url=http://speedtest.${BASE_DOMAIN}/"
+      - "glance.description=Speedtest Tracker"
+    # ports:
+    #     - 8080:80
+    #     - 8443:443
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - APP_KEY=${APP_KEY}
+      - DISPLAY_TIMEZONE=${TZ}
+      - APP_TIMEZONE=${TZ}
+      - PRUNE_RESULTS_OLDER_THAN=3
+      - DB_CONNECTION=sqlite
+      - SPEEDTEST_SCHEDULE=0 * * * *
+      #- APP_DEBUG=true
+    volumes:
+      - ${DOCKER_CONFIG_BASE}/Speedtest_Tracker_Config:/config

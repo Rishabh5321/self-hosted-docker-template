@@ -4,7 +4,7 @@ services:
     image: traefik:${TRAEFIK_VERSION}
     container_name: traefik
     command:
-      - "--api.insecure=true" 
+      - "--api.insecure=true"
       - "--providers.docker=true"
       - "--providers.docker.exposedByDefault=false"
       - "--entrypoints.web.address=:80"
@@ -23,7 +23,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.traefik-dashboard.rule=Host(`traefik.${BASE_DOMAIN}`)"
-      - "traefik.http.routers.traefik-dashboard.entrypoints=web" 
+      - "traefik.http.routers.traefik-dashboard.entrypoints=web"
       - "traefik.http.routers.traefik-dashboard.service=api@internal"
       - "glance.name=Traefik"
       - "glance.icon=sh:traefik"

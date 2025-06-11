@@ -15,7 +15,6 @@ services:
       - "3000:3000"
       - "2221:22"
     restart: unless-stopped
-
 volumes:
   gitea-data:
     driver: local

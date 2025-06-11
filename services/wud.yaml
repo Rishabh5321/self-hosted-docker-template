@@ -1,14 +1,14 @@
 services:
-    whatsupdocker:
-        image: getwud/wud
-        container_name: wud
-        environment:
-            - WUD_TRIGGER_TELEGRAM_1_BOTTOKEN=${WUD_TRIGGER_TELEGRAM_1_BOTTOKEN}
-            - WUD_TRIGGER_TELEGRAM_1_CHATID=${WUD_TRIGGER_TELEGRAM_1_CHATID}
-        volumes:
-            - /var/run/docker.sock:/var/run/docker.sock
-        networks:
-            - proxy_network
-        # ports:
-        #     - 3000:3000
-        restart: unless-stopped
+  whatsupdocker:
+    image: getwud/wud
+    container_name: wud
+    environment:
+      - WUD_TRIGGER_TELEGRAM_1_BOTTOKEN=${WUD_TRIGGER_TELEGRAM_1_BOTTOKEN}
+      - WUD_TRIGGER_TELEGRAM_1_CHATID=${WUD_TRIGGER_TELEGRAM_1_CHATID}
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - proxy_network
+    # ports:
+    #     - 3000:3000
+    restart: unless-stopped
