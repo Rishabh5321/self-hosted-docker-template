@@ -1,20 +1,29 @@
 services:
-  gitlab:
-    image: docker.io/gitlab/gitlab-ce:latest
-    container_name: gitlab
-    shm_size: '256m'
-    environment: {}
-    networks:
-      - proxy_network
-    volumes:
-      - /mnt/Docker/Docker/Gitlab_Config/config/config:/etc/gitlab
-      - /mnt/Docker/Docker/Gitlab_Config/logs:/var/log/gitlab
-      - gitlab-data:/var/opt/gitlab
-    ports:
-      # - "80:80"
-      # - "443:443"
-      - '2424:22'
-    restart: unless-stopped
+    gitlab:
+        image: docker.io/gitlab/gitlab-ce:latest
+        container_name: gitlab
+        shm_size: "256m"
+        environment: {}
+        logging:
+            driver: loki:latest
+            options:
+                loki-url: ${LOKI_URL}
+                loki-retries: 5
+                loki-max-backoff: 1800ms
+                loki-timeout: 1s
+                keep-file: "true"
+                mode: "non-blocking"
+        networks:
+            - proxy_network
+        volumes:
+            - /mnt/Docker/Docker/Gitlab_Config/config/config:/etc/gitlab
+            - /mnt/Docker/Docker/Gitlab_Config/logs:/var/log/gitlab
+            - gitlab-data:/var/opt/gitlab
+        ports:
+            # - "80:80"
+            # - "443:443"
+            - "2424:22"
+        restart: unless-stopped
 volumes:
-  gitlab-data:
-    driver: local
+    gitlab-data:
+        driver: local

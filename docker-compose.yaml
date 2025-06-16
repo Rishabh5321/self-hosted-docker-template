@@ -35,6 +35,7 @@ include:
     # - ./services/wireguard.yaml
     # - ./services/gitlab.yaml
     - ./services/gitea.yaml
+    - ./services/gitea-mirror.yaml
     # - ./services/casa.yaml
     # - ./services/uptime-kuma.yaml
 

@@ -2,6 +2,15 @@ services:
     gitea:
         image: gitea/gitea:latest
         container_name: gitea-server
+        logging:
+            driver: loki:latest
+            options:
+                loki-url: ${LOKI_URL}
+                loki-retries: 5
+                loki-max-backoff: 1800ms
+                loki-timeout: 1s
+                keep-file: "true"
+                mode: "non-blocking"
         # environment:
         #     - USER_UID=${PUID}
         #     - USER_GID=${PGID}

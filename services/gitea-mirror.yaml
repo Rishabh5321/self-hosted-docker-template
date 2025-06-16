@@ -1,0 +1,67 @@
+services:
+    gitea-mirror:
+        image: ${DOCKER_REGISTRY:-ghcr.io}/${DOCKER_IMAGE:-arunavo4/gitea-mirror}:${DOCKER_TAG:-latest}
+        build:
+            context: .
+            dockerfile: Dockerfile
+            platforms:
+                - linux/amd64
+            cache_from:
+                - ${DOCKER_REGISTRY:-ghcr.io}/${DOCKER_IMAGE:-arunavo4/gitea-mirror}:${DOCKER_TAG:-latest}
+        container_name: gitea-mirror
+        restart: unless-stopped
+        logging:
+            driver: loki:latest
+            options:
+                loki-url: ${LOKI_URL}
+                loki-retries: 5
+                loki-max-backoff: 1800ms
+                loki-timeout: 1s
+                keep-file: "true"
+                mode: "non-blocking"
+        ports:
+            - "4321:4321"
+        volumes:
+            - gitea-mirror-data:/app/data
+        environment:
+            - NODE_ENV=production
+            - DATABASE_URL=file:data/gitea-mirror.db
+            - HOST=0.0.0.0
+            - PORT=4321
+            - JWT_SECRET=${JWT_SECRET}
+            # GitHub/Gitea Mirror Config
+            - GITHUB_USERNAME=${GITHUB_USERNAME:-}
+            - GITHUB_TOKEN=${GITHUB_TOKEN:-}
+            - SKIP_FORKS=${SKIP_FORKS:-false}
+            - PRIVATE_REPOSITORIES=${PRIVATE_REPOSITORIES}
+            - MIRROR_ISSUES=${MIRROR_ISSUES:-false}
+            - MIRROR_WIKI=${MIRROR_WIKI:-false}
+            - MIRROR_STARRED=${MIRROR_STARRED:-false}
+            - MIRROR_ORGANIZATIONS=${MIRROR_ORGANIZATIONS:-false}
+            - PRESERVE_ORG_STRUCTURE=${PRESERVE_ORG_STRUCTURE:-false}
+            - ONLY_MIRROR_ORGS=${ONLY_MIRROR_ORGS:-false}
+            - SKIP_STARRED_ISSUES=${SKIP_STARRED_ISSUES:-false}
+            - GITEA_URL=${GITEA_URL}
+            - GITEA_TOKEN=${GITEA_TOKEN:-}
+            - GITEA_USERNAME=${GITEA_USERNAME:-}
+            # - GITEA_ORGANIZATION=${GITEA_ORGANIZATION:-github-mirrors}
+            # - GITEA_ORG_VISIBILITY=${GITEA_ORG_VISIBILITY:-public}
+            - DELAY=${DELAY:-3600}
+        healthcheck:
+            test:
+                [
+                    "CMD",
+                    "wget",
+                    "--no-verbose",
+                    "--tries=3",
+                    "--spider",
+                    "http://localhost:4321/api/health",
+                ]
+            interval: 30s
+            timeout: 10s
+            retries: 5
+            start_period: 15s
+
+# Define named volumes for database persistence
+volumes:
+    gitea-mirror-data: # Database volume
