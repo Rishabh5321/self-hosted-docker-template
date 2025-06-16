@@ -1,20 +1,18 @@
 services:
-  gitea:
-    image: gitea/gitea:latest
-    container_name: gitea-server
-    environment:
-      - USER_UID=${PUID}
-      - USER_GID=${PGID}
-    volumes:
-      - gitea-data:/data
-    #   - /etc/timezone:/etc/timezone:ro
-    #   - /etc/localtime:/etc/localtime:ro
-    networks:
-      - proxy_network
-    ports:
-      - "3000:3000"
-      - "2221:22"
-    restart: unless-stopped
-volumes:
-  gitea-data:
-    driver: local
+    gitea:
+        image: gitea/gitea:latest
+        container_name: gitea-server
+        # environment:
+        #     - USER_UID=${PUID}
+        #     - USER_GID=${PGID}
+        volumes:
+            - ${DOCKER_CONFIG_BASE}/Gitea_Config/data:/var/lib/gitea
+            - ${DOCKER_CONFIG_BASE}/Gitea_Config/config:/etc/gitea
+            - /etc/timezone:/etc/timezone:ro
+            - /etc/localtime:/etc/localtime:ro
+        networks:
+            - proxy_network
+        ports:
+            - "3000:3000"
+            - "2221:22"
+        restart: unless-stopped
