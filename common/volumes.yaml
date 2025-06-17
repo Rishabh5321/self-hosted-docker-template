@@ -1,10 +1,10 @@
 # common/volumes.yaml
 volumes:
-  portainer_data:
-    external: true
-  grafana-data:
-    driver: local
-  prometheus-data:
-    driver: local
-  data_loki:
-    driver: local
+    portainer_data:
+        external: true
+    grafana-data:
+        driver: local
+    prometheus-data:
+        driver: local
+    data_loki:
+        driver: local

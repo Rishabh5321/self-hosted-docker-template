@@ -1,33 +1,33 @@
 services:
-  nginx-proxy-manager:
-    image: "jc21/nginx-proxy-manager:latest"
-    container_name: nginx-proxy-manager
-    restart: unless-stopped
-    logging:
-      driver: loki:latest
-      options:
-        loki-url: ${LOKI_URL}
-        loki-retries: 5
-        loki-max-backoff: 1800ms
-        loki-timeout: 1s
-        keep-file: "true"
-        mode: "non-blocking"
-    ports:
-      - "80:80"
-      # - "81:81"
-      - "443:443"
-    volumes:
-      - ${DOCKER_CONFIG_BASE}/NPM_Config/data:/data
-      - ${DOCKER_CONFIG_BASE}/NPM_Config/letsencrypt:/etc/letsencrypt
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Asia/Kolkata
-    labels:
-      - "glance.id=nginx-proxy-manager"
-      - "glance.name=Nginx"
-      - "glance.icon=sh:nginx-proxy-manager"
-      - "glance.url=https://${BASE_DOMAIN}"
-      - "glance.description=Reverse Proxy"
-    networks:
-      - proxy_network
+    nginx-proxy-manager:
+        image: "jc21/nginx-proxy-manager:latest"
+        container_name: nginx-proxy-manager
+        restart: unless-stopped
+        logging:
+            driver: loki:latest
+            options:
+                loki-url: ${LOKI_URL}
+                loki-retries: 5
+                loki-max-backoff: 1800ms
+                loki-timeout: 1s
+                keep-file: "true"
+                mode: "non-blocking"
+        ports:
+            - "80:80"
+            # - "81:81"
+            - "443:443"
+        volumes:
+            - ${DOCKER_CONFIG_BASE}/NPM_Config/data:/data
+            - ${DOCKER_CONFIG_BASE}/NPM_Config/letsencrypt:/etc/letsencrypt
+        environment:
+            - PUID=1000
+            - PGID=1000
+            - TZ=Asia/Kolkata
+        labels:
+            - "glance.id=nginx-proxy-manager"
+            - "glance.name=Nginx"
+            - "glance.icon=sh:nginx-proxy-manager"
+            - "glance.url=https://${BASE_DOMAIN}"
+            - "glance.description=Reverse Proxy"
+        networks:
+            - proxy_network

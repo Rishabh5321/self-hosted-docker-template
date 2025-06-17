@@ -1,31 +1,31 @@
 services:
-  prowlarr:
-    image: lscr.io/linuxserver/prowlarr:${PROWLARR_VERSION}
-    container_name: prowlarr
-    logging:
-      driver: loki:latest
-      options:
-        loki-url: ${LOKI_URL}
-        loki-retries: 5
-        loki-max-backoff: 1800ms
-        loki-timeout: 1s
-        keep-file: "true"
-        mode: "non-blocking"
-    environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=${TZ}
-    networks:
-      - proxy_network
-    labels:
-      - "glance.name=Prowlarr"
-      - "glance.icon=sh:prowlarr"
-      - "glance.url=http://prowlarr.${BASE_DOMAIN}/"
-      - "glance.description=Indexer Manager"
-      # - "traefik.enable=true"
-      # - "traefik.http.routers.prowlarr.rule=Host(`prowlarr.${BASE_DOMAIN}`)"
-      # - "traefik.http.routers.prowlarr.entrypoints=web"
-      # - "traefik.http.services.prowlarr.loadbalancer.server.port=9696"
-    volumes:
-      - ${DOCKER_CONFIG_BASE}/Prowlarr_Config:/config
-    restart: unless-stopped
+    prowlarr:
+        image: lscr.io/linuxserver/prowlarr:${PROWLARR_VERSION}
+        container_name: prowlarr
+        logging:
+            driver: loki:latest
+            options:
+                loki-url: ${LOKI_URL}
+                loki-retries: 5
+                loki-max-backoff: 1800ms
+                loki-timeout: 1s
+                keep-file: "true"
+                mode: "non-blocking"
+        environment:
+            - PUID=${PUID}
+            - PGID=${PGID}
+            - TZ=${TZ}
+        networks:
+            - proxy_network
+        labels:
+            - "glance.name=Prowlarr"
+            - "glance.icon=sh:prowlarr"
+            - "glance.url=http://prowlarr.${BASE_DOMAIN}/"
+            - "glance.description=Indexer Manager"
+            # - "traefik.enable=true"
+            # - "traefik.http.routers.prowlarr.rule=Host(`prowlarr.${BASE_DOMAIN}`)"
+            # - "traefik.http.routers.prowlarr.entrypoints=web"
+            # - "traefik.http.services.prowlarr.loadbalancer.server.port=9696"
+        volumes:
+            - ${DOCKER_CONFIG_BASE}/Prowlarr_Config:/config
+        restart: unless-stopped

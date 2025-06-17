@@ -1,17 +1,17 @@
 - name: Reddit
   columns:
-    - size: full
-      widgets:
-        - type: group
-          widgets:
-            - type: reddit
-              show-thumbnails: true
-              show-flairs: true
-              collapse-after: 20
-              subreddit: selfhosted
-            - type: reddit
-              subreddit: openwrt
-            - type: reddit
-              subreddit: Nix
-            - type: reddit
-              subreddit: NixOS
+      - size: full
+        widgets:
+            - type: group
+              widgets:
+                  - type: reddit
+                    show-thumbnails: true
+                    show-flairs: true
+                    collapse-after: 20
+                    subreddit: selfhosted
+                  - type: reddit
+                    subreddit: openwrt
+                  - type: reddit
+                    subreddit: Nix
+                  - type: reddit
+                    subreddit: NixOS

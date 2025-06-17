@@ -1,25 +1,25 @@
 services:
-  flaresolverr:
-    image: ghcr.io/flaresolverr/flaresolverr:${FLARESOLVERR_VERSION}
-    container_name: flaresolverr
-    logging:
-      driver: loki:latest
-      options:
-        loki-url: ${LOKI_URL}
-        loki-retries: 5
-        loki-max-backoff: 1800ms
-        loki-timeout: 1s
-        keep-file: "true"
-        mode: "non-blocking"
-    environment:
-      - TZ=${TZ}
-    labels:
-      - "glance.parent=tachidesk"
-      - "glance.name=solver"
-      # - "traefik.enable=true"
-      # - "traefik.http.routers.flaresolverr.rule=Host(`flaresolverr.${BASE_DOMAIN}`)"
-      # - "traefik.http.routers.flaresolverr.entrypoints=web"
-      # - "traefik.http.services.flaresolverr.loadbalancer.server.port=8191"
-    networks:
-      - proxy_network
-    restart: unless-stopped
+    flaresolverr:
+        image: ghcr.io/flaresolverr/flaresolverr:${FLARESOLVERR_VERSION}
+        container_name: flaresolverr
+        logging:
+            driver: loki:latest
+            options:
+                loki-url: ${LOKI_URL}
+                loki-retries: 5
+                loki-max-backoff: 1800ms
+                loki-timeout: 1s
+                keep-file: "true"
+                mode: "non-blocking"
+        environment:
+            - TZ=${TZ}
+        labels:
+            - "glance.parent=tachidesk"
+            - "glance.name=solver"
+            # - "traefik.enable=true"
+            # - "traefik.http.routers.flaresolverr.rule=Host(`flaresolverr.${BASE_DOMAIN}`)"
+            # - "traefik.http.routers.flaresolverr.entrypoints=web"
+            # - "traefik.http.services.flaresolverr.loadbalancer.server.port=8191"
+        networks:
+            - proxy_network
+        restart: unless-stopped

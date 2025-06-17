@@ -1,34 +1,34 @@
 services:
-  cadvisor:
-    image: gcr.io/cadvisor/cadvisor:${CADVISOR_VERSION}
-    container_name: cadvisor
-    logging:
-      driver: loki:latest
-      options:
-        loki-url: ${LOKI_URL}
-        loki-retries: 5
-        loki-max-backoff: 1800ms
-        loki-timeout: 1s
-        keep-file: "true"
-        mode: "non-blocking"
-    volumes:
-      - /:/rootfs:ro
-      - /run:/run:ro
-      - /sys:/sys:ro
-      - /var/lib/docker/:/var/lib/docker:ro
-      - /dev/disk/:/dev/disk:ro
-    networks:
-      - proxy_network
-    restart: unless-stopped
-    labels:
-      # - "traefik.enable=true"
-      # - "traefik.http.routers.cadvisor.rule=Host(`cadvisor.${BASE_DOMAIN}`)"
-      # - "traefik.http.routers.cadvisor.entrypoints=web"
-      # # - "traefik.http.routers.cadvisor.middlewares=authentik@docker"
-      # - "traefik.http.services.cadvisor.loadbalancer.server.port=8080"
-      - "glance.parent=grafana"
-      - "glance.name=cadvisor"
-      # - "glance.name=cadvisor"
-      # - "glance.icon=sh:cadvisor"
-      # - "glance.url=http://cadvisor.${BASE_DOMAIN}/"
-      # - "glance.description=Metrics"
+    cadvisor:
+        image: gcr.io/cadvisor/cadvisor:${CADVISOR_VERSION}
+        container_name: cadvisor
+        logging:
+            driver: loki:latest
+            options:
+                loki-url: ${LOKI_URL}
+                loki-retries: 5
+                loki-max-backoff: 1800ms
+                loki-timeout: 1s
+                keep-file: "true"
+                mode: "non-blocking"
+        volumes:
+            - /:/rootfs:ro
+            - /run:/run:ro
+            - /sys:/sys:ro
+            - /var/lib/docker/:/var/lib/docker:ro
+            - /dev/disk/:/dev/disk:ro
+        networks:
+            - proxy_network
+        restart: unless-stopped
+        labels:
+            # - "traefik.enable=true"
+            # - "traefik.http.routers.cadvisor.rule=Host(`cadvisor.${BASE_DOMAIN}`)"
+            # - "traefik.http.routers.cadvisor.entrypoints=web"
+            # # - "traefik.http.routers.cadvisor.middlewares=authentik@docker"
+            # - "traefik.http.services.cadvisor.loadbalancer.server.port=8080"
+            - "glance.parent=grafana"
+            - "glance.name=cadvisor"
+            # - "glance.name=cadvisor"
+            # - "glance.icon=sh:cadvisor"
+            # - "glance.url=http://cadvisor.${BASE_DOMAIN}/"
+            # - "glance.description=Metrics"

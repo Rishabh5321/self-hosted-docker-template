@@ -1,36 +1,36 @@
 services:
-  suwayomi: # Tachidesk service
-    image: ghcr.io/suwayomi/tachidesk:${TACHIDESK_VERSION}
-    container_name: tachidesk
-    logging:
-      driver: loki:latest
-      options:
-        loki-url: ${LOKI_URL}
-        loki-retries: 5
-        loki-max-backoff: 1800ms
-        loki-timeout: 1s
-        keep-file: "true"
-        mode: "non-blocking"
-    environment:
-      - TZ=${TZ}
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - FLARESOLVERR_ENABLED=true
-      - FLARESOLVERR_URL=http://flaresolverr:8191
-    volumes:
-      - ${DOCKER_CONFIG_BASE}/Tachiyomi_Config:/home/suwayomi/.local/share/Tachidesk
-    labels:
-      - "glance.name=Tachidesk"
-      - "glance.icon=https://raw.githubusercontent.com/Suwayomi/Suwayomi-Server/master/server/src/main/resources/icon/faviconlogo.png"
-      - "glance.url=http://tachidesk.${BASE_DOMAIN}/"
-      - "glance.description=Manga Server"
-      - "glance.id=tachidesk"
-      # - "traefik.enable=true"
-      # - "traefik.http.routers.tachidesk.rule=Host(`tachidesk.${BASE_DOMAIN}`)"
-      # - "traefik.http.routers.tachidesk.entrypoints=web"
-      # - "traefik.http.services.tachidesk.loadbalancer.server.port=4567"
-    networks:
-      - proxy_network
-    depends_on:
-      - flaresolverr
-    restart: unless-stopped
+    suwayomi: # Tachidesk service
+        image: ghcr.io/suwayomi/tachidesk:${TACHIDESK_VERSION}
+        container_name: tachidesk
+        logging:
+            driver: loki:latest
+            options:
+                loki-url: ${LOKI_URL}
+                loki-retries: 5
+                loki-max-backoff: 1800ms
+                loki-timeout: 1s
+                keep-file: "true"
+                mode: "non-blocking"
+        environment:
+            - TZ=${TZ}
+            - PUID=${PUID}
+            - PGID=${PGID}
+            - FLARESOLVERR_ENABLED=true
+            - FLARESOLVERR_URL=http://flaresolverr:8191
+        volumes:
+            - ${DOCKER_CONFIG_BASE}/Tachiyomi_Config:/home/suwayomi/.local/share/Tachidesk
+        labels:
+            - "glance.name=Tachidesk"
+            - "glance.icon=https://raw.githubusercontent.com/Suwayomi/Suwayomi-Server/master/server/src/main/resources/icon/faviconlogo.png"
+            - "glance.url=http://tachidesk.${BASE_DOMAIN}/"
+            - "glance.description=Manga Server"
+            - "glance.id=tachidesk"
+            # - "traefik.enable=true"
+            # - "traefik.http.routers.tachidesk.rule=Host(`tachidesk.${BASE_DOMAIN}`)"
+            # - "traefik.http.routers.tachidesk.entrypoints=web"
+            # - "traefik.http.services.tachidesk.loadbalancer.server.port=4567"
+        networks:
+            - proxy_network
+        depends_on:
+            - flaresolverr
+        restart: unless-stopped

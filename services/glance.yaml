@@ -1,44 +1,44 @@
 # services/glance.yaml
 services:
-  glance:
-    container_name: glance
-    image: glanceapp/glance:${GLANCE_VERSION}
-    restart: unless-stopped
-    logging:
-      driver: loki:latest
-      options:
-        loki-url: ${LOKI_URL}
-        loki-retries: 5
-        loki-max-backoff: 1800ms
-        loki-timeout: 1s
-        keep-file: "true"
-        mode: "non-blocking"
-    environment:
-      - SONARR_URL=${SONARR_URL}
-      - SONARR_KEY=${SONARR_KEY}
-      - SONARR_API_URL=${SONARR_URL}
-      - WUD_URL=${WUD_URL}
-      - SPEEDTEST_URL=${SPEEDTEST_URL}
-      - SPEEDTEST_TRACKER_API_TOKEN=${SPEEDTEST_TRACKER_API_TOKEN}
-      - RADARR_URL=${RADARR_URL}
-      - RADARR_KEY=${RADARR_KEY}
-      - RADARR_API_URL=${RADARR_URL}
-    volumes:
-      - ../config:/app/config
-      - ${DOCKER_SOCKET_PATH}:/var/run/docker.sock
-      - ${MEDIA_LIBRARY_PATH_RAID}:/Raid
-      - ${MEDIA_LIBRARY_PATH_EDISK}:/External
-      - ${HOST_HOME_PATH}:/Home
-      - ${HOST_MNT_PATH}:/Mnt
-    # ports:
-    #     - 8080:8080
-    labels:
-      # - "traefik.enable=true"
-      # # - "traefik.http.routers.game.middlewares=authentik@docker"
-      # - "traefik.http.routers.dashboard.rule=Host(`dashboard.${BASE_DOMAIN}`)"
-      # - "traefik.http.routers.dashboard.entrypoints=web"
-      # - "traefik.http.services.dashboard.loadbalancer.server.port=8080"
-      - "glance.parent=portainer"
-      - "glance.name=glance"
-    networks:
-      - proxy_network
+    glance:
+        container_name: glance
+        image: glanceapp/glance:${GLANCE_VERSION}
+        restart: unless-stopped
+        logging:
+            driver: loki:latest
+            options:
+                loki-url: ${LOKI_URL}
+                loki-retries: 5
+                loki-max-backoff: 1800ms
+                loki-timeout: 1s
+                keep-file: "true"
+                mode: "non-blocking"
+        environment:
+            - SONARR_URL=${SONARR_URL}
+            - SONARR_KEY=${SONARR_KEY}
+            - SONARR_API_URL=${SONARR_URL}
+            - WUD_URL=${WUD_URL}
+            - SPEEDTEST_URL=${SPEEDTEST_URL}
+            - SPEEDTEST_TRACKER_API_TOKEN=${SPEEDTEST_TRACKER_API_TOKEN}
+            - RADARR_URL=${RADARR_URL}
+            - RADARR_KEY=${RADARR_KEY}
+            - RADARR_API_URL=${RADARR_URL}
+        volumes:
+            - ../config:/app/config
+            - ${DOCKER_SOCKET_PATH}:/var/run/docker.sock
+            - ${MEDIA_LIBRARY_PATH_RAID}:/Raid
+            - ${MEDIA_LIBRARY_PATH_EDISK}:/External
+            - ${HOST_HOME_PATH}:/Home
+            - ${HOST_MNT_PATH}:/Mnt
+        # ports:
+        #     - 8080:8080
+        labels:
+            # - "traefik.enable=true"
+            # # - "traefik.http.routers.game.middlewares=authentik@docker"
+            # - "traefik.http.routers.dashboard.rule=Host(`dashboard.${BASE_DOMAIN}`)"
+            # - "traefik.http.routers.dashboard.entrypoints=web"
+            # - "traefik.http.services.dashboard.loadbalancer.server.port=8080"
+            - "glance.parent=portainer"
+            - "glance.name=glance"
+        networks:
+            - proxy_network
