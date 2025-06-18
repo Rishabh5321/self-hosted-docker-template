@@ -27,8 +27,10 @@ services:
         ports:
             - "4321:4321"
         volumes:
-            - gitea-mirror-data:/app/data
+            - ${DOCKER_CONFIG_BASE}/Gitea-Mirror_Config/:/app/data
         environment:
+            - PUID=${PUID}
+            - PGID=${PGID}
             - NODE_ENV=production
             - DATABASE_URL=file:data/gitea-mirror.db
             - HOST=0.0.0.0
@@ -66,7 +68,3 @@ services:
             timeout: 10s
             retries: 5
             start_period: 15s
-
-# Define named volumes for database persistence
-volumes:
-    gitea-mirror-data: # Database volume

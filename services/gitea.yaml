@@ -20,8 +20,7 @@ services:
             - "glance.url=http://Git.${BASE_DOMAIN}/"
             - "glance.description=Version Control"
         volumes:
-            - ${DOCKER_CONFIG_BASE}/Gitea_Config/data:/var/lib/gitea
-            - ${DOCKER_CONFIG_BASE}/Gitea_Config/config:/etc/gitea
+            - ${DOCKER_CONFIG_BASE}/Gitea_Config/data:/data
             - /etc/timezone:/etc/timezone:ro
             - /etc/localtime:/etc/localtime:ro
         networks:
