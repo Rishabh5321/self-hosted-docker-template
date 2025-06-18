@@ -10,6 +10,11 @@ services:
                 - ${DOCKER_REGISTRY:-ghcr.io}/${DOCKER_IMAGE:-arunavo4/gitea-mirror}:${DOCKER_TAG:-latest}
         container_name: gitea-mirror
         restart: unless-stopped
+        labels:
+            - "glance.name=Gitea-Mirror"
+            - "glance.icon=https://raw.githubusercontent.com/arunavo4/gitea-mirror/refs/heads/main/.github/assets/logo-no-bg.png"
+            - "glance.url=http://git-mirror.${BASE_DOMAIN}/"
+            - "glance.description=Github Mirror"
         logging:
             driver: loki:latest
             options:

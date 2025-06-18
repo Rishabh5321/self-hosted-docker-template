@@ -14,6 +14,11 @@ services:
         # environment:
         #     - USER_UID=${PUID}
         #     - USER_GID=${PGID}
+        labels:
+            - "glance.name=Gitea"
+            - "glance.icon=https://docs.gitea.com/img/gitea.svg"
+            - "glance.url=http://Git.${BASE_DOMAIN}/"
+            - "glance.description=Version Control"
         volumes:
             - ${DOCKER_CONFIG_BASE}/Gitea_Config/data:/var/lib/gitea
             - ${DOCKER_CONFIG_BASE}/Gitea_Config/config:/etc/gitea
