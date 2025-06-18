@@ -11,9 +11,9 @@ services:
                 loki-timeout: 1s
                 keep-file: "true"
                 mode: "non-blocking"
-        # environment:
-        #     - USER_UID=${PUID}
-        #     - USER_GID=${PGID}
+        environment:
+            - USER_UID=${PUID}
+            - USER_GID=${PGID}
         labels:
             - "glance.name=Gitea"
             - "glance.icon=https://docs.gitea.com/img/gitea.svg"
