@@ -67,6 +67,7 @@ include:
     # DEVELOPMENT & VERSION CONTROL
     # ============================================================================
     - ./services/gitea.yaml
+    - ./services/gitea-runner.yml
     # - ./services/gitea-mirror.yaml
     # - ./services/gitlab.yaml
 
