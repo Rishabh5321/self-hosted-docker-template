@@ -13,3 +13,4 @@ services:
             #- ./config.yaml:/config.yaml
             - ${DOCKER_CONFIG_BASE}/Gitea_Runner_Config/data:/data
             - /var/run/docker.sock:/var/run/docker.sock
+        restart: unless-stopped
