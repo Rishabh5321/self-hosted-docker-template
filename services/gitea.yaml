@@ -19,6 +19,7 @@ services:
             - "glance.icon=https://docs.gitea.com/img/gitea.svg"
             - "glance.url=http://Git.${BASE_DOMAIN}/"
             - "glance.description=Version Control"
+            - "glance.id=gitea"
         volumes:
             - ${DOCKER_CONFIG_BASE}/Gitea_Config/data:/data
             - /etc/timezone:/etc/timezone:ro

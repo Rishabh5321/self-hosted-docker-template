@@ -75,7 +75,7 @@ include:
     # BACKUP & FILE MANAGEMENT
     # ============================================================================
     - ./services/duplicati.yaml
-    # - ./services/filebrowser.yaml
+    - ./services/filebrowser.yaml
     # - ./services/casa.yaml
 
     # ============================================================================
