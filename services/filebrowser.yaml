@@ -19,10 +19,9 @@ services:
             - ${DOCKER_CONFIG_BASE}/FileBrowser_Config:/config
         labels:
             - "glance.name=File Browser"
-            - "glance.icon=http://file.server/filebrowser/static/img/logo.svg"
+            - "glance.icon=sh:file-browser"
             - "glance.url=http://file.${BASE_DOMAIN}/"
             - "glance.description=File browser"
-            - "glance.icon=sh:files"
         networks:
             - proxy_network
         restart: always

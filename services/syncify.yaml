@@ -17,7 +17,7 @@ services:
             - /etc/localtime:/etc/localtime:ro
         labels:
             - "glance.name=Syncify"
-            - "glance.icon=https://raw.githubusercontent.com/TheWicklowWolf/Syncify/main/src/static/syncify_full_logo.png"
+            - "glance.icon=https://cdn.jsdelivr.net/gh/selfhst/icons/webp/syncify.webp"
             - "glance.url=http://syncify.${BASE_DOMAIN}/"
             - "glance.description=Spotify Downloader"
             # - "traefik.enable=true"

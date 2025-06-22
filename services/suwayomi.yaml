@@ -21,7 +21,7 @@ services:
             - ${DOCKER_CONFIG_BASE}/Tachiyomi_Config:/home/suwayomi/.local/share/Tachidesk
         labels:
             - "glance.name=Tachidesk"
-            - "glance.icon=https://raw.githubusercontent.com/Suwayomi/Suwayomi-Server/master/server/src/main/resources/icon/faviconlogo.png"
+            - "glance.icon=https://cdn.jsdelivr.net/gh/selfhst/icons/webp/suwayomi.webp"
             - "glance.url=http://tachidesk.${BASE_DOMAIN}/"
             - "glance.description=Manga Server"
             - "glance.id=tachidesk"

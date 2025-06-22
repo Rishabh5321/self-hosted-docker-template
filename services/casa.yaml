@@ -12,7 +12,7 @@ services:
             - proxy_network
         labels:
             - "glance.name=Casa"
-            - "glance.icon=https://casaos.zimaspace.com/images/casa_9c491a0f.svg"
+            - "glance.icon=sh:casaos"
             - "glance.url=http://casa.${BASE_DOMAIN}/"
             - "glance.description=App Store"
             # - "traefik.enable=true"

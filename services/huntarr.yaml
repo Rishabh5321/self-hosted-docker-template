@@ -20,7 +20,7 @@ services:
             - ${DOCKER_CONFIG_BASE}/Huntarr_Config:/config
         labels:
             - "glance.name=Huntarr"
-            - "glance.icon=https://raw.githubusercontent.com/plexguide/Huntarr.io/refs/heads/main/frontend/static/logo/128.png"
+            - "glance.icon=sh:huntarr"
             - "glance.url=http://huntarr.${BASE_DOMAIN}/"
             - "glance.description=Missing & Upgrade Media"
         environment:

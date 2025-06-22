@@ -21,7 +21,7 @@ services:
             - ${MEDIA_LIBRARY_PATH_EDISK}:/data1
         labels:
             - "glance.name=Bazarr"
-            - "glance.icon=https://raw.githubusercontent.com/linuxserver/docker-templates/master/linuxserver.io/img/bazarr.png"
+            - "glance.icon=https://cdn.jsdelivr.net/gh/selfhst/icons/webp/bazarr.webp"
             - "glance.url=http://bazarr.${BASE_DOMAIN}/"
             - "glance.description=Subtitle Downloader"
             # - "traefik.enable=true"
