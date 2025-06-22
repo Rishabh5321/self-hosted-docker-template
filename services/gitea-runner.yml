@@ -1,6 +1,7 @@
 services:
     runner:
         image: docker.io/gitea/act_runner:nightly
+        container_name: gitea-runner
         logging:
             driver: loki:latest
             options:

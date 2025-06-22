@@ -61,7 +61,7 @@ include:
     - ./services/portainer.yaml
     - ./services/glance.yaml
     # - ./services/cup.yaml
-    # - ./services/watchtower.yaml
+    - ./services/watchtower.yaml
     # - ./services/wud.yaml
 
     # ============================================================================
@@ -69,6 +69,7 @@ include:
     # ============================================================================
     - ./services/gitea.yaml
     - ./services/gitea-runner.yml
+    # - ./services/stirling-pdf.yaml
     # - ./services/gitea-mirror.yaml
     # - ./services/gitlab.yaml
 

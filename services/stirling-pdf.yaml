@@ -1,0 +1,32 @@
+services:
+    stirling-pdf:
+        image: docker.stirlingpdf.com/stirlingtools/stirling-pdf:latest
+        logging:
+            driver: loki:latest
+            options:
+                loki-url: ${LOKI_URL}
+                loki-retries: 5
+                loki-max-backoff: 1800ms
+                loki-timeout: 1s
+                keep-file: "true"
+                mode: "non-blocking"
+        networks:
+            - proxy_network
+        labels:
+            - "glance.name=Stirling Pdf"
+            - "glance.icon=sh:stirling-pdf"
+            - "glance.url=http://pdf.${BASE_DOMAIN}/"
+            - "glance.description=PDF Tool"
+        # ports:
+        #     - "8080:8080"
+        restart: unless-stopped
+        container_name: stirling-pdf
+        volumes:
+            - ${DOCKER_CONFIG_BASE}/Stirling_Config/trainingData:/usr/share/tessdata
+            - ${DOCKER_CONFIG_BASE}/Stirling_Config/extraConfigs:/configs
+            - ${DOCKER_CONFIG_BASE}/Stirling_Config/customFiles:/customFiles/
+            - ${DOCKER_CONFIG_BASE}/Stirling_Config/logs:/logs/
+            - ${DOCKER_CONFIG_BASE}/Stirling_Config/pipeline:/pipeline/
+        environment:
+            - DOCKER_ENABLE_SECURITY=false
+            - LANGS=en_US

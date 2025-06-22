@@ -2,6 +2,7 @@ services:
     promtail:
         image: docker.io/grafana/promtail:latest
         command: "-config.file=/mnt/config/config.yaml"
+        container_name: promtail
         logging:
             driver: loki:latest
             options:
