@@ -3,6 +3,15 @@ services:
         image: hurlenko/filebrowser:${FILEBROWSER_VERSION}
         container_name: filebrowser
         user: "${PUID}:${PGID}"
+        logging:
+            driver: loki:latest
+            options:
+                loki-url: ${LOKI_URL}
+                loki-retries: 55
+                loki-max-backoff: 1800ms
+                loki-timeout: 1s
+                keep-file: "true"
+                mode: "non-blocking"
         volumes:
             - ${HOST_MNT_PATH}:/data/mnt
             - ${HOST_HOME_PATH}:/data/home
@@ -12,6 +21,7 @@ services:
             - "glance.icon=http://file.server/filebrowser/static/img/logo.svg"
             - "glance.url=http://file.${BASE_DOMAIN}/"
             - "glance.description=File browser"
+            - "glance.icon=sh:files"
             # - "traefik.enable=true"
             # - "traefik.http.routers.file.rule=Host(`file.${BASE_DOMAIN}`)"
             # - "traefik.http.routers.file.entrypoints=web"
