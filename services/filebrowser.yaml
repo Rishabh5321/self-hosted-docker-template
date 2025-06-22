@@ -3,6 +3,7 @@ services:
         image: hurlenko/filebrowser:${FILEBROWSER_VERSION}
         container_name: filebrowser
         user: "${PUID}:${PGID}"
+        command: ["--noauth", "--database", "/config/filebrowser.db"] # Authentication by authentik
         logging:
             driver: loki:latest
             options:
@@ -22,10 +23,6 @@ services:
             - "glance.url=http://file.${BASE_DOMAIN}/"
             - "glance.description=File browser"
             - "glance.icon=sh:files"
-            # - "traefik.enable=true"
-            # - "traefik.http.routers.file.rule=Host(`file.${BASE_DOMAIN}`)"
-            # - "traefik.http.routers.file.entrypoints=web"
-            # - "traefik.http.services.file.loadbalancer.server.port=8080"
         networks:
             - proxy_network
         restart: always
