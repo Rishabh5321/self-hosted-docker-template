@@ -33,6 +33,7 @@ include:
     - ./services/qbittorrent.yaml
     - ./services/resilio-sync.yaml
     - ./services/syncify.yaml
+    # - ./services/pyload.yaml
 
     # ============================================================================
     # INDEXERS & SEARCH

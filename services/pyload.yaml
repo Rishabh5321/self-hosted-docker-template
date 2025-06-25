@@ -1,0 +1,31 @@
+services:
+    pyload-ng:
+        image: lscr.io/linuxserver/pyload-ng:latest
+        container_name: pyload-ng
+        logging:
+            driver: loki:latest
+            options:
+                loki-url: ${LOKI_URL}
+                loki-retries: 5
+                loki-max-backoff: 1800ms
+                loki-timeout: 1s
+                keep-file: "true"
+                mode: "non-blocking"
+        environment:
+            - PUID=1000
+            - PGID=1000
+            - TZ=Asia/Kolkata
+        networks:
+            - proxy_network
+        labels:
+            - "glance.name=Pyload"
+            - "glance.icon=sh:pyload"
+            - "glance.url=http://pyload.${BASE_DOMAIN}/"
+            - "glance.description=Download Manager"
+        volumes:
+            - /mnt/Docker/Docker/Pyload_Config:/config
+            - /mnt/Raid/Downloads/pyload:/downloads
+        # ports:
+        # - 8000:8000
+        # - 9666:9666 #optional
+        restart: unless-stopped
