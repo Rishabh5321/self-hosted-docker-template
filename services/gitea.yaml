@@ -28,5 +28,5 @@ services:
             - proxy_network
         ports:
             #     - "3000:3000"
-            - "2222:2222"
+            - "222:22"
         restart: unless-stopped
