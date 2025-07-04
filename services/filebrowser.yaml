@@ -3,7 +3,7 @@ services:
         image: hurlenko/filebrowser:${FILEBROWSER_VERSION}
         container_name: filebrowser
         user: "${PUID}:${PGID}"
-        command: ["--noauth", "--database", "/config/filebrowser.db"] # Authentication by authentik
+        # command: ["--noauth", "--database", "/config/filebrowser.db"] # Authentication by authentik
         logging:
             driver: loki:latest
             options:
