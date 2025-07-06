@@ -71,7 +71,7 @@ include:
     - ./services/gitea.yaml
     - ./services/gitea-runner.yml
     # - ./services/stirling-pdf.yaml
-    # - ./services/gitea-mirror.yaml
+    - ./services/gitea-mirror.yaml
     # - ./services/gitlab.yaml
 
     # ============================================================================
