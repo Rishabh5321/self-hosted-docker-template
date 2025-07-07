@@ -26,6 +26,7 @@ include:
     - ./services/bazarr.yaml
     - ./services/jellyfin.yaml
     - ./services/jellyseerr.yaml
+    - ./services/immich.yaml
 
     # ============================================================================
     # DOWNLOAD & SYNC SERVICES
