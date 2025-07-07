@@ -31,14 +31,20 @@ services:
             - DB_PASSWORD=${DB_PASSWORD}
             - DB_USERNAME=${DB_USERNAME}
             - DB_DATABASE_NAME=${DB_DATABASE_NAME}
+        labels:
+            - "glance.name=immich"
+            - "glance.icon=sh:immich"
+            - "glance.url=http://immich.${BASE_DOMAIN}/"
+            - "glance.description=Photo Backup"
+            - "glance.id=immich"
         volumes:
             # Do not edit the next line. If you want to change the media storage location on your system, edit the value of UPLOAD_LOCATION in the .env file
             - ${UPLOAD_LOCATION}:/usr/src/app/upload
             - /etc/localtime:/etc/localtime:ro
         networks:
             - proxy_network
-        ports:
-            - "2283:2283"
+        # ports:
+        #     - "2283:2283"
         depends_on:
             - immich-redis
             - immich-postgres
@@ -50,6 +56,18 @@ services:
         container_name: immich_machine_learning
         # For hardware acceleration, add one of -[armnn, cuda, rocm, openvino, rknn] to the image tag.
         # Example tag: ${IMMICH_VERSION:-release}-cuda
+        logging:
+            driver: loki:latest
+            options:
+                loki-url: ${LOKI_URL}
+                loki-retries: 5
+                loki-max-backoff: 1800ms
+                loki-timeout: 1s
+                keep-file: "true"
+                mode: "non-blocking"
+        labels:
+            - "glance.parent=immich"
+            - "glance.name=machine-learning"
         image: ghcr.io/immich-app/immich-machine-learning:${IMMICH_VERSION:-release}
         # extends:
         #     file: ../common/immich/hwaccel.transcoding.yml
@@ -64,6 +82,18 @@ services:
 
     immich-redis:
         container_name: immich_redis
+        logging:
+            driver: loki:latest
+            options:
+                loki-url: ${LOKI_URL}
+                loki-retries: 5
+                loki-max-backoff: 1800ms
+                loki-timeout: 1s
+                keep-file: "true"
+                mode: "non-blocking"
+        labels:
+            - "glance.parent=immich"
+            - "glance.name=redis"
         image: docker.io/valkey/valkey:8-bookworm@sha256:fec42f399876eb6faf9e008570597741c87ff7662a54185593e74b09ce83d177
         healthcheck:
             test: redis-cli ping || exit 1
@@ -81,6 +111,18 @@ services:
             POSTGRES_INITDB_ARGS: "--data-checksums"
             # Uncomment the DB_STORAGE_TYPE: 'HDD' var if your database isn't stored on SSDs
             # DB_STORAGE_TYPE: 'HDD'
+        labels:
+            - "glance.parent=immich"
+            - "glance.name=postgres"
+        logging:
+            driver: loki:latest
+            options:
+                loki-url: ${LOKI_URL}
+                loki-retries: 5
+                loki-max-backoff: 1800ms
+                loki-timeout: 1s
+                keep-file: "true"
+                mode: "non-blocking"
         networks:
             - proxy_network
         volumes:
