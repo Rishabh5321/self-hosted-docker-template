@@ -176,7 +176,7 @@
                     pull-requests-limit: 5
                     commits-limit: 3
                   - type: repository
-                    repository: rishabh5321/better-control-flake
+                    repository: rishabh5321/wallsite
                     pull-requests-limit: 5
                     commits-limit: 3
               # - type: repository
