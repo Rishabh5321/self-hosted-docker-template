@@ -1,0 +1,8 @@
+services:
+    wallsite:
+        image: ghcr.io/rishabh5321/wallsite:latest
+        container_name: wallsite
+        ports:
+            - "8000:8000"
+        volumes:
+            - ${WALLSITE_SRC}:/app/src
