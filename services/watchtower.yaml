@@ -1,6 +1,6 @@
 services:
     watchtower:
-        image: containrrr/watchtower:${WATCHTOWER_VERSION}
+        image: ghcr.io/beatkind/watchtower:latest-dev
         container_name: watchtower
         volumes:
             - ${DOCKER_SOCKET_PATH}:/var/run/docker.sock

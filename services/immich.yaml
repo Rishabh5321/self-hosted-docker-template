@@ -32,6 +32,7 @@ services:
             - DB_USERNAME=${DB_USERNAME}
             - DB_DATABASE_NAME=${DB_DATABASE_NAME}
         labels:
+            - "com.centurylinklabs.watchtower.enable=false"
             - "glance.name=immich"
             - "glance.icon=sh:immich"
             - "glance.url=http://immich.${BASE_DOMAIN}/"
@@ -66,6 +67,7 @@ services:
                 keep-file: "true"
                 mode: "non-blocking"
         labels:
+            - "com.centurylinklabs.watchtower.enable=false"
             - "glance.parent=immich"
             - "glance.name=machine-learning"
         image: ghcr.io/immich-app/immich-machine-learning:${IMMICH_VERSION:-release}
@@ -92,6 +94,7 @@ services:
                 keep-file: "true"
                 mode: "non-blocking"
         labels:
+            - "com.centurylinklabs.watchtower.enable=false"
             - "glance.parent=immich"
             - "glance.name=redis"
         image: docker.io/valkey/valkey:8-bookworm@sha256:fec42f399876eb6faf9e008570597741c87ff7662a54185593e74b09ce83d177
@@ -112,6 +115,7 @@ services:
             # Uncomment the DB_STORAGE_TYPE: 'HDD' var if your database isn't stored on SSDs
             # DB_STORAGE_TYPE: 'HDD'
         labels:
+            - "com.centurylinklabs.watchtower.enable=false"
             - "glance.parent=immich"
             - "glance.name=postgres"
         logging:
