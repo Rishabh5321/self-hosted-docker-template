@@ -62,6 +62,7 @@ include:
     # ============================================================================
     - ./services/portainer.yaml
     - ./services/glance.yaml
+    - ./services/n8n.yaml
     # - ./services/cup.yaml
     - ./services/watchtower.yaml
     # - ./services/wud.yaml

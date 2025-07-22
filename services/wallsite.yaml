@@ -5,5 +5,5 @@ services:
         ports:
             - "8000:8000"
         volumes:
-            - ${WALLSITE_SRC}:/app/src
+            - ${WALLSITE_SRC}:/app/wallpapers
         restart: unless-stopped

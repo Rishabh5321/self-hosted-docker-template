@@ -1,0 +1,25 @@
+services:
+    n8n:
+        image: docker.n8n.io/n8nio/n8n:stable
+        container_name: n8n
+        # ports:
+        #     - 5678:5678
+        volumes:
+            - ${DOCKER_CONFIG_BASE}/N8N_Config:/home/node/.n8n
+        environment:
+            - PUID=${PUID}
+            - PGID=${PGID}
+            - TZ=${TZ}
+        labels:
+            - "glance.name=n8n"
+            - "glance.icon=https://cdn.jsdelivr.net/gh/selfhst/icons/webp/n8n.webp"
+            - "glance.url=http://n8n.${BASE_DOMAIN}/"
+            - "glance.description=Workflow Automation"
+            # - "traefik.enable=true"
+            # - "traefik.http.routers.n8n.middlewares=authentik@docker"
+            # - "traefik.http.routers.n8n.rule=Host(`n8n.${BASE_DOMAIN}`)"
+            # - "traefik.http.routers.n8n.entrypoints=web"
+            # - "traefik.http.services.n8n.loadbalancer.server.port=5678"
+        networks:
+            - proxy_network
+        restart: unless-stopped
