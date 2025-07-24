@@ -13,4 +13,5 @@ services:
             - "glance.description=Wallpapers"
         volumes:
             - ${WALLSITE_SRC}:/app/wallpapers
+            - ${DOCKER_CONFIG_BASE}/Wallsite_Config:/app/public
         restart: unless-stopped
