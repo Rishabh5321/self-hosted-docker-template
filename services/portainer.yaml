@@ -1,6 +1,6 @@
 services:
     portainer:
-        image: portainer/portainer-ce:${PORTAINER_VERSION}
+        image: portainer/portainer-ce:lts
         container_name: portainer
         logging:
             driver: loki:latest
