@@ -38,6 +38,26 @@ services:
             - "glance.name=postgresql"
         env_file:
             - ../.env
+
+    postgres-backup:
+        image: prodrigestivill/postgres-backup-local
+        container_name: postgres-backup
+        restart: unless-stopped
+        environment:
+            POSTGRES_HOST: authentik-postgresql
+            POSTGRES_DB: ${PG_DB:-authentik}
+            POSTGRES_USER: ${PG_USER:-authentik}
+            POSTGRES_PASSWORD: ${PG_PASS}
+            SCHEDULE: "@daily" # Run daily
+            BACKUP_KEEP_DAYS: 7 # Keep last 7 daily backups
+            BACKUP_KEEP_WEEKS: 4 # Keep last 4 weekly backups
+            BACKUP_KEEP_MONTHS: 6 # Keep last 6 monthly backups
+            BACKUP_DIR: /backups
+        volumes:
+            - ${DOCKER_CONFIG_BASE}/Postgres_Config:/backups # Store backups on host
+        networks:
+            - proxy_network
+
     authentik-redis:
         image: docker.io/library/redis:alpine
         command: --save 60 1 --loglevel warning
