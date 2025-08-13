@@ -48,15 +48,41 @@ services:
             POSTGRES_DB: ${PG_DB:-authentik}
             POSTGRES_USER: ${PG_USER:-authentik}
             POSTGRES_PASSWORD: ${PG_PASS}
-            SCHEDULE: "@daily" # Run daily
-            BACKUP_KEEP_DAYS: 7 # Keep last 7 daily backups
-            BACKUP_KEEP_WEEKS: 4 # Keep last 4 weekly backups
-            BACKUP_KEEP_MONTHS: 6 # Keep last 6 monthly backups
+            SCHEDULE: "@daily"
+            BACKUP_KEEP_DAYS: 7
+            BACKUP_KEEP_WEEKS: 4
+            BACKUP_KEEP_MONTHS: 6
             BACKUP_DIR: /backups
         volumes:
-            - ${DOCKER_CONFIG_BASE}/Postgres_Config:/backups # Store backups on host
+            - ${DOCKER_CONFIG_BASE}/Postgres_Config:/backups
         networks:
             - proxy_network
+
+        # to restore the Authentik PostgreSQL database from a backup file
+        #!/bin/bash
+        # # Restore Authentik PostgreSQL database from a backup file
+        # # Usage: ./restore-authentik-db.sh /path/to/backup.sql.gz
+
+        # set -e
+
+        # BACKUP_FILE="$1"
+
+        # if [ -z "$BACKUP_FILE" ]; then
+        #     echo "❌ Please provide a backup file."
+        #     echo "Usage: $0 /path/to/backup.sql.gz"
+        #     exit 1
+        # fi
+
+        # if [ ! -f "$BACKUP_FILE" ]; then
+        #     echo "❌ File not found: $BACKUP_FILE"
+        #     exit 1
+        # fi
+
+        # echo "📦 Restoring from $BACKUP_FILE..."
+        # gunzip -c "$BACKUP_FILE" | sudo docker exec -i authentik-postgresql \
+        #     psql -U "${PG_USER:-authentik}" "${PG_DB:-authentik}"
+
+        # echo "✅ Restore complete!"
 
     authentik-redis:
         image: docker.io/library/redis:alpine
