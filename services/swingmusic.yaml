@@ -23,8 +23,8 @@ services:
         volumes:
             - ${MEDIA_LIBRARY_PATH_RAID}/Music:/music
             - ${DOCKER_CONFIG_BASE}/Swingmusic_Config:/config
-        # ports:
-        #     - "1970:1970"
+        ports:
+            - "1970:1970"
         networks:
             - proxy_network
         restart: unless-stopped
