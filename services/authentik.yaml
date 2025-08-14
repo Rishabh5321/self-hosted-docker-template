@@ -53,6 +53,9 @@ services:
             BACKUP_KEEP_WEEKS: 4
             BACKUP_KEEP_MONTHS: 6
             BACKUP_DIR: /backups
+        labels:
+            - "glance.parent=authentik"
+            - "glance.name=postgresql-backup"
         volumes:
             - ${DOCKER_CONFIG_BASE}/Postgres_Config:/backups
         networks:

@@ -27,6 +27,7 @@ include:
     - ./services/jellyfin.yaml
     - ./services/jellyseerr.yaml
     - ./services/immich.yaml
+    - ./services/swingmusic.yaml
 
     # ============================================================================
     # DOWNLOAD & SYNC SERVICES

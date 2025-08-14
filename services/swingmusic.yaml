@@ -1,0 +1,30 @@
+services:
+    swingmusic:
+        image: ghcr.io/swingmx/swingmusic:latest
+        container_name: swingmusic
+        logging:
+            driver: loki:latest
+            options:
+                loki-url: ${LOKI_URL}
+                loki-retries: 5
+                loki-max-backoff: 1800ms
+                loki-timeout: 1s
+                keep-file: "true"
+                mode: "non-blocking"
+        environment:
+            - PUID=${PUID}
+            - PGID=${PGID}
+            - TZ=${TZ}
+        labels:
+            - "glance.name=Swingmusic"
+            - "glance.icon=https://cdn.jsdelivr.net/gh/selfhst/icons/webp/swing-music.webp"
+            - "glance.url=http://Music.${BASE_DOMAIN}/"
+            - "glance.description=Music Player"
+        volumes:
+            - ${MEDIA_LIBRARY_PATH_RAID}/Music:/music
+            - ${DOCKER_CONFIG_BASE}/Swingmusic_Config:/config
+        # ports:
+        #     - "1970:1970"
+        networks:
+            - proxy_network
+        restart: unless-stopped
