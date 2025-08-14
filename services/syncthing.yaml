@@ -1,0 +1,40 @@
+---
+services:
+    syncthing:
+        image: lscr.io/linuxserver/syncthing:latest
+        container_name: syncthing
+        logging:
+            driver: loki:latest
+            options:
+                loki-url: ${LOKI_URL}
+                loki-retries: 5
+                loki-max-backoff: 1800ms
+                loki-timeout: 1s
+                keep-file: "true"
+                mode: "non-blocking"
+        environment:
+            - PUID=1000
+            - PGID=1000
+            - TZ=Etc/UTC
+        volumes:
+            - ${DOCKER_CONFIG_BASE}/Syncthing_Config:/config
+            - ${MEDIA_LIBRARY_PATH_RAID}:/data1
+            - ${MEDIA_LIBRARY_PATH_EDISK}:/data2
+        ports:
+            - 8384:8384
+            - 22000:22000/tcp
+            - 22000:22000/udp
+            - 21027:21027/udp
+        labels:
+            - "glance.name=Syncthing"
+            - "glance.icon=sh:syncthing"
+            - "glance.url=http://syncthing.${BASE_DOMAIN}/"
+            - "glance.description=Syncing"
+            # - "traefik.enable=true"
+            # - "traefik.http.routers.bazarr.middlewares=authentik@docker"
+            # - "traefik.http.routers.bazarr.rule=Host(`bazarr.${BASE_DOMAIN}`)"
+            # - "traefik.http.routers.bazarr.entrypoints=web"
+            # - "traefik.http.services.bazarr.loadbalancer.server.port=6767"
+        networks:
+            - proxy_network
+        restart: unless-stopped

@@ -33,7 +33,8 @@ include:
     # DOWNLOAD & SYNC SERVICES
     # ============================================================================
     - ./services/qbittorrent.yaml
-    - ./services/resilio-sync.yaml
+    # - ./services/resilio-sync.yaml
+    - ./services/syncthing.yaml
     - ./services/syncify.yaml
     # - ./services/pyload.yaml
 
