@@ -28,6 +28,7 @@ include:
     - ./services/jellyseerr.yaml
     - ./services/immich.yaml
     - ./services/swingmusic.yaml
+    - ./services/shoko.yaml
 
     # ============================================================================
     # DOWNLOAD & SYNC SERVICES

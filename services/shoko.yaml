@@ -1,0 +1,37 @@
+services:
+    shoko_server:
+        shm_size: 256m
+        container_name: shoko_server
+        logging:
+            driver: loki:latest
+            options:
+                loki-url: ${LOKI_URL}
+                loki-retries: 5
+                loki-max-backoff: 1800ms
+                loki-timeout: 1s
+                keep-file: "true"
+                mode: "non-blocking"
+        image: ghcr.io/shokoanime/server:latest
+        restart: always
+        environment:
+            - PUID=${PUID}
+            - PGID=${PGID}
+            - TZ=${TZ}
+        # ports:
+        #     - "8111:8111"
+        labels:
+            - "glance.name=Shoko Server"
+            - "glance.icon=https://cdn.jsdelivr.net/gh/selfhst/icons/webp/shoko-server.webp"
+            - "glance.url=http://shoko.${BASE_DOMAIN}/"
+            - "glance.description=Anime Manager"
+            # - "traefik.enable=true"
+            # - "traefik.http.routers.bazarr.middlewares=authentik@docker"
+            # - "traefik.http.routers.bazarr.rule=Host(`bazarr.${BASE_DOMAIN}`)"
+            # - "traefik.http.routers.bazarr.entrypoints=web"
+            # - "traefik.http.services.bazarr.loadbalancer.server.port=6767"
+        networks:
+            - proxy_network
+        volumes:
+            - ${DOCKER_CONFIG_BASE}/Shoko_Config:/home/shoko/.shoko
+            - ${MEDIA_LIBRARY_PATH_RAID}/Anime:/mnt/data_raid
+            - ${MEDIA_LIBRARY_PATH_EDISK}/Anime:/mnt/data_e_disk
