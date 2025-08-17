@@ -1,7 +1,7 @@
 services:
     suwayomi: # Tachidesk service
-        image: ghcr.io/suwayomi/suwayomi-server:preview
-        container_name: suwayomi
+        image: ghcr.io/suwayomi/tachidesk:${TACHIDESK_VERSION}
+        container_name: tachidesk
         logging:
             driver: loki:latest
             options:
@@ -20,11 +20,11 @@ services:
         ports:
             - 4567:4567
         volumes:
-            - ${DOCKER_CONFIG_BASE}/Suwayomi_Config:/home/suwayomi/.local/share/Tachidesk
+            - ${DOCKER_CONFIG_BASE}/Tachiyomi_Config:/home/suwayomi/.local/share/Tachidesk
         labels:
-            - "glance.name=Suwayomi"
+            - "glance.name=Tachidesk"
             - "glance.icon=https://cdn.jsdelivr.net/gh/selfhst/icons/webp/suwayomi.webp"
-            - "glance.url=http://suwayomi.${BASE_DOMAIN}/"
+            - "glance.url=http://tachidesk.${BASE_DOMAIN}/"
             - "glance.description=Manga Server"
             - "glance.id=tachidesk"
             # - "traefik.enable=true"

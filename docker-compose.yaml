@@ -89,6 +89,7 @@ include:
     # ============================================================================
     # ENTERTAINMENT & MISCELLANEOUS
     # ============================================================================
+    # - ./services/tachidesk.yaml
     - ./services/suwayomi.yaml
     # - ./services/free-games-claimer.yaml
 
