@@ -28,7 +28,7 @@ include:
     - ./services/jellyseerr.yaml
     - ./services/immich.yaml
     - ./services/swingmusic.yaml
-    - ./services/shoko.yaml
+    # - ./services/shoko.yaml
 
     # ============================================================================
     # DOWNLOAD & SYNC SERVICES
@@ -50,12 +50,12 @@ include:
     # ============================================================================
     # MONITORING & METRICS
     # ============================================================================
-    - ./services/prometheus.yaml
-    - ./services/grafana.yaml
-    - ./services/loki.yaml
-    - ./services/promtail.yaml
-    - ./services/cadvisor.yaml
-    - ./services/nodeexporter.yaml
+    # - ./services/prometheus.yaml
+    # - ./services/grafana.yaml
+    # - ./services/loki.yaml
+    # - ./services/promtail.yaml
+    # - ./services/cadvisor.yaml
+    # - ./services/nodeexporter.yaml
     - ./services/speedtest-tracker.yaml
     # - ./services/garmin-grafana.yaml
     # - ./services/uptime-kuma.yaml
