@@ -4,5 +4,8 @@ services:
         container_name: cloudflared
         command: tunnel --no-autoupdate run --token ${TUNNEL_TOKEN}
         restart: unless-stopped
+        labels:
+            - "glance.parent=portainer"
+            - "glance.name=cloudflare"
         networks:
             - proxy_network
