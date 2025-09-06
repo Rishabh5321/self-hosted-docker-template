@@ -27,7 +27,7 @@ services:
             - "glance.id=nginx-proxy-manager"
             - "glance.name=Nginx"
             - "glance.icon=sh:nginx-proxy-manager"
-            - "glance.url=https://${BASE_DOMAIN}"
+            - "glance.url=https://nginx.${BASE_DOMAIN}"
             - "glance.description=Reverse Proxy"
         networks:
             - proxy_network

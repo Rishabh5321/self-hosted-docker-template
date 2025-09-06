@@ -17,7 +17,7 @@ services:
         labels:
             - "glance.name=Gitea"
             - "glance.icon=sh:gitea"
-            - "glance.url=http://Git.${BASE_DOMAIN}/"
+            - "glance.url=http://gitea.${BASE_DOMAIN}/"
             - "glance.description=Version Control"
             - "glance.id=gitea"
         volumes:

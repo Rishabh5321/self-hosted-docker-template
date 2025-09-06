@@ -12,6 +12,7 @@ include:
     # - ./services/traefik.yaml
     # - ./services/pi-hole.yaml
     # - ./services/wireguard.yaml
+    - ./services/cloudflared.yaml
 
     # ============================================================================
     # AUTHENTICATION & SECURITY
@@ -56,7 +57,7 @@ include:
     # - ./services/promtail.yaml
     # - ./services/cadvisor.yaml
     # - ./services/nodeexporter.yaml
-    - ./services/speedtest-tracker.yaml
+    # - ./services/speedtest-tracker.yaml
     # - ./services/garmin-grafana.yaml
     # - ./services/uptime-kuma.yaml
 

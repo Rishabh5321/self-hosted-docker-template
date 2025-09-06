@@ -15,6 +15,8 @@ services:
             - ${DOCKER_CONFIG_BASE}/Syncify_Config:/syncify/config
             - ${MEDIA_LIBRARY_PATH_RAID}/Music:/syncify/downloads
             - /etc/localtime:/etc/localtime:ro
+        ports:
+            - ${SYNCIFY_PORT:-5000}:5000
         labels:
             - "glance.name=Syncify"
             - "glance.icon=https://cdn.jsdelivr.net/gh/selfhst/icons/webp/syncify.webp"
@@ -31,6 +33,7 @@ services:
             - PUID=${PUID}
             - PGID=${PGID}
             - TZ=${TZ}
+            - ALLOWED_ORIGINS=https://syncify.${BASE_DOMAIN}
         networks:
             - proxy_network
         restart: unless-stopped
