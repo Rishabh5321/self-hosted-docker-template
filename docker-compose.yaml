@@ -60,6 +60,7 @@ include:
     # - ./services/speedtest-tracker.yaml
     # - ./services/garmin-grafana.yaml
     # - ./services/uptime-kuma.yaml
+    - ./services/beszel.yaml
 
     # ============================================================================
     # MANAGEMENT & ADMINISTRATION

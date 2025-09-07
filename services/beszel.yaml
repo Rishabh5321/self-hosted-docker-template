@@ -1,0 +1,46 @@
+services:
+    beszel:
+        image: henrygd/beszel:latest
+        container_name: beszel
+        restart: unless-stopped
+        environment:
+            PUID: ${PUID}
+            PGID: ${PGID}
+            TZ: ${TZ}
+        # ports:
+        #     - 8090:8090
+        labels:
+            - "glance.name=Beszel"
+            - "glance.icon=sh:beszel"
+            - "glance.url=http://beszel.${BASE_DOMAIN}/"
+            - "glance.description=System Monitor"
+            - "glance.id=beszel"
+        volumes:
+            - ${DOCKER_CONFIG_BASE}/Beszel_Config/:/beszel_data
+        networks:
+            - proxy_network
+
+    beszel-agent:
+        image: henrygd/beszel-agent:latest
+        container_name: beszel-agent
+        restart: unless-stopped
+        volumes:
+            - /var/run/docker.sock:/var/run/docker.sock:ro
+            - ${DOCKER_CONFIG_BASE}/Beszel_Config/agent:/var/lib/beszel-agent
+            - /mnt/Raid/.beszel:/extra-filesystems/sdb1:ro
+            - /mnt/E_Disk/.beszel:/extra-filesystems/sdc1:ro
+        # ports:
+        #     - 45876:45876
+        labels:
+            - "glance.parent=beszel"
+            - "glance.name=agent"
+        environment:
+            PUID: ${PUID}
+            PGID: ${PGID}
+            TZ: ${TZ}
+            LISTEN: ${BESZEL_PORT}
+            KEY: "${BESZEL_SSH_KEY}"
+            TOKEN: ${BESZEL_TOKEN}
+            HUB_URL: http://localhost:8090
+        networks:
+            - proxy_network
