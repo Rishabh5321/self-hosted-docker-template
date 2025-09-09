@@ -32,7 +32,7 @@ services:
             - DB_USERNAME=${DB_USERNAME}
             - DB_DATABASE_NAME=${DB_DATABASE_NAME}
         labels:
-            - "com.centurylinklabs.watchtower.enable=false"
+            # - "com.centurylinklabs.watchtower.enable=false"
             - "glance.name=immich"
             - "glance.icon=sh:immich"
             - "glance.url=http://immich.${BASE_DOMAIN}/"
