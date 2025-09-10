@@ -1,0 +1,43 @@
+---
+services:
+    nextcloud-app:
+        image: docker.io/library/nextcloud:latest
+        container_name: nextcloud-app
+        # ports:
+        #     - 11000:80
+        volumes:
+            - ${DOCKER_CONFIG_BASE}/NextCloud_Config/Data:/var/www/html
+        environment:
+            - MYSQL_PASSWORD=$MYSQL_PASSWORD
+            - MYSQL_DATABASE=$MYSQL_DATABASE
+            - MYSQL_USER=$MYSQL_USER
+            - MYSQL_HOST=nextcloud-db
+        labels:
+            - "glance.name=nextcloud"
+            - "glance.icon=sh:nextcloud"
+            - "glance.url=http://nextcloud.${BASE_DOMAIN}/"
+            - "glance.description=Cloud Storage"
+            - "glance.id=nextcloud"
+        networks:
+            - proxy_network
+        restart: unless-stopped
+    nextcloud-db:
+        # See compatibility matrix for Nextcloud 31
+        # https://docs.nextcloud.com/server/31/admin_manual/installation/system_requirements.html
+        image: docker.io/library/mariadb:10.11.14
+        container_name: nextcloud-db
+        command: --transaction-isolation=READ-COMMITTED --binlog-format=ROW
+        volumes:
+            - ${DOCKER_CONFIG_BASE}/NextCloud_Config/DB:/var/lib/mysql
+        environment:
+            - MYSQL_RANDOM_ROOT_PASSWORD=true
+            - MYSQL_PASSWORD=$MYSQL_PASSWORD
+            - MYSQL_DATABASE=$MYSQL_DATABASE
+            - MYSQL_USER=$MYSQL_USER
+        labels:
+            - "com.centurylinklabs.watchtower.enable=false"
+            - "glance.parent=nextcloud"
+            - "glance.name=nextcloud-db"
+        networks:
+            - proxy_network
+        restart: unless-stopped
