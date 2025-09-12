@@ -15,7 +15,7 @@
                   timezone: "-04" # must have quotes
                   interval: 20 # optional, days
                   #sort-time: asc          # optional, asc or desc (default)
-                  cover-proxy: "${RADARR_URL}/radarrcover" # optional
+                  #cover-proxy: "https://proxy.example.com/radarrcover" # optional
                   api-base-url: ${RADARR_API_URL}
                   key: ${RADARR_KEY}
                   url: ${RADARR_URL} # optional
