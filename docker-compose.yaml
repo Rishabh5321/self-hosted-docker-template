@@ -65,7 +65,7 @@ include:
   # ============================================================================
   # MANAGEMENT & ADMINISTRATION
   # ============================================================================
-  - ./services/portainer.yaml
+  # - ./services/portainer.yaml
   - ./services/glance.yaml
   # - ./services/n8n.yaml
   # - ./services/cup.yaml
@@ -84,7 +84,7 @@ include:
   # ============================================================================
   # BACKUP & FILE MANAGEMENT
   # ============================================================================
-  - ./services/duplicati.yaml
+  # - ./services/duplicati.yaml
   # - ./services/filebrowser.yaml
   # - ./services/casa.yaml
 
