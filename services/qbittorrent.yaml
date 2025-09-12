@@ -30,10 +30,10 @@ services:
             - "glance.icon=sh:qbittorrent"
             - "glance.url=http://qbit.${BASE_DOMAIN}/"
             - "glance.description=Torrent Client"
-            # - "traefik.enable=true"
-            # - "traefik.http.routers.qbit.rule=Host(`qbit.${BASE_DOMAIN}`)"
-            # - "traefik.http.routers.qbit.entrypoints=web"
-            # - "traefik.http.services.qbit.loadbalancer.server.port=8080"
+            - "traefik.enable=true"
+            - "traefik.http.routers.qbit.rule=Host(`qbit.${BASE_DOMAIN}`)"
+            - "traefik.http.routers.qbit.entrypoints=web"
+            - "traefik.http.services.qbit.loadbalancer.server.port=8080"
         networks:
             - proxy_network
         restart: unless-stopped

@@ -25,10 +25,10 @@ services:
             - "glance.icon=sh:radarr"
             - "glance.url=http://radarr.${BASE_DOMAIN}/"
             - "glance.description=Movie Downloader"
-            # - "traefik.enable=true"
-            # - "traefik.http.routers.radarr.rule=Host(`radarr.${BASE_DOMAIN}`)"
-            # - "traefik.http.routers.radarr.entrypoints=web"
-            # - "traefik.http.services.radarr.loadbalancer.server.port=7878"
+            - "traefik.enable=true"
+            - "traefik.http.routers.radarr.rule=Host(`radarr.${BASE_DOMAIN}`)"
+            - "traefik.http.routers.radarr.entrypoints=web"
+            - "traefik.http.services.radarr.loadbalancer.server.port=7878"
         networks:
             - proxy_network
         restart: unless-stopped

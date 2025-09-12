@@ -27,8 +27,8 @@ services:
             - "glance.icon=sh:sonarr"
             - "glance.url=http://sonarr.${BASE_DOMAIN}/"
             - "glance.description=TV Shows Management"
-            # - "traefik.enable=true"
-            # - "traefik.http.routers.sonarr.rule=Host(`sonarr.${BASE_DOMAIN}`)"
-            # - "traefik.http.routers.sonarr.entrypoints=web"
-            # - "traefik.http.services.sonarr.loadbalancer.server.port=8989"
+            - "traefik.enable=true"
+            - "traefik.http.routers.sonarr.rule=Host(`sonarr.${BASE_DOMAIN}`)"
+            - "traefik.http.routers.sonarr.entrypoints=web"
+            - "traefik.http.services.sonarr.loadbalancer.server.port=8989"
         restart: unless-stopped

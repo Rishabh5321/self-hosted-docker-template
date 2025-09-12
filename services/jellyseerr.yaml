@@ -21,10 +21,10 @@ services:
             - "glance.icon=sh:jellyseerr"
             - "glance.url=http://jellyseerr.${BASE_DOMAIN}/"
             - "glance.description=Request Manager"
-            # - "traefik.enable=true"
-            # - "traefik.http.routers.jellyseerr.rule=Host(`jellyseerr.${BASE_DOMAIN}`)"
-            # - "traefik.http.routers.jellyseerr.entrypoints=web"
-            # - "traefik.http.services.jellyseerr.loadbalancer.server.port=5055"
+            - "traefik.enable=true"
+            - "traefik.http.routers.jellyseerr.rule=Host(`jellyseerr.${BASE_DOMAIN}`)"
+            - "traefik.http.routers.jellyseerr.entrypoints=web"
+            - "traefik.http.services.jellyseerr.loadbalancer.server.port=5055"
         networks:
             - proxy_network
         volumes:

@@ -8,8 +8,8 @@ include:
     # ============================================================================
     # REVERSE PROXY & NETWORKING
     # ============================================================================
-    - ./services/nginx.yaml
-    # - ./services/traefik.yaml
+    # - ./services/nginx.yaml
+    - ./services/traefik.yaml
     # - ./services/pi-hole.yaml
     # - ./services/wireguard.yaml
     - ./services/cloudflared.yaml

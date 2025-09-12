@@ -22,10 +22,10 @@ services:
             - "glance.icon=sh:prowlarr"
             - "glance.url=http://prowlarr.${BASE_DOMAIN}/"
             - "glance.description=Indexer Manager"
-            # - "traefik.enable=true"
-            # - "traefik.http.routers.prowlarr.rule=Host(`prowlarr.${BASE_DOMAIN}`)"
-            # - "traefik.http.routers.prowlarr.entrypoints=web"
-            # - "traefik.http.services.prowlarr.loadbalancer.server.port=9696"
+            - "traefik.enable=true"
+            - "traefik.http.routers.prowlarr.rule=Host(`prowlarr.${BASE_DOMAIN}`)"
+            - "traefik.http.routers.prowlarr.entrypoints=web"
+            - "traefik.http.services.prowlarr.loadbalancer.server.port=9696"
         volumes:
             - ${DOCKER_CONFIG_BASE}/Prowlarr_Config:/config
         restart: unless-stopped
