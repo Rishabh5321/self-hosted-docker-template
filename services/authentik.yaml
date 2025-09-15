@@ -159,10 +159,10 @@ services:
         env_file:
             - ../.env
         labels:
-            # - "traefik.enable=true"
-            # - "traefik.http.routers.authentik-ui.rule=Host(`authentik.${BASE_DOMAIN}`)"
-            # - "traefik.http.routers.authentik-ui.entrypoints=web"
-            # - "traefik.http.services.authentik-ui-svc.loadbalancer.server.port=9000"
+            - "traefik.enable=true"
+            - "traefik.http.routers.authentik-ui.rule=Host(`authentik.${BASE_DOMAIN}`)"
+            - "traefik.http.routers.authentik-ui.entrypoints=web"
+            - "traefik.http.services.authentik-ui-svc.loadbalancer.server.port=9000"
             - "glance.name=authentik"
             - "glance.icon=sh:authentik"
             - "glance.url=http://authentik.${BASE_DOMAIN}/"
