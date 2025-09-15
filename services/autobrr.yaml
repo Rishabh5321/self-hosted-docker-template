@@ -1,0 +1,34 @@
+services:
+    autobrr:
+        container_name: autobrr
+        image: ghcr.io/autobrr/autobrr:latest
+        restart: unless-stopped
+        logging:
+            driver: loki:latest
+            options:
+                loki-url: ${LOKI_URL}
+                loki-retries: 5
+                loki-max-backoff: 1800ms
+                loki-timeout: 1s
+                keep-file: "true"
+                mode: "non-blocking"
+        environment:
+            - PUID=${PUID}
+            - PGID=${PGID}
+            - TZ=${TZ}
+        networks:
+            - proxy_network
+        labels:
+            - "glance.name=Autobrr"
+            - "glance.icon=sh:autobrr"
+            - "glance.url=http://autobrr.${BASE_DOMAIN}/"
+            - "glance.description=Indexer Manager"
+            - "traefik.enable=true"
+            - "traefik.http.routers.autobrr.rule=Host(`autobrr.${BASE_DOMAIN}`)"
+            - "traefik.http.routers.autobrr.entrypoints=web"
+            - "traefik.http.services.autobrr.loadbalancer.server.port=7474"
+        user: 1000:1000
+        volumes:
+            - ${DOCKER_CONFIG_BASE}/AutoBrr_Config:/config
+        ports:
+            - 7474:7474
