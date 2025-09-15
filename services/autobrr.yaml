@@ -30,5 +30,5 @@ services:
         user: 1000:1000
         volumes:
             - ${DOCKER_CONFIG_BASE}/AutoBrr_Config:/config
-        ports:
-            - 7474:7474
+        # ports:
+        #     - 7474:7474
