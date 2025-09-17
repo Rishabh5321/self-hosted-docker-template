@@ -50,7 +50,7 @@ services:
             POSTGRES_PASSWORD: ${PG_PASS}
             POSTGRES_EXTRA_OPTS: -Z1 --schema=public --blobs
             SCHEDULE: "@daily"
-            BACKUP_ON_START: TRUE
+            BACKUP_ON_START: "TRUE"
             BACKUP_KEEP_DAYS: 7
             BACKUP_KEEP_WEEKS: 4
             BACKUP_KEEP_MONTHS: 6
