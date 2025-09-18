@@ -1,0 +1,34 @@
+services:
+    profilarr:
+        image: santiagosayshey/profilarr:latest
+        container_name: profilarr
+        logging:
+            driver: loki:latest
+            options:
+                loki-url: ${LOKI_URL}
+                loki-retries: 5
+                loki-max-backoff: 1800ms
+                loki-timeout: 1s
+                keep-file: "true"
+                mode: "non-blocking"
+        # ports:
+        #     - 6868:6868
+        volumes:
+            - ${DOCKER_CONFIG_BASE}/Profilarr_Docker:/config
+        environment:
+            - PUID=${PUID}
+            - PGID=${PGID}
+            - TZ=${TZ}
+        labels:
+            - "glance.name=Profilarr"
+            - "glance.icon=sh:profilarr"
+            - "glance.url=http://profilarr.${BASE_DOMAIN}/"
+            - "glance.description=Custom Format Manager"
+            - "traefik.enable=true"
+            # - "traefik.http.routers.bazarr.middlewares=authentik@docker"
+            - "traefik.http.routers.bazarr.rule=Host(`profilarr.${BASE_DOMAIN}`)"
+            - "traefik.http.routers.bazarr.entrypoints=web"
+            - "traefik.http.services.bazarr.loadbalancer.server.port=6868"
+        networks:
+            - proxy_network
+        restart: unless-stopped

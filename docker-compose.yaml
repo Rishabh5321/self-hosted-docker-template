@@ -30,6 +30,7 @@ include:
     # - ./services/immich.yaml
     # - ./services/swingmusic.yaml
     # - ./services/shoko.yaml
+    - ./services/profilarr.yaml
 
     # ============================================================================
     # DOWNLOAD & SYNC SERVICES
