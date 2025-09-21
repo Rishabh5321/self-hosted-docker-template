@@ -19,34 +19,34 @@
                         "/Mnt":
                             hide: false
             - type: to-do
-              # - type: bookmarks
-              #   groups:
-              #       - title: General
-              #         links:
-              #             - title: Gmail
-              #               url: https://mail.google.com/mail/u/0/
-              #             - title: Github
-              #               url: https://github.com/
-              #             - title: ChatGPT
-              #               url: https://chat.openai.com/
-              #       - title: Entertainment
-              #         links:
-              #             - title: YouTube
-              #               url: https://www.youtube.com/
-              #       - title: Social
-              #         links:
-              #             - title: Reddit
-              #               url: https://www.reddit.com/
-              #       - title: AI
-              #         links:
-              #             - title: ChatGPT
-              #               url: https://chat.openai.com/
-              #             - title: Gemini
-              #               url: https://gemini.google.com/app
-              #             - title: Deepseek
-              #               url: https://deepseek.com/
-              #             - title: Claude AI
-              #               url: https://claude.ai/
+            - type: bookmarks
+              groups:
+                  - title: General
+                    links:
+                        - title: Gmail
+                          url: https://mail.google.com/mail/u/0/
+                        - title: Github
+                          url: https://github.com/
+                        - title: ChatGPT
+                          url: https://chat.openai.com/
+                  - title: Entertainment
+                    links:
+                        - title: YouTube
+                          url: https://www.youtube.com/
+                  - title: Social
+                    links:
+                        - title: Reddit
+                          url: https://www.reddit.com/
+                  # - title: AI
+                  #   links:
+                  #       - title: ChatGPT
+                  #         url: https://chat.openai.com/
+                  #       - title: Gemini
+                  #         url: https://gemini.google.com/app
+                  #       - title: Deepseek
+                  #         url: https://deepseek.com/
+                  #       - title: Claude AI
+                  #         url: https://claude.ai/
       - size: full
         widgets:
             - type: search
