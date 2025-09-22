@@ -46,7 +46,7 @@ include:
     # ============================================================================
     - ./services/prowlarr.yaml
     - ./services/flaresolverr.yaml
-    - ./services/autobrr.yaml
+    # - ./services/autobrr.yaml
     # - ./services/jackett.yaml
     - ./services/huntarr.yaml
 
