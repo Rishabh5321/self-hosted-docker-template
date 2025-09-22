@@ -14,7 +14,7 @@ services:
         environment:
             - TZ=${TZ}
         labels:
-            - "glance.parent=tachidesk"
+            - "glance.parent=suwayomi"
             - "glance.name=solver"
             # - "traefik.enable=true"
             # - "traefik.http.routers.flaresolverr.rule=Host(`flaresolverr.${BASE_DOMAIN}`)"

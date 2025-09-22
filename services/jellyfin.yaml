@@ -37,4 +37,5 @@ services:
             - 636:636
             - 8920:8920
             - 7359:7359/udp
+            - 8096:8096
         restart: unless-stopped

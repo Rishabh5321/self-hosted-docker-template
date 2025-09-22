@@ -17,8 +17,8 @@ services:
             - PGID=${PGID}
             - FLARESOLVERR_ENABLED=true
             - FLARESOLVERR_URL=http://flaresolverr:8191
-        ports:
-            - 4567:4567
+        # ports:
+        #     - 4567:4567
         volumes:
             - ${DOCKER_CONFIG_BASE}/Suwayomi_Config:/home/suwayomi/.local/share/Tachidesk
         labels:
@@ -26,7 +26,7 @@ services:
             - "glance.icon=https://cdn.jsdelivr.net/gh/selfhst/icons/webp/suwayomi.webp"
             - "glance.url=http://suwayomi.${BASE_DOMAIN}/"
             - "glance.description=Manga Server"
-            - "glance.id=tachidesk"
+            - "glance.id=suwayomi"
             # - "traefik.enable=true"
             # - "traefik.http.routers.tachidesk.rule=Host(`tachidesk.${BASE_DOMAIN}`)"
             # - "traefik.http.routers.tachidesk.entrypoints=web"
