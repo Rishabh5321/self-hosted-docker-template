@@ -21,9 +21,11 @@ services:
             - proxy_network
 
     beszel-agent:
-        image: henrygd/beszel-agent:latest
+        image: henrygd/beszel-agent-intel
         container_name: beszel-agent
         restart: unless-stopped
+        cap_add:
+            - CAP_PERFMON
         volumes:
             - /var/run/docker.sock:/var/run/docker.sock:ro
             - ${DOCKER_CONFIG_BASE}/Beszel_Config/agent:/var/lib/beszel-agent
@@ -44,3 +46,19 @@ services:
             HUB_URL: http://localhost:8090
         networks:
             - proxy_network
+
+    # beszel-agent-intel:
+    #     image: henrygd/beszel-agent-intel
+    #     cap_add:
+    #         - CAP_PERFMON
+    #     devices:
+    #         - "/dev/dri:/dev/dri"
+    #     environment:
+    #         PUID: ${PUID}
+    #         PGID: ${PGID}
+    #         TZ: ${TZ}
+    #     labels:
+    #         - "glance.parent=beszel"
+    #         - "glance.name=agent"
+    #     networks:
+    #         - proxy_network
