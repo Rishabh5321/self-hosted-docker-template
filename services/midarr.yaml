@@ -1,0 +1,60 @@
+services:
+    midarr:
+        container_name: midarr
+        image: ghcr.io/midarrlabs/midarr-server:latest
+        ports:
+            - 4000:4000
+        volumes:
+            - ${MEDIA_LIBRARY_PATH_RAID}:/media
+            - ${MEDIA_LIBRARY_PATH_EDISK}:/media_external
+        networks:
+            - proxy_network
+        environment:
+            #       App config
+            - APP_URL=http://midarr:4000
+
+            #       Database config
+            - DB_USERNAME=${DB_USERNAME_MIDARR}
+            - DB_PASSWORD=${DB_PASSWORD_MIDARR}
+            - DB_DATABASE=${DB_DATABASE_MIDARR}
+            - DB_HOSTNAME=postgresql_midarr
+
+            #       Admin account
+            - SETUP_ADMIN_EMAIL=${EMAIL_MIDARR}
+            - SETUP_ADMIN_NAME=${NAME_MIDARR}
+            - SETUP_ADMIN_PASSWORD=${PASSWORD_MIDARR} # minimum length 12
+
+            #       Radarr integration
+            - RADARR_BASE_URL=radarr:7878
+            - RADARR_API_KEY=${RADARR_KEY}
+
+            #       Sonarr integration
+            - SONARR_BASE_URL=sonarr:8989
+            - SONARR_API_KEY=${SONARR_KEY}
+
+            #       User config
+            - PUID=${PUID}
+            - PGID=${PGID}
+            - TZ=${TZ}
+        restart: unless-stopped
+        depends_on:
+            postgresql_midarr:
+                condition: service_healthy
+
+    postgresql_midarr:
+        container_name: postgresql_midarr
+        image: postgres:latest
+        networks:
+            - proxy_network
+        volumes:
+            - ${DOCKER_CONFIG_BASE}/Midarr_Config:/var/lib/postgresql/data
+        environment:
+            - POSTGRES_USER=${DB_USERNAME_MIDARR}
+            - POSTGRES_PASSWORD=${DB_PASSWORD_MIDARR}
+            - POSTGRES_DB=${DB_DATABASE_MIDARR}
+        restart: unless-stopped
+        healthcheck:
+            test: "exit 0"
+
+volumes:
+    database-data:

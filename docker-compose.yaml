@@ -31,6 +31,7 @@ include:
     # - ./services/swingmusic.yaml
     # - ./services/shoko.yaml
     - ./services/profilarr.yaml
+    # - ./services/midarr.yaml
 
     # ============================================================================
     # DOWNLOAD & SYNC SERVICES
