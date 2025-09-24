@@ -1,6 +1,6 @@
 services:
     suwayomi: # Tachidesk service
-        image: ghcr.io/suwayomi/suwayomi-server:preview
+        image: ghcr.io/suwayomi/tachidesk:preview
         container_name: suwayomi
         logging:
             driver: loki:latest
