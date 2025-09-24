@@ -1,0 +1,23 @@
+services:
+    notifiarr:
+        container_name: notifiarr
+        hostname: notifiarr
+        image: golift/notifiarr
+        restart: unless-stopped
+        environment:
+            - PUID=${PUID}
+            - PGID=${PGID}
+            - TZ=${TZ}
+        networks:
+            - proxy_network
+        ports:
+            - "5454:5454"
+        volumes:
+            - ${DOCKER_CONFIG_BASE}/Notifarr_Config:/config
+            - /var/run/utmp:/var/run/utmp
+            - /etc/machine-id:/etc/machine-id
+        labels:
+            - "glance.name=Notifiarr"
+            - "glance.icon=sh:notifiarr"
+            - "glance.url=http://notifiarr.${BASE_DOMAIN}/"
+            - "glance.description=Notification Service"

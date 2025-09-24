@@ -32,6 +32,7 @@ include:
     # - ./services/shoko.yaml
     - ./services/profilarr.yaml
     # - ./services/midarr.yaml
+    # - ./services/notifiarr.yaml
 
     # ============================================================================
     # DOWNLOAD & SYNC SERVICES
