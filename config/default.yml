@@ -18,7 +18,7 @@
                             hide: false
                         "/Mnt":
                             hide: false
-            - type: to-do
+            # - type: to-do
             - type: bookmarks
               groups:
                   - title: General
