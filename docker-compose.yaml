@@ -34,6 +34,7 @@ include:
     # - ./services/midarr.yaml
     # - ./services/notifiarr.yaml
     # - ./services/bitmagnet.yaml
+    # - ./services/doplarr.yaml
 
     # ============================================================================
     # DOWNLOAD & SYNC SERVICES
