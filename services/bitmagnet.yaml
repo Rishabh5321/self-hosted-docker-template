@@ -1,0 +1,54 @@
+services:
+    bitmagnet:
+        image: ghcr.io/bitmagnet-io/bitmagnet:latest
+        container_name: bitmagnet
+        ports:
+            # API and WebUI port:
+            - "3333:3333"
+            # BitTorrent ports:
+            - "3334:3334/tcp"
+            - "3334:3334/udp"
+        restart: unless-stopped
+        environment:
+            - POSTGRES_HOST=postgres_bitmagnet
+            - POSTGRES_PASSWORD=${POSTGRES_PASSWORD_BITMAGNET}
+            - PUID=${PUID}
+            - PGID=${PGID}
+            - TZ=${TZ}
+            - TMDB_API_KEY=${TMDB_API_KEY}
+        networks:
+            - proxy_network
+        volumes:
+            - ${DOCKER_CONFIG_BASE}/Bitmagnet_Config/config:/root/.config/bitmagnet
+        command:
+            - worker
+            - run
+            - --keys=http_server
+            - --keys=queue_server
+            # disable the next line to run without DHT crawler
+            - --keys=dht_crawler
+        depends_on:
+            postgres_bitmagnet:
+                condition: service_healthy
+
+    postgres_bitmagnet:
+        image: postgres:16-alpine
+        container_name: bitmagnet-postgres
+        volumes:
+            - ${DOCKER_CONFIG_BASE}/Bitmagnet_Config/data/postgres:/var/lib/postgresql/data
+        #    ports:
+        #      - "5432:5432" Expose this port if you'd like to dig around in the database
+        restart: unless-stopped
+        networks:
+            - proxy_network
+        environment:
+            - POSTGRES_PASSWORD=${POSTGRES_PASSWORD_BITMAGNET}
+            - POSTGRES_DB=${POSTGRES_DB_BITMAGNET}
+            - PGUSER=${PGUSER_BITMAGNET}
+        shm_size: 1g
+        healthcheck:
+            test:
+                - CMD-SHELL
+                - pg_isready
+            start_period: 20s
+            interval: 10s

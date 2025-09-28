@@ -33,6 +33,7 @@ include:
     - ./services/profilarr.yaml
     # - ./services/midarr.yaml
     # - ./services/notifiarr.yaml
+    # - ./services/bitmagnet.yaml
 
     # ============================================================================
     # DOWNLOAD & SYNC SERVICES
