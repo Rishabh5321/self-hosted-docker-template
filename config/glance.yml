@@ -4,4 +4,5 @@ pages:
   $include: default.yml
   $include: india_news.yml
   $include: reddit.yml
-  $include: custom.yml
+  $include: games.yml
+  $include: media.yml
