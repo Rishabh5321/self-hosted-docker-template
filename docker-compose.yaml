@@ -92,6 +92,7 @@ include:
     # ============================================================================
     - ./services/duplicati.yaml
     # - ./services/filebrowser.yaml
+    # - ./services/doublecommander.yaml
     # - ./services/casa.yaml
 
     # ============================================================================

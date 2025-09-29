@@ -1,0 +1,19 @@
+---
+services:
+    doublecommander:
+        image: lscr.io/linuxserver/doublecommander:latest
+        container_name: doublecommander
+        environment:
+            - PUID=${PUID}
+            - PGID=${PGID}
+            - TZ=${TZ}
+        networks:
+            - proxy_network
+        volumes:
+            - ${DOCKER_CONFIG_BASE}/Doublecommander_Config:/config
+            - ${MEDIA_LIBRARY_PATH_RAID}:/data
+        ports:
+            - 3000:3000
+            - 3001:3001
+        shm_size: "1gb"
+        restart: unless-stopped
