@@ -4,7 +4,7 @@ services:
         container_name: bitmagnet
         ports:
             # API and WebUI port:
-            - "3333:3333"
+            # - "3333:3333"
             # BitTorrent ports:
             - "3334:3334/tcp"
             - "3334:3334/udp"
@@ -27,6 +27,12 @@ services:
             - --keys=queue_server
             # disable the next line to run without DHT crawler
             - --keys=dht_crawler
+        labels:
+            - "glance.name=Bitmagnet"
+            - "glance.icon=https://avatars.githubusercontent.com/u/146768397?s=48&v=4"
+            - "glance.url=http://bitmagnet.${BASE_DOMAIN}/"
+            - "glance.description=TV Shows Management"
+            - "glance.id=bitmagnet"
         depends_on:
             postgres_bitmagnet:
                 condition: service_healthy
@@ -41,6 +47,9 @@ services:
         restart: unless-stopped
         networks:
             - proxy_network
+        labels:
+            - "glance.parent=bitmagnet"
+            - "glance.name=database"
         environment:
             - POSTGRES_PASSWORD=${POSTGRES_PASSWORD_BITMAGNET}
             - POSTGRES_DB=${POSTGRES_DB_BITMAGNET}
