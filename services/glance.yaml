@@ -23,7 +23,7 @@ services:
             - RADARR_URL=${RADARR_URL}
             - RADARR_KEY=${RADARR_KEY}
             - RADARR_API_URL=${RADARR_URL}
-            - GITHUB_TOKEN=${GITHUB_TOKEN}
+            - GITHUB_TOKEN=${GITHUB_NOTIFICATION_TOKEN}
             - QBITTORRENT_IP=${QBITTORRENT_IP}
             - TMDB_API_KEY=${TMDB_API_KEY}
             - TRAKT_API_KEY=${TRAKT_API_KEY}
