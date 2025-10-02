@@ -21,6 +21,9 @@ services:
             - /mnt/Docker/Docker/Wireguard_Config/config:/config
             # - /usr/src:/usr/src # location of kernel headers
             - /run/current-system/kernel-modules:/lib/modules
+        labels:
+            - "glance.parent=qbittorrent"
+            - "glance.name=wireguard"
         ports:
             - 51820:51820/udp
             - 6881:6881

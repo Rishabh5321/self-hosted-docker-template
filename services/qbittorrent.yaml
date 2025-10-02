@@ -31,6 +31,7 @@ services:
             - "glance.icon=sh:qbittorrent"
             - "glance.url=http://qbit.${BASE_DOMAIN}/"
             - "glance.description=Torrent Client"
+            - "glance.id=qbittorrent"
             - "traefik.enable=true"
             - "traefik.http.routers.qbit.rule=Host(`qbit.${BASE_DOMAIN}`)"
             - "traefik.http.routers.qbit.entrypoints=web"
