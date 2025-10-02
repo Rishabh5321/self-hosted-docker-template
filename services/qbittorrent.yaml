@@ -3,6 +3,7 @@ services:
     qbittorrent:
         image: lscr.io/linuxserver/qbittorrent:${QBITTORRENT_VERSION}
         container_name: qbittorrent
+        network_mode: service:wireguard
         logging:
             driver: loki:latest
             options:
@@ -22,9 +23,9 @@ services:
             - ${DOCKER_CONFIG_BASE}/Qbittorrent_Config:/config
             - ${MEDIA_DOWNLOADS_PATH}:/downloads
             - ${MEDIA_LIBRARY_PATH_RAID}:/mnt/Raid/Learn/Bonus
-        ports:
-            - 6881:6881
-            - 6881:6881/udp
+        # ports:
+        #     - 6881:6881
+        #     - 6881:6881/udp
         labels:
             - "glance.name=qBittorrent"
             - "glance.icon=sh:qbittorrent"
@@ -34,6 +35,8 @@ services:
             - "traefik.http.routers.qbit.rule=Host(`qbit.${BASE_DOMAIN}`)"
             - "traefik.http.routers.qbit.entrypoints=web"
             - "traefik.http.services.qbit.loadbalancer.server.port=8080"
-        networks:
-            - proxy_network
+        depends_on:
+            - wireguard
+        # networks:
+        #     - proxy_network
         restart: unless-stopped
