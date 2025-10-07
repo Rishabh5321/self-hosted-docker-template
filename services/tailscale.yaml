@@ -9,6 +9,11 @@ services:
         environment:
             - TS_AUTHKEY=${TS_AUTHKEY}
             - TS_EXTRA_ARGS=--accept-routes --advertise-routes=192.168.1.0/24 --advertise-exit-node
+        labels:
+            - "glance.name=Tailscale"
+            - "glance.icon=sh:tailscale"
+            - "glance.url=https://login.tailscale.com/admin/machines"
+            - "glance.description=VPN"
         volumes:
             - /var/lib/tailscale:/var/lib/tailscale
             - /dev/net/tun:/dev/net/tun
