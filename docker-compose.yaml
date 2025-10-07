@@ -13,6 +13,8 @@ include:
     # - ./services/pi-hole.yaml
     - ./services/wireguard.yaml
     - ./services/cloudflared.yaml
+    # - ./services/netbird.yaml
+    - ./services/tailscale.yaml
 
     # ============================================================================
     # AUTHENTICATION & SECURITY

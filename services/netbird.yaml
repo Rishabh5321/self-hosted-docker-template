@@ -1,0 +1,12 @@
+services:
+    netbird:
+        image: netbirdio/netbird:latest
+        container_name: netbird
+        network_mode: host
+        cap_add:
+            - NET_ADMIN
+        environment:
+            - NB_SETUP_KEY=${NB_SETUP_KEY}
+        volumes:
+            - ${DOCKER_CONFIG_BASE}/Netbird_Docker:/var/lib/netbird
+        restart: unless-stopped
