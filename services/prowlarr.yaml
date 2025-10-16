@@ -2,15 +2,6 @@ services:
     prowlarr:
         image: lscr.io/linuxserver/prowlarr:${PROWLARR_VERSION}
         container_name: prowlarr
-        logging:
-            driver: loki:latest
-            options:
-                loki-url: ${LOKI_URL}
-                loki-retries: 5
-                loki-max-backoff: 1800ms
-                loki-timeout: 1s
-                keep-file: "true"
-                mode: "non-blocking"
         environment:
             - PUID=${PUID}
             - PGID=${PGID}

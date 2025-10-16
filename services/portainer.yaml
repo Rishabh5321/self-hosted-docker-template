@@ -2,15 +2,6 @@ services:
     portainer:
         image: portainer/portainer-ce:lts
         container_name: portainer
-        logging:
-            driver: loki:latest
-            options:
-                loki-url: ${LOKI_URL}
-                loki-retries: 5
-                loki-max-backoff: 1800ms
-                loki-timeout: 1s
-                keep-file: "true"
-                mode: "non-blocking"
         volumes:
             - /var/run/docker.sock:/var/run/docker.sock
             - /portainer_data:/data

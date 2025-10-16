@@ -4,15 +4,6 @@ services:
         container_name: filebrowser
         user: "${PUID}:${PGID}"
         # command: ["--noauth", "--database", "/config/filebrowser.db"] # Authentication by authentik
-        logging:
-            driver: loki:latest
-            options:
-                loki-url: ${LOKI_URL}
-                loki-retries: 55
-                loki-max-backoff: 1800ms
-                loki-timeout: 1s
-                keep-file: "true"
-                mode: "non-blocking"
         volumes:
             - ${HOST_MNT_PATH}:/data/mnt
             - ${HOST_HOME_PATH}:/data/home

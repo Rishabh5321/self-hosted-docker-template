@@ -2,15 +2,6 @@ services:
     huntarr:
         image: huntarr/huntarr:latest
         container_name: huntarr
-        logging:
-            driver: loki:latest
-            options:
-                loki-url: ${LOKI_URL}
-                loki-retries: 5
-                loki-max-backoff: 800ms
-                loki-timeout: 1s
-                keep-file: "true"
-                mode: "non-blocking"
         restart: always
         networks:
             - proxy_network

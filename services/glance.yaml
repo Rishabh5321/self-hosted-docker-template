@@ -4,15 +4,6 @@ services:
         container_name: glance
         image: glanceapp/glance:${GLANCE_VERSION}
         restart: unless-stopped
-        logging:
-            driver: loki:latest
-            options:
-                loki-url: ${LOKI_URL}
-                loki-retries: 5
-                loki-max-backoff: 1800ms
-                loki-timeout: 1s
-                keep-file: "true"
-                mode: "non-blocking"
         environment:
             - SONARR_URL=${SONARR_URL}
             - SONARR_KEY=${SONARR_KEY}

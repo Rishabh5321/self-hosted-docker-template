@@ -2,15 +2,6 @@ services:
     suwayomi: # Tachidesk service
         image: ghcr.io/suwayomi/tachidesk:${TACHIDESK_VERSION}
         container_name: tachidesk
-        logging:
-            driver: loki:latest
-            options:
-                loki-url: ${LOKI_URL}
-                loki-retries: 5
-                loki-max-backoff: 1800ms
-                loki-timeout: 1s
-                keep-file: "true"
-                mode: "non-blocking"
         environment:
             - TZ=${TZ}
             - PUID=${PUID}

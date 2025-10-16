@@ -4,15 +4,6 @@ services:
         container_name: watchtower
         volumes:
             - ${DOCKER_SOCKET_PATH}:/var/run/docker.sock
-        logging:
-            driver: loki:latest
-            options:
-                loki-url: ${LOKI_URL}
-                loki-retries: 5
-                loki-max-backoff: 1800ms
-                loki-timeout: 1s
-                keep-file: "true"
-                mode: "non-blocking"
         ports:
             - 2800:8080
         command: --debug --http-api-update --schedule "${WATCHTOWER_SCHEDULE}" --cleanup --http-api-metrics --http-api-periodic-polls # Use variable

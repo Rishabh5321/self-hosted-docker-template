@@ -2,15 +2,6 @@ services:
     jellyseerr:
         image: fallenbagel/jellyseerr:${JELLYSEERR_VERSION}
         container_name: jellyseerr
-        logging:
-            driver: loki:latest
-            options:
-                loki-url: ${LOKI_URL}
-                loki-retries: 5
-                loki-max-backoff: 1800ms
-                loki-timeout: 1s
-                keep-file: "true"
-                mode: "non-blocking"
         environment:
             - LOG_LEVEL=info
             - TZ=${TZ}
