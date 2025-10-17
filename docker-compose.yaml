@@ -9,9 +9,9 @@ include:
     # REVERSE PROXY & NETWORKING
     # ============================================================================
     # - ./services/nginx.yaml
-    - ./services/traefik.yaml
+    # - ./services/traefik.yaml
     # - ./services/pi-hole.yaml
-    - ./services/wireguard.yaml
+    # - ./services/wireguard.yaml
     - ./services/cloudflared.yaml
     # - ./services/netbird.yaml
     - ./services/tailscale.yaml
@@ -19,20 +19,20 @@ include:
     # ============================================================================
     # AUTHENTICATION & SECURITY
     # ============================================================================
-    - ./services/authentik.yaml
+    # - ./services/authentik.yaml
 
     # ============================================================================
     # MEDIA MANAGEMENT STACK
     # ============================================================================
-    - ./services/sonarr.yaml
-    - ./services/radarr.yaml
-    - ./services/bazarr.yaml
-    - ./services/jellyfin.yaml
-    - ./services/jellyseerr.yaml
+    # - ./services/sonarr.yaml
+    # - ./services/radarr.yaml
+    # - ./services/bazarr.yaml
+    # - ./services/jellyfin.yaml
+    # - ./services/jellyseerr.yaml
     # - ./services/immich.yaml
     # - ./services/swingmusic.yaml
     # - ./services/shoko.yaml
-    - ./services/profilarr.yaml
+    # - ./services/profilarr.yaml
     # - ./services/midarr.yaml
     # - ./services/notifiarr.yaml
     # - ./services/bitmagnet.yaml
@@ -41,7 +41,7 @@ include:
     # ============================================================================
     # DOWNLOAD & SYNC SERVICES
     # ============================================================================
-    - ./services/qbittorrent.yaml
+    # - ./services/qbittorrent.yaml
     # - ./services/resilio-sync.yaml
     # - ./services/syncthing.yaml
     # - ./services/syncify.yaml
@@ -50,11 +50,11 @@ include:
     # ============================================================================
     # INDEXERS & SEARCH
     # ============================================================================
-    - ./services/prowlarr.yaml
-    - ./services/flaresolverr.yaml
+    # - ./services/prowlarr.yaml
+    # - ./services/flaresolverr.yaml
     # - ./services/autobrr.yaml
     # - ./services/jackett.yaml
-    - ./services/huntarr.yaml
+    # - ./services/huntarr.yaml
 
     # ============================================================================
     # MONITORING & METRICS
@@ -68,13 +68,13 @@ include:
     # - ./services/speedtest-tracker.yaml
     # - ./services/garmin-grafana.yaml
     # - ./services/uptime-kuma.yaml
-    - ./services/beszel.yaml
+    # - ./services/beszel.yaml
 
     # ============================================================================
     # MANAGEMENT & ADMINISTRATION
     # ============================================================================
-    - ./services/portainer.yaml
-    - ./services/glance.yaml
+    # - ./services/portainer.yaml
+    # - ./services/glance.yaml
     # - ./services/n8n.yaml
     # - ./services/cup.yaml
     - ./services/watchtower.yaml
@@ -92,7 +92,7 @@ include:
     # ============================================================================
     # BACKUP & FILE MANAGEMENT
     # ============================================================================
-    - ./services/duplicati.yaml
+    # - ./services/duplicati.yaml
     # - ./services/filebrowser.yaml
     # - ./services/doublecommander.yaml
     # - ./services/casa.yaml
@@ -101,7 +101,7 @@ include:
     # ENTERTAINMENT & MISCELLANEOUS
     # ============================================================================
     # - ./services/tachidesk.yaml
-    - ./services/suwayomi.yaml
+    # - ./services/suwayomi.yaml
     # - ./services/free-games-claimer.yaml
 
     # ============================================================================
@@ -113,3 +113,4 @@ include:
     # NextCloud
     # ============================================================================
     # - ./services/nextcloud.yaml
+    # - ./services/owncloud.yaml

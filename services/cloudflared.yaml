@@ -2,7 +2,7 @@ services:
     cloudflared:
         image: cloudflare/cloudflared:latest
         container_name: cloudflared
-        command: tunnel --no-autoupdate run --token ${TUNNEL_TOKEN}
+        command: tunnel --no-autoupdate run --token ${TUNNEL_ORACLE_TOKEN}
         restart: unless-stopped
         labels:
             - "glance.parent=portainer"
@@ -13,7 +13,7 @@ services:
     cloudflared_host:
         image: cloudflare/cloudflared:latest
         container_name: cloudflared_host
-        command: tunnel --no-autoupdate run --token ${TUNNEL_TOKEN_HOST}
+        command: tunnel --no-autoupdate run --token ${TUNNEL_ORACLE_TOKEN_HOST}
         restart: unless-stopped
         network_mode: host
         labels:
