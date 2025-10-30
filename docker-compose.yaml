@@ -42,6 +42,7 @@ include:
     # DOWNLOAD & SYNC SERVICES
     # ============================================================================
     - ./services/qbittorrent.yaml
+    - ./services/qbittorrent-open.yaml
     # - ./services/resilio-sync.yaml
     # - ./services/syncthing.yaml
     # - ./services/syncify.yaml

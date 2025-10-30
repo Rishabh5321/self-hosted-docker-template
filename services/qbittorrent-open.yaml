@@ -1,0 +1,31 @@
+# services/qbittorrent.yaml
+services:
+    qbittorrent-open:
+        image: lscr.io/linuxserver/qbittorrent:${QBITTORRENT_VERSION}
+        container_name: qbittorrent-open
+        environment:
+            - PUID=${PUID}
+            - PGID=${PGID}
+            - TZ=${TZ}
+            - WEBUI_PORT=8080
+            - TORRENTING_PORT=6881
+        volumes:
+            - ${DOCKER_CONFIG_BASE}/Qbittorrent_Config_Open:/config
+            - ${MEDIA_DOWNLOADS_PATH}:/downloads
+            - ${MEDIA_LIBRARY_PATH_RAID}:/mnt/Raid/Learn/Bonus
+        ports:
+            - 6881:6881
+            - 6881:6881/udp
+        labels:
+            - "glance.name=qBittorrent-open"
+            - "glance.icon=sh:qbittorrent"
+            - "glance.url=http://qbit-open.${BASE_DOMAIN}/"
+            - "glance.description=Torrent Client"
+            - "glance.id=qbittorrent-open"
+            - "traefik.enable=true"
+            - "traefik.http.routers.qbit-open.rule=Host(`qbit-open.${BASE_DOMAIN}`)"
+            - "traefik.http.routers.qbit-open.entrypoints=web"
+            - "traefik.http.services.qbit-open.loadbalancer.server.port=8080"
+        networks:
+            - proxy_network
+        restart: unless-stopped
