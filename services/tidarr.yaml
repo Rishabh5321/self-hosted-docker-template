@@ -1,0 +1,25 @@
+services:
+    tidarr:
+        image: cstaelen/tidarr
+        container_name: "tidarr"
+        environment:
+            - PUID=${PUID}
+            - PGID=${PGID}
+            - TZ=${TZ}
+        networks:
+            - proxy_network
+        ports:
+            - 8484:8484
+        labels:
+            - "glance.name=Tidarr"
+            - "glance.icon=sh:tidarr"
+            - "glance.url=http://tidarr.${BASE_DOMAIN}/"
+            - "glance.description=Tidal Downloader"
+            - "traefik.enable=true"
+            - "traefik.http.routers.tidarr.rule=Host(`tidarr.${BASE_DOMAIN}`)"
+            - "traefik.http.routers.tidarr.entrypoints=web"
+            - "traefik.http.services.tidarr.loadbalancer.server.port=8484"
+        volumes:
+            - ${DOCKER_CONFIG_BASE}/Tidarr_Config:/home/app/standalone/shared
+            - ${MEDIA_LIBRARY_PATH_RAID}/Music:/home/app/standalone/library
+        restart: "unless-stopped"
