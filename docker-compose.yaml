@@ -67,7 +67,7 @@ include:
     # - ./services/nodeexporter.yaml
     # - ./services/speedtest-tracker.yaml
     # - ./services/garmin-grafana.yaml
-    # - ./services/uptime-kuma.yaml
+    - ./services/uptime-kuma.yaml
     # - ./services/beszel.yaml
 
     # ============================================================================

@@ -1,7 +1,7 @@
 services:
     uptime-kuma:
         image: louislam/uptime-kuma:latest
-        container_name: uptime-kuma
+        container_name: uptime
         volumes:
             - ${DOCKER_CONFIG_BASE}/Uptime_Kuma_Config:/app/data
             - /var/run/docker.sock:/var/run/docker.sock
