@@ -1,0 +1,26 @@
+---
+services:
+    homeassistant:
+        image: lscr.io/linuxserver/homeassistant:latest
+        container_name: homeassistant
+        # network_mode: host
+        networks:
+            - proxy_network
+        environment:
+            - PUID=${PUID}
+            - PGID=${PGID}
+            - TZ=${TZ}
+        volumes:
+            - /mnt/Docker/Docker/Homeassistant_Config:/config
+        # ports:
+        #     - 8123:8123
+        labels:
+            - "glance.name=Homeassistant"
+            - "glance.icon=https://cdn.jsdelivr.net/gh/selfhst/icons/webp/home-assistant.webp"
+            - "glance.url=http://home.${BASE_DOMAIN}/"
+            - "glance.description=Home Management"
+            - "traefik.enable=true"
+            - "traefik.http.routers.homeassistant.rule=Host(`home.${BASE_DOMAIN}`)"
+            - "traefik.http.routers.homeassistant.entrypoints=web"
+            - "traefik.http.services.homeassistant.loadbalancer.server.port=8123"
+        restart: unless-stopped

@@ -71,6 +71,7 @@ include:
     # - ./services/garmin-grafana.yaml
     # - ./services/uptime-kuma.yaml
     - ./services/beszel.yaml
+    - ./services/homeassistant.yaml
 
     # ============================================================================
     # MANAGEMENT & ADMINISTRATION
