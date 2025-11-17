@@ -1,0 +1,18 @@
+services:
+    ariang:
+        image: hurlenko/aria2-ariang
+        container_name: ariang
+        ports:
+            - 8080:8080
+        volumes:
+            - ${MEDIA_DOWNLOADS_PATH}/aria2:/aria2/data
+            - ${DOCKER_CONFIG_BASE}/Aria_Config:/aria2/conf
+        networks:
+            - proxy_network
+        environment:
+            - PUID=${PUID}
+            - PGID=${PGID}
+            - TZ=${TZ}
+            - RPC_SECRET=${RPC_SECRET}
+            - ARIA2RPCPORT=8080
+        restart: always

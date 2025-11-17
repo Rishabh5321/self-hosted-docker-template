@@ -2,19 +2,10 @@ services:
     pyload-ng:
         image: lscr.io/linuxserver/pyload-ng:latest
         container_name: pyload-ng
-        logging:
-            driver: loki:latest
-            options:
-                loki-url: ${LOKI_URL}
-                loki-retries: 5
-                loki-max-backoff: 1800ms
-                loki-timeout: 1s
-                keep-file: "true"
-                mode: "non-blocking"
         environment:
-            - PUID=1000
-            - PGID=1000
-            - TZ=Asia/Kolkata
+            - PUID=${PUID}
+            - PGID=${PGID}
+            - TZ=${TZ}
         networks:
             - proxy_network
         labels:
@@ -22,9 +13,13 @@ services:
             - "glance.icon=sh:pyload"
             - "glance.url=http://pyload.${BASE_DOMAIN}/"
             - "glance.description=Download Manager"
+            - "traefik.enable=true"
+            - "traefik.http.routers.pyload-ng.rule=Host(`pyload.${BASE_DOMAIN}`)"
+            - "traefik.http.routers.pyload-ng.entrypoints=web"
+            - "traefik.http.services.pyload-ng.loadbalancer.server.port=8000"
         volumes:
-            - /mnt/Docker/Docker/Pyload_Config:/config
-            - /mnt/Raid/Downloads/pyload:/downloads
+            - ${DOCKER_CONFIG_BASE}/Pyload_Config:/config
+            - ${MEDIA_DOWNLOADS_PATH}/pyload:/downloads
         # ports:
         # - 8000:8000
         # - 9666:9666 #optional

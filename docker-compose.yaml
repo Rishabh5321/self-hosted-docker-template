@@ -47,7 +47,8 @@ include:
     # - ./services/resilio-sync.yaml
     # - ./services/syncthing.yaml
     # - ./services/syncify.yaml
-    # - ./services/pyload.yaml
+    - ./services/pyload.yaml
+    - ./services/aria2.yaml
 
     # ============================================================================
     # INDEXERS & SEARCH
