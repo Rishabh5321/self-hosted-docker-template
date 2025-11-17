@@ -48,7 +48,7 @@ include:
     # - ./services/syncthing.yaml
     # - ./services/syncify.yaml
     - ./services/pyload.yaml
-    - ./services/aria2.yaml
+    # - ./services/aria2.yaml
 
     # ============================================================================
     # INDEXERS & SEARCH
