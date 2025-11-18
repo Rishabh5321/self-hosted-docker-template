@@ -21,7 +21,7 @@ services:
             - proxy_network
 
     beszel-agent:
-        image: henrygd/beszel-agent-intel
+        image: henrygd/beszel-agent:latest
         container_name: beszel-agent
         restart: unless-stopped
         cap_add:

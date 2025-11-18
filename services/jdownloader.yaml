@@ -1,0 +1,30 @@
+services:
+    jdownloader-2:
+        image: jlesage/jdownloader-2
+        container_name: jdownloader
+        environment:
+            - PUID=${PUID}
+            - PGID=${PGID}
+            - TZ=${TZ}
+            - DARK_MODE=1
+            # - SECURE_CONNECTION=1
+            # - WEB_AUTHENTICATION=1
+            # - WEB_AUTHENTICATION_USERNAME=${WEB_AUTHENTICATION_USERNAME}
+            # - WEB_AUTHENTICATION_PASSWORD=${WEB_AUTHENTICATION_PASSWORD}
+        networks:
+            - proxy_network
+        ports:
+            - "5800:5800"
+        labels:
+            - "glance.name=jdownloader"
+            - "glance.icon=sh:jdownloader"
+            - "glance.url=http://jdownloader.${BASE_DOMAIN}/"
+            - "glance.description=Download Management"
+            - "traefik.enable=true"
+            - "traefik.http.routers.jdownloader.rule=Host(`jdownloader.${BASE_DOMAIN}`)"
+            - "traefik.http.routers.jdownloader.entrypoints=web"
+            - "traefik.http.services.jdownloader.loadbalancer.server.port=5800"
+        volumes:
+            - ${DOCKER_CONFIG_BASE}/Jdownloader_Config:/config:rw
+            - ${MEDIA_DOWNLOADS_PATH}/jdownloader:/output:rw
+        restart: unless-stopped
