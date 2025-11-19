@@ -1,0 +1,18 @@
+services:
+    zerotier:
+        image: zerotier/zerotier:latest
+        container_name: zerotier
+        network_mode: "host"
+        cap_add:
+            - NET_ADMIN # Required to modify network interfaces
+            - SYS_ADMIN # Required to manage the TUN/TAP device
+        devices:
+            - /dev/net/tun:/dev/net/tun
+        volumes:
+            - ./zerotier_data:/var/lib/zerotier-one # PERSISTENCE IS MANDATORY: Saves your Identity/Keys
+        labels:
+            - "glance.name=ZeroTier"
+            - "glance.icon=sh:zerotier" # Make sure you have this icon in glance
+            - "glance.url=https://my.zerotier.com"
+            - "glance.description=VPN Controller"
+        restart: unless-stopped

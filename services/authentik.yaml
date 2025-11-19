@@ -85,28 +85,31 @@ services:
 
         # echo "✅ Restore complete!"
 
-    authentik-redis:
-        image: docker.io/library/redis:alpine
-        command: --save 60 1 --loglevel warning
-        container_name: authentik-redis
-        restart: unless-stopped
-        environment:
-            - PUID=${PUID}
-            - PGID=${PGID}
-            - TZ=${TZ}
-        healthcheck:
-            test: ["CMD-SHELL", "redis-cli ping | grep PONG"]
-            start_period: 20s
-            interval: 30s
-            retries: 5
-            timeout: 3s
-        networks:
-            - proxy_network
-        labels:
-            - "glance.parent=authentik"
-            - "glance.name=redis"
-        volumes:
-            - redis:/data
+    # Authentik doesn't require any redis instance at 2025.10.2 version.
+
+    # authentik-redis:
+    #     image: docker.io/library/redis:alpine
+    #     command: --save 60 1 --loglevel warning
+    #     container_name: authentik-redis
+    #     restart: unless-stopped
+    #     environment:
+    #         - PUID=${PUID}
+    #         - PGID=${PGID}
+    #         - TZ=${TZ}
+    #     healthcheck:
+    #         test: ["CMD-SHELL", "redis-cli ping | grep PONG"]
+    #         start_period: 20s
+    #         interval: 30s
+    #         retries: 5
+    #         timeout: 3s
+    #     networks:
+    #         - proxy_network
+    #     labels:
+    #         - "glance.parent=authentik"
+    #         - "glance.name=redis"
+    #     volumes:
+    #         - redis:/data
+
     server:
         image: ${AUTHENTIK_IMAGE:-ghcr.io/goauthentik/server}:${AUTHENTIK_TAG}
         restart: unless-stopped
@@ -119,7 +122,7 @@ services:
             AUTHENTIK_HOST: https://authentik.${BASE_DOMAIN}
             AUTHENTIK_INSECURE: "false"
             AUTHENTIK_SECRET_KEY: ${AUTHENTIK_SECRET_KEY:?secret key required}
-            AUTHENTIK_REDIS__HOST: authentik-redis
+            # AUTHENTIK_REDIS__HOST: authentik-redis
             AUTHENTIK_POSTGRESQL__HOST: authentik-postgresql
             AUTHENTIK_POSTGRESQL__USER: ${PG_USER:-authentik}
             AUTHENTIK_POSTGRESQL__NAME: ${PG_DB:-authentik}
@@ -146,8 +149,8 @@ services:
         depends_on:
             authentik-postgresql:
                 condition: service_healthy
-            authentik-redis:
-                condition: service_healthy
+            # authentik-redis:
+            #     condition: service_healthy
     worker:
         image: ${AUTHENTIK_IMAGE:-ghcr.io/goauthentik/server}:${AUTHENTIK_TAG}
         restart: unless-stopped
@@ -158,7 +161,7 @@ services:
             PGID: ${PGID}
             TZ: ${TZ}
             AUTHENTIK_SECRET_KEY: ${AUTHENTIK_SECRET_KEY:?secret key required}
-            AUTHENTIK_REDIS__HOST: authentik-redis
+            # AUTHENTIK_REDIS__HOST: authentik-redis
             AUTHENTIK_POSTGRESQL__HOST: authentik-postgresql
             AUTHENTIK_POSTGRESQL__USER: ${PG_USER:-authentik}
             AUTHENTIK_POSTGRESQL__NAME: ${PG_DB:-authentik}
@@ -179,8 +182,8 @@ services:
         depends_on:
             authentik-postgresql:
                 condition: service_healthy
-            authentik-redis:
-                condition: service_healthy
+            # authentik-redis:
+            #     condition: service_healthy
     # authentik-proxy:
     #   image: ghcr.io/goauthentik/proxy:${AUTHENTIK_TAG:-2025.4.0}
     #   restart: unless-stopped
