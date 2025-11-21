@@ -26,6 +26,8 @@ services:
             - "glance.name=wireguard"
         ports:
             - 51820:51820/udp
+            - 6881:6881
+            - 6881:6881/udp
         sysctls:
             - net.ipv4.conf.all.src_valid_mark=1
         restart: unless-stopped
