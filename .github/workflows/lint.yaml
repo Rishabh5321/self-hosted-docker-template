@@ -11,5 +11,5 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - name: Checkout
-              uses: actions/checkout@v4
+              uses: actions/checkout@v6
             - run: yamllint --strict -- $(git ls-files '*.yaml' '*.yml')
