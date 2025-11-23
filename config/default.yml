@@ -74,7 +74,7 @@
                     pull-requests-limit: 5
                     commits-limit: 3
                   - type: repository
-                    repository: rishabh5321/wallsite
+                    repository: rishabh5321/self-hosted-docker-template
                     pull-requests-limit: 5
                     commits-limit: 3
       - size: small
