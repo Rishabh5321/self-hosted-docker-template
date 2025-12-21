@@ -1,0 +1,31 @@
+---
+services:
+    plex:
+        image: lscr.io/linuxserver/plex:latest
+        container_name: plex
+        environment:
+            - PUID=${PUID}
+            - PGID=${PGID}
+            - TZ=${TZ}
+            - VERSION=docker
+            - PLEX_CLAIM=claim-shLpj4y_utp6WV-y_swv
+        devices:
+            - "${DRI_DEVICE_PATH}:/dev/dri"
+        networks:
+            - proxy_network
+        volumes:
+            - ${DOCKER_CONFIG_BASE}/Plex_Config:/config
+            - ${MEDIA_LIBRARY_PATH_RAID}:/data
+            - ${MEDIA_LIBRARY_PATH_EDISK}:/data1
+        labels:
+            - "glance.name=Plex"
+            - "glance.icon=sh:plex"
+            - "glance.url=http://plex.${BASE_DOMAIN}/"
+            - "glance.description=Movies & TV Shows"
+            - "traefik.enable=true"
+            - "traefik.http.routers.plex.rule=Host(`plex.${BASE_DOMAIN}`)"
+            - "traefik.http.routers.plex.entrypoints=web"
+            - "traefik.http.services.plex.loadbalancer.server.port=32400"
+        ports:
+            - "32400:32400"
+        restart: unless-stopped

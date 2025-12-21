@@ -26,6 +26,11 @@ services:
         restart: unless-stopped
         cap_add:
             - CAP_PERFMON
+            - SYS_RAWIO
+        devices:
+            - /dev/sda:/dev/sda
+            - /dev/sdb:/dev/sdb
+            - /dev/sdc:/dev/sdc
         volumes:
             - /var/run/docker.sock:/var/run/docker.sock:ro
             - ${DOCKER_CONFIG_BASE}/Beszel_Config/agent:/var/lib/beszel-agent

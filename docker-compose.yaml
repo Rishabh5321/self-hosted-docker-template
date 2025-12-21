@@ -33,6 +33,7 @@ include:
     # - ./services/swingmusic.yaml
     # - ./services/shoko.yaml
     - ./services/profilarr.yaml
+    # - ./services/plex.yaml
     # - ./services/tidarr.yaml
     # - ./services/midarr.yaml
     # - ./services/notifiarr.yaml
