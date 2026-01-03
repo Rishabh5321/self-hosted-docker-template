@@ -3,7 +3,7 @@ services:
     qbittorrent:
         image: lscr.io/linuxserver/qbittorrent:${QBITTORRENT_VERSION}
         container_name: qbittorrent
-        network_mode: service:wireguard
+        # network_mode: service:wireguard
         environment:
             - PUID=${PUID}
             - PGID=${PGID}

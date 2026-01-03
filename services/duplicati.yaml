@@ -9,11 +9,14 @@ services:
             - SETTINGS_ENCRYPTION_KEY=${DUPLICATI_SETTINGS_KEY}
             - DUPLICATI__WEBSERVICE_PASSWORD=${DUPLICATI_SETTINGS_KEY}
             - DUPLICATI__WEBSERVICE_DISABLE_SIGNIN_TOKEN=true
+            - DOCKER_MODS=linuxserver/mods:universal-package-install
+            - INSTALL_PACKAGES=rclone
         volumes:
             - ${DOCKER_CONFIG_BASE}/Duplicati_Config:/config
             - ${BACKUP_PATH}:/backups
             - ${DOCKER_CONFIG_MNT}/:/source
             - ${HOST_MNT_PATH}:/data
+            - ${RCLONE_CONFIG_PATH}:/config/.config/rclone/rclone.conf:ro
         # ports:
         #     - 8200:8200
         labels:

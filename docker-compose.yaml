@@ -11,7 +11,7 @@ include:
     # - ./services/nginx.yaml
     - ./services/traefik.yaml
     # - ./services/pi-hole.yaml
-    - ./services/wireguard.yaml
+    # - ./services/wireguard.yaml
     - ./services/cloudflared.yaml
     # - ./services/netbird.yaml
     - ./services/tailscale.yaml
@@ -44,6 +44,8 @@ include:
     # DOWNLOAD & SYNC SERVICES
     # ============================================================================
     - ./services/qbittorrent.yaml
+    - ./services/gopeed.yaml
+    # - ./services/qui.yaml
     # - ./services/qbittorrent-open.yaml
     # - ./services/resilio-sync.yaml
     # - ./services/syncthing.yaml

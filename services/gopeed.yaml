@@ -1,0 +1,27 @@
+services:
+    gopeed:
+        image: liwei2633/gopeed
+        container_name: gopeed
+        restart: unless-stopped
+        ports:
+            - "9999:9999"
+        networks:
+            - proxy_network
+        environment:
+            # - GOPEED_USERNAME=${GOPEED_USERNAME}
+            # - GOPEED_PASSWORD=${GOPEED_PASSWORD}
+            - PUID=${PUID}
+            - PGID=${PGID}
+            - TZ=${TZ}
+        volumes:
+            - ${MEDIA_DOWNLOADS_PATH}/Gopeed:/app/Downloads
+            - ${DOCKER_CONFIG_BASE}/Gopeed_Config:/app/storage
+        labels:
+            - "glance.name=Gopeed"
+            - "glance.icon=sh:gopeed"
+            - "glance.url=http://gopeed.${BASE_DOMAIN}/"
+            - "glance.description=Download Manager"
+            - "traefik.enable=true"
+            - "traefik.http.routers.gopeed.rule=Host(`gopeed.${BASE_DOMAIN}`)"
+            - "traefik.http.routers.gopeed.entrypoints=web"
+            - "traefik.http.services.gopeed.loadbalancer.server.port=9999"

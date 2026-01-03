@@ -1,0 +1,11 @@
+services:
+    autobrr-qui:
+        image: ghcr.io/autobrr/qui:latest
+        container_name: autobrr-qui
+        restart: unless-stopped
+        ports:
+            - "7476:7476"
+        volumes:
+            - ${DOCKER_CONFIG_BASE}/Qui_Config:/config
+        networks:
+            - proxy_network
