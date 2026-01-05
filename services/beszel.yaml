@@ -21,12 +21,13 @@ services:
             - proxy_network
 
     beszel-agent:
-        image: henrygd/beszel-agent:latest
+        image: henrygd/beszel-agent-intel:latest
         container_name: beszel-agent
         restart: unless-stopped
         cap_add:
             - CAP_PERFMON
             - SYS_RAWIO
+            - SYS_ADMIN
         devices:
             - /dev/sda:/dev/sda
             - /dev/sdb:/dev/sdb
