@@ -45,7 +45,7 @@ include:
     # ============================================================================
     - ./services/qbittorrent.yaml
     - ./services/gopeed.yaml
-    # - ./services/qui.yaml
+    - ./services/qui.yaml
     # - ./services/qbittorrent-open.yaml
     # - ./services/resilio-sync.yaml
     # - ./services/syncthing.yaml
