@@ -5,6 +5,7 @@ services:
         restart: unless-stopped
         environment:
             DOMAIN: "https://vw.${BASE_DOMAIN}"
+            TZ: ${TZ}
         volumes:
             - ${DOCKER_CONFIG_BASE}/Vaultwarden_Config/:/data/
         networks:
