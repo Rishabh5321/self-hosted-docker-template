@@ -1,0 +1,21 @@
+services:
+    vaultwarden:
+        image: vaultwarden/server:latest
+        container_name: vaultwarden
+        restart: unless-stopped
+        environment:
+            DOMAIN: "https://vw.${BASE_DOMAIN}"
+        volumes:
+            - ${DOCKER_CONFIG_BASE}/Vaultwarden_Config/:/data/
+        networks:
+            - proxy_network
+        labels:
+            - "glance.name=vaultwarden"
+            - "glance.icon=https://cdn.jsdelivr.net/gh/selfhst/icons@main/webp/bitwarden.webp"
+            - "glance.url=http://vm.${BASE_DOMAIN}/"
+            - "glance.description=Password Management"
+            - "glance.id=vaultwarden"
+            - "traefik.enable=true"
+            - "traefik.http.routers.vaultwarden.rule=Host(`vw.${BASE_DOMAIN}`)"
+            - "traefik.http.routers.vaultwarden.entrypoints=web"
+            - "traefik.http.services.vaultwarden.loadbalancer.server.port=80"

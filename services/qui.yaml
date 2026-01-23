@@ -1,7 +1,7 @@
 services:
-    autobrr-qui:
+    qui:
         image: ghcr.io/autobrr/qui:latest
-        container_name: autobrr-qui
+        container_name: qui
         restart: unless-stopped
         ports:
             - "7476:7476"
@@ -9,3 +9,13 @@ services:
             - ${DOCKER_CONFIG_BASE}/Qui_Config:/config
         networks:
             - proxy_network
+        labels:
+            - "glance.name=qui"
+            - "glance.icon=https://cdn.jsdelivr.net/gh/selfhst/icons@main/webp/qui.webp"
+            - "glance.url=http://qui.${BASE_DOMAIN}/"
+            - "glance.description=Tracker Monitoring"
+            - "glance.id=qui"
+            - "traefik.enable=true"
+            - "traefik.http.routers.qui.rule=Host(`qui.${BASE_DOMAIN}`)"
+            - "traefik.http.routers.qui.entrypoints=web"
+            - "traefik.http.services.qui.loadbalancer.server.port=7476"
