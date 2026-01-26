@@ -1,6 +1,6 @@
 services:
     tailscale:
-        image: tailscale/tailscale:stable
+        image: tailscale/tailscale:latest
         container_name: tailscale
         network_mode: "host"
         cap_add:

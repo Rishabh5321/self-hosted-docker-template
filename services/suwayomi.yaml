@@ -8,8 +8,8 @@ services:
             - PGID=${PGID}
             - FLARESOLVERR_ENABLED=true
             - FLARESOLVERR_URL=http://flaresolverr:8191
-        # ports:
-        #     - 4567:4567
+        ports:
+            - 4567:4567
         volumes:
             - ${DOCKER_CONFIG_BASE}/Suwayomi_Config:/home/suwayomi/.local/share/Tachidesk
         labels:
