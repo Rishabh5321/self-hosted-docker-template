@@ -1,6 +1,6 @@
 services:
     tailscale:
-        image: tailscale/tailscale:latest
+        image: ghcr.io/tailscale/tailscale:stable
         container_name: tailscale
         network_mode: "host"
         cap_add:
