@@ -105,6 +105,7 @@ include:
     # - ./services/filebrowser.yaml
     # - ./services/doublecommander.yaml
     # - ./services/casa.yaml
+    # - ./services/homedock-os.yaml
 
     # ============================================================================
     # ENTERTAINMENT & MISCELLANEOUS
