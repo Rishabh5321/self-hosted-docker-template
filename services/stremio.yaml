@@ -1,0 +1,17 @@
+services:
+    stremio-docker:
+        image: tsaridas/stremio-docker:latest
+        container_name: stremio-docker
+        networks:
+            - proxy_network
+        environment:
+            - NO_CORS=1
+            - AUTO_SERVER_URL=1
+            - PUID=${PUID}
+            - PGID=${PGID}
+            - TZ=${TZ}
+        volumes:
+            - /mnt/Docker/Docker/Stremio_Config:/root/.stremio-server
+        ports:
+            - "8080:8080/tcp"
+        restart: unless-stopped
