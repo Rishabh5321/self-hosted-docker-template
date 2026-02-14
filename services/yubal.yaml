@@ -1,0 +1,16 @@
+# compose.yaml
+services:
+    yubal:
+        image: ghcr.io/guillevc/yubal:latest
+        container_name: yubal
+        user: 1000:1000
+        ports:
+            - 8000:8000
+        environment:
+            YUBAL_SCHEDULER_CRON: "0 0 * * *"
+            YUBAL_DOWNLOAD_UGC: false
+            YUBAL_TZ: UTC
+        volumes:
+            - ${MEDIA_LIBRARY_PATH_RAID}/Music:/app/data
+            - /mnt/Docker/Docker/Yubal_Config/config:/app/config
+        restart: unless-stopped
