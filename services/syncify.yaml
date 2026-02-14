@@ -2,15 +2,15 @@ services:
     syncify:
         image: thewicklowwolf/syncify:${SYNCIFY_VERSION}
         container_name: syncify
-        logging:
-            driver: loki:latest
-            options:
-                loki-url: ${LOKI_URL}
-                loki-retries: 5
-                loki-max-backoff: 1800ms
-                loki-timeout: 1s
-                keep-file: "true"
-                mode: "non-blocking"
+        # logging:
+        #     driver: loki:latest
+        #     options:
+        #         loki-url: ${LOKI_URL}
+        #         loki-retries: 5
+        #         loki-max-backoff: 1800ms
+        #         loki-timeout: 1s
+        #         keep-file: "true"
+        #         mode: "non-blocking"
         volumes:
             - ${DOCKER_CONFIG_BASE}/Syncify_Config:/syncify/config
             - ${MEDIA_LIBRARY_PATH_RAID}/Music:/syncify/downloads
