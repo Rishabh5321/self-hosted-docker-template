@@ -64,7 +64,7 @@ include:
     - ./services/flaresolverr.yaml
     # - ./services/autobrr.yaml
     # - ./services/jackett.yaml
-    - ./services/huntarr.yaml
+    # - ./services/huntarr.yaml
 
     # ============================================================================
     # MONITORING & METRICS
