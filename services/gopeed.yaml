@@ -3,8 +3,21 @@ services:
         image: liwei2633/gopeed
         container_name: gopeed
         restart: unless-stopped
-        ports:
-            - "9999:9999"
+        command:
+            [
+                "-A",
+                "0.0.0.0",
+                "-P",
+                "9999",
+                "-u",
+                "${GOPEED_USERNAME}",
+                "-p",
+                "${GOPEED_PASSWORD}",
+                "-T",
+                "${GOPEED_API}",
+            ]
+        # ports:
+        #     - "9999:9999"
         networks:
             - proxy_network
         environment:
