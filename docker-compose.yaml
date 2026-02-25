@@ -40,7 +40,7 @@ include:
     # - ./services/notifiarr.yaml
     # - ./services/bitmagnet.yaml
     # - ./services/doplarr.yaml
-    # - ./services/stremio.yaml
+    - ./services/stremio.yaml
 
     # ============================================================================
     # DOWNLOAD & SYNC SERVICES
