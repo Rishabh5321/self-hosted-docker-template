@@ -1,0 +1,27 @@
+services:
+    gostream:
+        image: gostream
+        container_name: gostream
+        restart: unless-stopped
+        # network_mode: service:wireguard
+        environment:
+            - PUID=${PUID}
+            - PGID=${PGID}
+            - TZ=${TZ}
+        ports:
+            - "8090:8090"
+            - "9096:8096"
+        volumes:
+            - ${DOCKER_CONFIG_BASE}/Gostream_Config/config.json:/config.json:ro
+            - /mnt/gostream-mkv-real:/mnt/gostream-mkv-real
+            - /mnt/gostream-mkv-virtual:/mnt/gostream-mkv-virtual
+        devices:
+            - /dev/fuse:/dev/fuse
+        cap_add:
+            - SYS_ADMIN
+            - NET_ADMIN
+        labels:
+            - com.centurylinklabs.watchtower.enable="false"
+        # Optional: If your FUSE mount needs specific security tweaks
+        # security_opt:
+        #   - apparmor:unconfined

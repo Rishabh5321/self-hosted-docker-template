@@ -11,7 +11,12 @@ services:
             - PGID=${PGID}
             - TZ=${TZ}
         volumes:
-            - /mnt/Docker/Docker/Stremio_Config:/root/.stremio-server
+            - ${DOCKER_CONFIG_BASE}/Stremio_Config:/root/.stremio-server
+        labels:
+            - "glance.name=Stremio"
+            - "glance.icon=sh:Stremio"
+            - "glance.url=http://stremio.${BASE_DOMAIN}/"
+            - "glance.description=stremio"
         ports:
             - "8080:8080/tcp"
         restart: unless-stopped

@@ -20,7 +20,7 @@ include:
     # AUTHENTICATION, SECURITY AND PASSWORD MANAGEMENT
     # ============================================================================
     - ./services/authentik.yaml
-    - ./services/vaultwarden.yaml
+    # - ./services/vaultwarden.yaml
 
     # ============================================================================
     # MEDIA MANAGEMENT STACK
@@ -41,6 +41,7 @@ include:
     # - ./services/bitmagnet.yaml
     # - ./services/doplarr.yaml
     - ./services/stremio.yaml
+    # - ./services/gostream.yaml
 
     # ============================================================================
     # DOWNLOAD & SYNC SERVICES
