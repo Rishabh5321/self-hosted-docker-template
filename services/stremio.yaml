@@ -14,7 +14,7 @@ services:
             - ${DOCKER_CONFIG_BASE}/Stremio_Config:/root/.stremio-server
         labels:
             - "glance.name=Stremio"
-            - "glance.icon=sh:Stremio"
+            - "glance.icon=https://raw.githubusercontent.com/Stremio/stremio-web/refs/heads/development/assets/favicons/favicon.ico"
             - "glance.url=http://stremio.${BASE_DOMAIN}/"
             - "glance.description=stremio"
         ports:
