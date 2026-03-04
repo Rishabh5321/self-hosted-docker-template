@@ -1,0 +1,30 @@
+services:
+    debian-server:
+        image: debian:latest
+        container_name: debian_local_device
+        restart: unless-stopped
+        stdin_open: true
+        tty: true
+        volumes:
+            - /mnt/debian/home:/home
+            - /mnt/debian/etc:/etc
+            - /mnt/debian/var:/var
+            - /mnt/debian/usr:/usr
+            - /mnt/debian/opt:/opt
+        command: tail -f /dev/null
+        networks:
+            home_network:
+                ipv4_address: 192.168.1.50
+
+# sudo docker run --rm debian:latest tar -c etc bin sbin lib lib64 usr var | sudo tar -x -C /mnt/debian
+
+networks:
+    home_network:
+        driver: macvlan
+        driver_opts:
+            # Change 'enp2s0' to 'br0'
+            parent: br0
+        ipam:
+            config:
+                - subnet: 192.168.1.0/24
+                  gateway: 192.168.1.1

@@ -4,13 +4,16 @@ services:
         container_name: gostream
         restart: unless-stopped
         # network_mode: service:wireguard
+        networks:
+            home_network:
+                ipv4_address: 192.168.1.50
         environment:
             - PUID=${PUID}
             - PGID=${PGID}
             - TZ=${TZ}
-        ports:
-            - "8090:8090"
-            - "9096:8096"
+        # ports:
+        #     - "8090:8090"
+        #     - "9096:8096"
         volumes:
             - ${DOCKER_CONFIG_BASE}/Gostream_Config/config.json:/config.json:ro
             - /mnt/gostream-mkv-real:/mnt/gostream-mkv-real
@@ -25,3 +28,14 @@ services:
         # Optional: If your FUSE mount needs specific security tweaks
         # security_opt:
         #   - apparmor:unconfined
+
+networks:
+    home_network:
+        driver: macvlan
+        driver_opts:
+            # Change 'enp2s0' to 'br0'
+            parent: br0
+        ipam:
+            config:
+                - subnet: 192.168.1.0/24
+                  gateway: 192.168.1.1
