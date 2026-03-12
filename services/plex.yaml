@@ -17,6 +17,7 @@ services:
             - ${DOCKER_CONFIG_BASE}/Plex_Config:/config
             - ${MEDIA_LIBRARY_PATH_RAID}:/data
             - ${MEDIA_LIBRARY_PATH_EDISK}:/data1
+            - /mnt/gostream-mkv-virtual:/mnt/gostream-mkv-virtual:shared
         labels:
             - "glance.name=Plex"
             - "glance.icon=sh:plex"

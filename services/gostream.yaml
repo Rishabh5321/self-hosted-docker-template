@@ -14,6 +14,7 @@ services:
             - ${DOCKER_CONFIG_BASE}/Gostream_Config/config.json:/config.json:ro
             - /mnt/gostream-mkv-real:/mnt/gostream-mkv-real
             - /mnt/gostream-mkv-virtual:/mnt/gostream-mkv-virtual:shared
+            - ${GOSTREAM_CACHE}:/mnt/cache
         devices:
             - /dev/fuse:/dev/fuse
         cap_add:
