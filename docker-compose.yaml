@@ -41,7 +41,7 @@ include:
     # - ./services/bitmagnet.yaml
     # - ./services/doplarr.yaml
     - ./services/stremio.yaml
-    - ./services/gostream.yaml
+    # - ./services/gostream.yaml
 
     # ============================================================================
     # DOWNLOAD & SYNC SERVICES
