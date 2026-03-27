@@ -115,6 +115,7 @@ include:
     # ============================================================================
     # - ./services/tachidesk.yaml
     - ./services/suwayomi.yaml
+    - ./services/manatan.yaml
     # - ./services/free-games-claimer.yaml
 
     # ============================================================================

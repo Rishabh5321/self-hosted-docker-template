@@ -1,0 +1,27 @@
+services:
+    manatan:
+        image: ghcr.io/kolbyml/manatan:latest
+        container_name: manatan
+        # user: 1000:1000
+        environment:
+            - TZ=Etc/UTC
+            - FLARESOLVERR_ENABLED=true
+            - FLARESOLVERR_URL=http://flaresolverr:8191
+            - MANATAN_HEADLESS=true
+        volumes:
+            - ${DOCKER_CONFIG_BASE}/Manatan_Config/Tachidesk:/home/manatan/.local/share/Tachidesk
+            - ${DOCKER_CONFIG_BASE}/Manatan_Config/manatan:/home/manatan/.local/share/manatan
+        ports:
+            - 4568:4568
+        restart: unless-stopped
+        depends_on:
+            - flaresolverr
+            # - init-permissions
+        networks:
+            - proxy_network
+        labels:
+            - "glance.name=Manatan"
+            - "glance.icon=https://cdn.jsdelivr.net/gh/selfhst/icons/webp/suwayomi.webp"
+            - "glance.url=http://manatan.${BASE_DOMAIN}/"
+            - "glance.description=Anime/Manga/Novel Server"
+            - "glance.id=manatan"
