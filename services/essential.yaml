@@ -1,0 +1,17 @@
+services:
+    essential:
+        image: alpine:latest
+        container_name: essential_dummy
+        command: ["true"]
+        restart: "no"
+        depends_on:
+            - jellyfin
+            - radarr
+            - sonarr
+            - prowlarr
+            - qbittorrent
+            - authentik-postgresql
+            - cloudflared
+            - traefik
+            - server
+            - worker

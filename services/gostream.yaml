@@ -1,6 +1,6 @@
 services:
     gostream:
-        image: gostream
+        image: mrrobotogit/gostream:latest
         container_name: gostream
         restart: unless-stopped
         privileged: true
@@ -20,8 +20,8 @@ services:
         cap_add:
             - SYS_ADMIN
             - NET_ADMIN
-        labels:
-            - com.centurylinklabs.watchtower.enable="false"
+        # labels:
+        #   - com.centurylinklabs.watchtower.enable="false"
         # Optional: If your FUSE mount needs specific security tweaks
         # security_opt:
         #   - apparmor:unconfined
