@@ -4,6 +4,10 @@ services:
         container_name: essential_dummy
         command: ["true"]
         restart: "no"
+        labels:
+            - "glance.parent=suwayomi"
+            - "glance.name=essential"
+            - "glance.hide=true"
         depends_on:
             - jellyfin
             - radarr

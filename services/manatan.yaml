@@ -9,7 +9,7 @@ services:
             - FLARESOLVERR_URL=http://flaresolverr:8191
             - MANATAN_HEADLESS=true
         volumes:
-            - ${DOCKER_CONFIG_BASE}/Manatan_Config/Tachidesk:/home/manatan/.local/share/Tachidesk
+            - ${DOCKER_CONFIG_BASE}/Manatan_Config/tachidesk:/home/manatan/.local/share/Tachidesk
             - ${DOCKER_CONFIG_BASE}/Manatan_Config/manatan:/home/manatan/.local/share/manatan
         ports:
             - 4568:4568
