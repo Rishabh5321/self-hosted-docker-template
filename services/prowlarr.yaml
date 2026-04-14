@@ -19,4 +19,5 @@ services:
             - "traefik.http.services.prowlarr.loadbalancer.server.port=9696"
         volumes:
             - ${DOCKER_CONFIG_BASE}/Prowlarr_Config:/config
+            - ${DOCKER_CONFIG_BASE}/Prowlarr-Indexers/Custom:/config/Definitions/Custom
         restart: unless-stopped
