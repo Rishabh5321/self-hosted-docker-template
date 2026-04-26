@@ -7,6 +7,7 @@ services:
             PUID: ${PUID}
             PGID: ${PGID}
             TZ: ${TZ}
+            USER_CREATION: "true"
         # ports:
         #     - 8090:8090
         labels:
@@ -46,8 +47,8 @@ services:
             PUID: ${PUID}
             PGID: ${PGID}
             TZ: ${TZ}
-            LISTEN: ${BESZEL_PORT}
-            KEY: "${BESZEL_SSH_KEY}"
+            LISTEN: 45876
+            KEY: ${BESZEL_SSH_KEY}
             TOKEN: ${BESZEL_TOKEN}
             HUB_URL: http://localhost:8090
         networks:
