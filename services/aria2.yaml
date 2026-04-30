@@ -1,18 +1,36 @@
+# services/aria2.yaml
 services:
-    ariang:
+    aria2:
         image: hurlenko/aria2-ariang
-        container_name: ariang
-        ports:
-            - 8080:8080
-        volumes:
-            - ${MEDIA_DOWNLOADS_PATH}/aria2:/aria2/data
-            - ${DOCKER_CONFIG_BASE}/Aria_Config:/aria2/conf
-        networks:
-            - proxy_network
+        container_name: aria2-pro
+        logging:
+            driver: "json-file"
+            options:
+                max-size: "1m"
         environment:
             - PUID=${PUID}
             - PGID=${PGID}
+            - UMASK_SET=022
+            - RPC_SECRET=${ARIA2_RPC_SECRET}
+            - ARIA2RPCPORT=6888
             - TZ=${TZ}
-            - RPC_SECRET=${RPC_SECRET}
-            - ARIA2RPCPORT=8080
-        restart: always
+        volumes:
+            - ${DOCKER_CONFIG_BASE}/Aria_Config:/config
+            - ${MEDIA_DOWNLOADS_PATH}:/downloads
+        ports:
+            - 6888:8080
+        labels:
+            - "glance.name=Aria2"
+            - "glance.icon=https://cdn.jsdelivr.net/gh/selfhst/icons@main/webp/aria2.webp"
+            - "glance.url=http://aria2.${BASE_DOMAIN}/"
+            - "glance.description=Download Manager"
+            - "glance.id=aria2"
+            - "traefik.enable=true"
+            - "traefik.http.routers.aria2.rule=Host(`aria2.${BASE_DOMAIN}`)"
+            - "traefik.http.routers.aria2.entrypoints=web"
+            - "traefik.http.services.aria2.loadbalancer.server.port=6800"
+        networks:
+            - proxy_network
+        # depends_on:
+        #   - wireguard
+        restart: unless-stopped

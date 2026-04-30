@@ -25,6 +25,7 @@ include:
     # ============================================================================
     # MEDIA MANAGEMENT STACK
     # ============================================================================
+    - ./services/hound.yaml
     - ./services/sonarr.yaml
     - ./services/radarr.yaml
     - ./services/bazarr.yaml
@@ -56,7 +57,7 @@ include:
     # - ./services/yubal.yaml
     # - ./services/pyload.yaml
     # - ./services/jdownloader.yaml
-    # - ./services/aria2.yaml
+    - ./services/aria2.yaml
 
     # ============================================================================
     # INDEXERS & SEARCH

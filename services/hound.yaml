@@ -1,0 +1,55 @@
+services:
+    hound-postgres:
+        container_name: hound-postgres
+        image: postgres:18
+        environment:
+            POSTGRES_DB: hound_db
+            POSTGRES_USER: ${POSTGRES_USER_HOUND}
+            POSTGRES_PASSWORD: ${POSTGRES_PASSWORD_HOUND}
+        volumes:
+            - ${DOCKER_CONFIG_BASE}/Hound/database/postgres_data:/var/lib/postgresql
+        labels:
+            - "glance.parent=hound"
+            - "glance.name=database"
+        healthcheck:
+            test: ["CMD-SHELL", "pg_isready -U hound -d hound_db"]
+            interval: 5s
+            timeout: 5s
+            retries: 5
+        networks:
+            - proxy_network
+
+    hound-server:
+        container_name: hound-server
+        image: houndmediaserver/hound:latest
+        depends_on:
+            hound-postgres:
+                condition: service_healthy
+        ports:
+            - "2323:2323"
+        environment:
+            - POSTGRES_DB=hound_db
+            - POSTGRES_USER=${POSTGRES_USER_HOUND}
+            - POSTGRES_PASSWORD=${POSTGRES_PASSWORD_HOUND}
+            - HOUND_SECRET=${HOUND_SECRET}
+        volumes:
+            - ${DOCKER_CONFIG_BASE}/Hound/data/Hound Data:/app/Hound Data
+            - ${MEDIA_DOWNLOADS_PATH}/Hound:/app/Hound Data/Downloads
+            # (Optional) attach your media library
+            - ${MEDIA_LIBRARY_PATH_RAID}/Movies:/app/External Library/Movies
+            - ${MEDIA_LIBRARY_PATH_RAID}/Shows:/app/External Library/TV Shows
+            # IMPORTANT: Please read the docs before doing this
+            # - /path/to/movies:/app/External Library/Movies
+            # - /path/to/shows:/app/External Library/TV Shows
+        labels:
+            - "glance.name=hound"
+            - "glance.icon=https://cdn.jsdelivr.net/gh/selfhst/icons@main/webp/fnos-media.webp"
+            - "glance.url=http://hound.${BASE_DOMAIN}/"
+            - "glance.description=Download Manager"
+            - "glance.id=hound"
+            - "traefik.enable=true"
+            - "traefik.http.routers.hound.rule=Host(`hound.${BASE_DOMAIN}`)"
+            - "traefik.http.routers.hound.entrypoints=web"
+            - "traefik.http.services.hound.loadbalancer.server.port=2323"
+        networks:
+            - proxy_network
