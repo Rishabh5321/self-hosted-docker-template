@@ -1,0 +1,22 @@
+services:
+  docker-backup:
+    image: offen/docker-volume-backup:v2
+    container_name: docker-volume-backup
+    restart: unless-stopped
+    environment:
+      BACKUP_CRON_EXPRESSION: "00 19 * * *"
+      BACKUP_FILENAME: "docker-backup-%Y-%m-%dT%H-%M-%S.tar.gz"
+
+      TZ: ${TZ}
+
+      # WebDAV Configuration
+      WEBDAV_URL: ${WEBDAV_URL}
+      WEBDAV_PATH: ${WEBDAV_PATH}
+      WEBDAV_USERNAME: ${WEBDAV_USERNAME}
+      WEBDAV_PASSWORD: ${WEBDAV_PASSWORD}
+
+      BACKUP_RETENTION_DAYS: 3
+
+    volumes:
+      - ${DOCKER_CONFIG_BASE}/:/backup/Docker:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
