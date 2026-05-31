@@ -1,36 +1,37 @@
 # services/qbittorrent.yaml
 services:
-    qbittorrent:
-        image: lscr.io/linuxserver/qbittorrent:${QBITTORRENT_VERSION}
-        container_name: qbittorrent
-        # network_mode: service:wireguard
-        environment:
-            - PUID=${PUID}
-            - PGID=${PGID}
-            - TZ=${TZ}
-            - WEBUI_PORT=8080
-            - TORRENTING_PORT=6881
-        volumes:
-            - ${DOCKER_CONFIG_BASE}/Qbittorrent_Config:/config
-            - ${MEDIA_DOWNLOADS_PATH}:/downloads
-            - ${MEDIA_LIBRARY_PATH_RAID}:/mnt/Raid/Learn/Bonus
-            - /mnt/Docker/Downloads:/downloads/incomplete
-        ports:
-            - 6881:6881
-            - 6881:6881/udp
-            - 8080:8080
-        labels:
-            - "glance.name=qBittorrent"
-            - "glance.icon=sh:qbittorrent"
-            - "glance.url=http://qbit.${BASE_DOMAIN}/"
-            - "glance.description=Torrent Client"
-            - "glance.id=qbittorrent"
-            - "traefik.enable=true"
-            - "traefik.http.routers.qbit.rule=Host(`qbit.${BASE_DOMAIN}`)"
-            - "traefik.http.routers.qbit.entrypoints=web"
-            - "traefik.http.services.qbit.loadbalancer.server.port=8080"
-        # depends_on:
-        #     - wireguard
-        networks:
-            - proxy_network
-        restart: unless-stopped
+  qbittorrent:
+    image: lscr.io/linuxserver/qbittorrent:${QBITTORRENT_VERSION}
+    container_name: qbittorrent
+    # network_mode: service:wireguard
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+      - WEBUI_PORT=8080
+      - TORRENTING_PORT=6881
+    volumes:
+      - ${DOCKER_CONFIG_BASE}/Qbittorrent_Config:/config
+      - ${MEDIA_DOWNLOADS_PATH}:/downloads
+      - ${MEDIA_LIBRARY_PATH_RAID}:/mnt/Raid/Learn/Bonus
+      - /mnt/Docker/Downloads:/downloads/incomplete
+    ports:
+      - 6881:6881
+      - 6881:6881/udp
+      - 8080:8080
+    labels:
+      - "glance.name=qBittorrent"
+      - "glance.icon=sh:qbittorrent"
+      - "glance.url=http://qbit.${BASE_DOMAIN}/"
+      - "glance.description=Torrent Client"
+      - "glance.id=qbittorrent"
+      - "traefik.enable=true"
+      - "traefik.http.routers.qbit.rule=Host(`qbit.${BASE_DOMAIN}`)"
+      - "traefik.http.routers.qbit.entrypoints=web"
+      - "traefik.http.services.qbit.loadbalancer.server.port=8080"
+    # depends_on:
+    #     - wireguard
+    networks:
+      - proxy_network
+    restart: unless-stopped
+    stop_grace_period: "10s"

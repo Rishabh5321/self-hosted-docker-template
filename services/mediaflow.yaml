@@ -1,0 +1,19 @@
+services:
+  mediaflow-proxy:
+    image: mhdzumair/mediaflow-proxy
+    ports:
+      - "8888:8888"
+    environment:
+      - API_PASSWORD=${GOPEED_PASSWORD}
+    networks:
+      - proxy_network
+    restart: unless-stopped
+    labels:
+      - "glance.name=mediaflow"
+      - "glance.icon=sh:mediaflow"
+      - "glance.url=http://mediaflow.${BASE_DOMAIN}/"
+      - "glance.description=mediaflow"
+      - "traefik.enable=true"
+      - "traefik.http.routers.mediaflow.rule=Host(`mediaflow.${BASE_DOMAIN}`)"
+      - "traefik.http.routers.mediaflow.entrypoints=web"
+      - "traefik.http.services.mediaflow.loadbalancer.server.port=8888"
