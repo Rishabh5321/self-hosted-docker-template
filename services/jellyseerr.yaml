@@ -1,32 +1,33 @@
 services:
-    seerr:
-        image: ghcr.io/seerr-team/seerr:latest
-        init: true
-        container_name: seerr
-        environment:
-            - LOG_LEVEL=debug
-            - TZ=${TZ}
-            - PUID=${PUID}
-            - PGID=${PGID}
-        # ports:
-        #     - 5055:5055
-        labels:
-            - "glance.name=Seerr"
-            - "glance.icon=sh:seerr"
-            - "glance.url=http://seerr.${BASE_DOMAIN}/"
-            - "glance.description=Request Manager"
-            - "traefik.enable=true"
-            - "traefik.http.routers.seerr.rule=Host(`seerr.${BASE_DOMAIN}`)"
-            - "traefik.http.routers.seerr.entrypoints=web"
-            - "traefik.http.services.seerr.loadbalancer.server.port=5055"
-        networks:
-            - proxy_network
-        volumes:
-            - ${DOCKER_CONFIG_BASE}/Seer_Config:/app/config
-        healthcheck:
-            test: wget --no-verbose --tries=1 --spider http://localhost:5055/api/v1/status || exit 1
-            start_period: 20s
-            timeout: 3s
-            interval: 15s
-            retries: 3
-        restart: unless-stopped
+  seerr:
+    image: ghcr.io/seerr-team/seerr:latest
+    init: true
+    container_name: seerr
+    environment:
+      - LOG_LEVEL=debug
+      - TZ=${TZ}
+      - PUID=${PUID}
+      - PGID=${PGID}
+    # ports:
+    #     - 5055:5055
+    labels:
+      - "glance.name=Seerr"
+      - "glance.icon=sh:seerr"
+      - "glance.url=http://seerr.${BASE_DOMAIN}/"
+      - "glance.description=Request Manager"
+      - "traefik.enable=true"
+      - "traefik.http.routers.seerr.rule=Host(`seerr.${BASE_DOMAIN}`)"
+      - "traefik.http.routers.seerr.entrypoints=web"
+      - "traefik.http.services.seerr.loadbalancer.server.port=5055"
+      - "docker-volume-backup.stop-during-backup=stop"
+    networks:
+      - proxy_network
+    volumes:
+      - ${DOCKER_CONFIG_BASE}/Seer_Config:/app/config
+    healthcheck:
+      test: wget --no-verbose --tries=1 --spider http://localhost:5055/api/v1/status || exit 1
+      start_period: 20s
+      timeout: 3s
+      interval: 15s
+      retries: 3
+    restart: unless-stopped

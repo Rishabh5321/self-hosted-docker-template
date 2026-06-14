@@ -16,6 +16,7 @@ services:
       WEBDAV_PASSWORD: ${WEBDAV_PASSWORD}
 
       BACKUP_RETENTION_DAYS: 3
+      BACKUP_STOP_DURING_BACKUP_LABEL: stop
 
     volumes:
       - ${DOCKER_CONFIG_BASE}/:/backup/Docker:ro

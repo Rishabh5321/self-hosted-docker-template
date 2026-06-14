@@ -1,21 +1,21 @@
 services:
-    cloudflared:
-        image: cloudflare/cloudflared:latest
-        container_name: cloudflared
-        command: tunnel --no-autoupdate run --token ${TUNNEL_TOKEN}
-        restart: unless-stopped
-        labels:
-            - "glance.parent=portainer"
-            - "glance.name=cloudflare"
-        networks:
-            - proxy_network
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    container_name: cloudflared
+    command: tunnel --no-autoupdate run --token ${TUNNEL_TOKEN}
+    restart: unless-stopped
+    labels:
+      - "glance.parent=portainer"
+      - "glance.name=cloudflare"
+    networks:
+      - proxy_network
 
-    cloudflared_host:
-        image: cloudflare/cloudflared:latest
-        container_name: cloudflared_host
-        command: tunnel --no-autoupdate run --token ${TUNNEL_TOKEN_HOST}
-        restart: unless-stopped
-        network_mode: host
-        labels:
-            - "glance.parent=portainer"
-            - "glance.name=cloudflare-host"
+  cloudflared_host:
+    image: cloudflare/cloudflared:latest
+    container_name: cloudflared_host
+    command: tunnel --no-autoupdate run --token ${TUNNEL_TOKEN_HOST}
+    restart: unless-stopped
+    network_mode: host
+    labels:
+      - "glance.parent=portainer"
+      - "glance.name=cloudflare-host"

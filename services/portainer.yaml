@@ -1,20 +1,21 @@
 services:
-    portainer:
-        image: portainer/portainer-ce:lts
-        container_name: portainer
-        volumes:
-            - /var/run/docker.sock:/var/run/docker.sock
-            - /portainer_data:/data
-        labels:
-            - "glance.name=Portainer"
-            - "glance.icon=sh:portainer"
-            - "glance.url=http://portainer.${BASE_DOMAIN}/"
-            - "glance.description=Docker Management"
-            - "glance.id=portainer"
-            - "traefik.enable=true"
-            - "traefik.http.routers.portainer.rule=Host(`portainer.${BASE_DOMAIN}`)"
-            - "traefik.http.routers.portainer.entrypoints=websecure"
-            - "traefik.http.services.portainer.loadbalancer.server.port=9443"
-        networks:
-            - proxy_network
-        restart: unless-stopped
+  portainer:
+    image: portainer/portainer-ce:lts
+    container_name: portainer
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /portainer_data:/data
+    labels:
+      - "glance.name=Portainer"
+      - "glance.icon=sh:portainer"
+      - "glance.url=http://portainer.${BASE_DOMAIN}/"
+      - "glance.description=Docker Management"
+      - "glance.id=portainer"
+      - "traefik.enable=true"
+      - "traefik.http.routers.portainer.rule=Host(`portainer.${BASE_DOMAIN}`)"
+      - "traefik.http.routers.portainer.entrypoints=websecure"
+      - "traefik.http.services.portainer.loadbalancer.server.port=9443"
+      - "docker-volume-backup.stop-during-backup=stop"
+    networks:
+      - proxy_network
+    restart: unless-stopped

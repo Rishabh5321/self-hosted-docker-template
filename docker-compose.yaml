@@ -1,139 +1,139 @@
 include:
-    # ============================================================================
-    # INFRASTRUCTURE & COMMON CONFIGURATIONS
-    # ============================================================================
-    - ./common/networks.yaml
-    - ./common/volumes.yaml
+  # ============================================================================
+  # INFRASTRUCTURE & COMMON CONFIGURATIONS
+  # ============================================================================
+  - ./common/networks.yaml
+  - ./common/volumes.yaml
 
-    # ============================================================================
-    # REVERSE PROXY & NETWORKING
-    # ============================================================================
-    # - ./services/nginx.yaml
-    - ./services/traefik.yaml
-    # - ./services/pi-hole.yaml
-    # - ./services/wireguard.yaml
-    - ./services/cloudflared.yaml
-    # - ./services/netbird.yaml
-    - ./services/tailscale.yaml
+  # ============================================================================
+  # REVERSE PROXY & NETWORKING
+  # ============================================================================
+  # - ./services/nginx.yaml
+  - ./services/traefik.yaml
+  # - ./services/pi-hole.yaml
+  # - ./services/wireguard.yaml
+  - ./services/cloudflared.yaml
+  # - ./services/netbird.yaml
+  - ./services/tailscale.yaml
 
-    # ============================================================================
-    # AUTHENTICATION, SECURITY AND PASSWORD MANAGEMENT
-    # ============================================================================
-    - ./services/authentik.yaml
-    # - ./services/vaultwarden.yaml
+  # ============================================================================
+  # AUTHENTICATION, SECURITY AND PASSWORD MANAGEMENT
+  # ============================================================================
+  - ./services/authentik.yaml
+  # - ./services/vaultwarden.yaml
 
-    # ============================================================================
-    # MEDIA MANAGEMENT STACK
-    # ============================================================================
-    # - ./services/hound.yaml
-    - ./services/sonarr.yaml
-    - ./services/radarr.yaml
-    - ./services/bazarr.yaml
-    - ./services/jellyfin.yaml
-    - ./services/jellyseerr.yaml
-    # - ./services/immich.yaml
-    # - ./services/swingmusic.yaml
-    # - ./services/shoko.yaml
-    - ./services/profilarr.yaml
-    # - ./services/plex.yaml
-    # - ./services/tidarr.yaml
-    # - ./services/midarr.yaml
-    # - ./services/notifiarr.yaml
-    # - ./services/bitmagnet.yaml
-    # - ./services/doplarr.yaml
-    # - ./services/stremio.yaml
-    # - ./services/gostream.yaml
+  # ============================================================================
+  # MEDIA MANAGEMENT STACK
+  # ============================================================================
+  # - ./services/hound.yaml
+  - ./services/sonarr.yaml
+  - ./services/radarr.yaml
+  # - ./services/bazarr.yaml
+  - ./services/jellyfin.yaml
+  - ./services/jellyseerr.yaml
+  # - ./services/immich.yaml
+  # - ./services/swingmusic.yaml
+  # - ./services/shoko.yaml
+  - ./services/profilarr.yaml
+  # - ./services/plex.yaml
+  # - ./services/tidarr.yaml
+  # - ./services/midarr.yaml
+  # - ./services/notifiarr.yaml
+  # - ./services/bitmagnet.yaml
+  # - ./services/doplarr.yaml
+  # - ./services/stremio.yaml
+  # - ./services/gostream.yaml
 
-    # ============================================================================
-    # DOWNLOAD & SYNC SERVICES
-    # ============================================================================
-    - ./services/qbittorrent.yaml
-    - ./services/gopeed.yaml
-    - ./services/qui.yaml
-    # - ./services/qbittorrent-open.yaml
-    # - ./services/resilio-sync.yaml
-    # - ./services/syncthing.yaml
-    # - ./services/syncify.yaml
-    # - ./services/yubal.yaml
-    # - ./services/pyload.yaml
-    # - ./services/jdownloader.yaml
-    # - ./services/aria2.yaml
+  # ============================================================================
+  # DOWNLOAD & SYNC SERVICES
+  # ============================================================================
+  - ./services/qbittorrent.yaml
+  # - ./services/gopeed.yaml
+  # - ./services/qui.yaml
+  # - ./services/qbittorrent-open.yaml
+  # - ./services/resilio-sync.yaml
+  # - ./services/syncthing.yaml
+  # - ./services/syncify.yaml
+  # - ./services/yubal.yaml
+  # - ./services/pyload.yaml
+  # - ./services/jdownloader.yaml
+  # - ./services/aria2.yaml
 
-    # ============================================================================
-    # INDEXERS & SEARCH
-    # ============================================================================
-    - ./services/prowlarr.yaml
-    - ./services/flaresolverr.yaml
-    # - ./services/autobrr.yaml
-    # - ./services/jackett.yaml
-    # - ./services/huntarr.yaml
+  # ============================================================================
+  # INDEXERS & SEARCH
+  # ============================================================================
+  - ./services/prowlarr.yaml
+  - ./services/flaresolverr.yaml
+  # - ./services/autobrr.yaml
+  # - ./services/jackett.yaml
+  # - ./services/huntarr.yaml
 
-    # ============================================================================
-    # MONITORING & METRICS
-    # ============================================================================
-    # - ./services/prometheus.yaml
-    # - ./services/grafana.yaml
-    # - ./services/loki.yaml
-    # - ./services/promtail.yaml
-    # - ./services/cadvisor.yaml
-    # - ./services/nodeexporter.yaml
-    # - ./services/speedtest-tracker.yaml
-    # - ./services/garmin-grafana.yaml
-    # - ./services/uptime-kuma.yaml
-    - ./services/beszel.yaml
-    # - ./services/homeassistant.yaml
+  # ============================================================================
+  # MONITORING & METRICS
+  # ============================================================================
+  # - ./services/prometheus.yaml
+  # - ./services/grafana.yaml
+  # - ./services/loki.yaml
+  # - ./services/promtail.yaml
+  # - ./services/cadvisor.yaml
+  # - ./services/nodeexporter.yaml
+  # - ./services/speedtest-tracker.yaml
+  # - ./services/garmin-grafana.yaml
+  # - ./services/uptime-kuma.yaml
+  - ./services/beszel.yaml
+  # - ./services/homeassistant.yaml
 
-    # ============================================================================
-    # MANAGEMENT & ADMINISTRATION
-    # ============================================================================
-    - ./services/portainer.yaml
-    # - ./services/glance.yaml
-    # - ./services/n8n.yaml
-    # - ./services/cup.yaml
-    - ./services/watchtower.yaml
-    # - ./services/wud.yaml
+  # ============================================================================
+  # MANAGEMENT & ADMINISTRATION
+  # ============================================================================
+  - ./services/portainer.yaml
+  - ./services/glance.yaml
+  # - ./services/n8n.yaml
+  # - ./services/cup.yaml
+  - ./services/watchtower.yaml
+  # - ./services/wud.yaml
 
-    # ============================================================================
-    # DEVELOPMENT & VERSION CONTROL
-    # ============================================================================
-    # - ./services/gitea.yaml
-    # - ./services/gitea-runner.yml
-    # - ./services/stirling-pdf.yaml
-    # - ./services/gitea-mirror.yaml
-    # - ./services/gitlab.yaml
+  # ============================================================================
+  # DEVELOPMENT & VERSION CONTROL
+  # ============================================================================
+  # - ./services/gitea.yaml
+  # - ./services/gitea-runner.yml
+  # - ./services/stirling-pdf.yaml
+  # - ./services/gitea-mirror.yaml
+  # - ./services/gitlab.yaml
 
-    # ============================================================================
-    # BACKUP & FILE MANAGEMENT
-    # ============================================================================
-    - ./services/duplicati.yaml
-    - ./services/docker-volume-backup.yaml
-    # - ./services/filebrowser.yaml
-    # - ./services/doublecommander.yaml
-    # - ./services/casa.yaml
-    # - ./services/homedock-os.yaml
+  # ============================================================================
+  # BACKUP & FILE MANAGEMENT
+  # ============================================================================
+  # - ./services/duplicati.yaml
+  - ./services/docker-volume-backup.yaml
+  # - ./services/filebrowser.yaml
+  # - ./services/doublecommander.yaml
+  # - ./services/casa.yaml
+  # - ./services/homedock-os.yaml
 
-    # ============================================================================
-    # ENTERTAINMENT & MISCELLANEOUS
-    # ============================================================================
-    # - ./services/tachidesk.yaml
-    - ./services/suwayomi.yaml
-    # - ./services/manatan.yaml
-    # - ./services/free-games-claimer.yaml
+  # ============================================================================
+  # ENTERTAINMENT & MISCELLANEOUS
+  # ============================================================================
+  # - ./services/tachidesk.yaml
+  - ./services/suwayomi.yaml
+  # - ./services/manatan.yaml
+  # - ./services/free-games-claimer.yaml
 
-    # ============================================================================
-    # Personal Projects
-    # ============================================================================
-    # - ./services/wallsite.yaml
+  # ============================================================================
+  # Personal Projects
+  # ============================================================================
+  # - ./services/wallsite.yaml
 
-    # ============================================================================
-    # NextCloud
-    # ============================================================================
-    # - ./services/nextcloud.yaml
-    # - ./services/owncloud.yaml
+  # ============================================================================
+  # NextCloud
+  # ============================================================================
+  # - ./services/nextcloud.yaml
+  # - ./services/owncloud.yaml
 
-    # - ./services/debian.yaml
+  # - ./services/debian.yaml
 
-    # ============================================================================
-    # CUSTOM META-SERVICES
-    # ============================================================================
-    # - ./services/essential.yaml
+  # ============================================================================
+  # CUSTOM META-SERVICES
+  # ============================================================================
+  # - ./services/essential.yaml

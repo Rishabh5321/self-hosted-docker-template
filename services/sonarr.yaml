@@ -24,5 +24,6 @@ services:
       - "traefik.http.routers.sonarr.rule=Host(`sonarr.${BASE_DOMAIN}`)"
       - "traefik.http.routers.sonarr.entrypoints=web"
       - "traefik.http.services.sonarr.loadbalancer.server.port=8989"
+      - "docker-volume-backup.stop-during-backup=stop"
       # - "traefik.http.services.sonarr.loadbalancer.forwardingTimeout=180s"
     restart: unless-stopped

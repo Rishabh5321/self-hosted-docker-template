@@ -29,6 +29,7 @@ services:
       - "traefik.http.routers.qbit.rule=Host(`qbit.${BASE_DOMAIN}`)"
       - "traefik.http.routers.qbit.entrypoints=web"
       - "traefik.http.services.qbit.loadbalancer.server.port=8080"
+      - "docker-volume-backup.stop-during-backup=stop"
     # depends_on:
     #     - wireguard
     networks:

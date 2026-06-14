@@ -27,6 +27,7 @@ services:
       - "traefik.http.routers.jellyfin.rule=Host(`jellyfin.${BASE_DOMAIN}`)"
       - "traefik.http.routers.jellyfin.entrypoints=web"
       - "traefik.http.services.jellyfin.loadbalancer.server.port=8096"
+      - "docker-volume-backup.stop-during-backup=stop"
     ports:
       - 636:636
       - 8920:8920
