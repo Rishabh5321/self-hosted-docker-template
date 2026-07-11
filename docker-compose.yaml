@@ -107,6 +107,7 @@ include:
   # ============================================================================
   # - ./services/duplicati.yaml
   - ./services/docker-volume-backup.yaml
+  - ./services/docker-volume-backup_1.yaml
   # - ./services/filebrowser.yaml
   # - ./services/doublecommander.yaml
   # - ./services/casa.yaml
