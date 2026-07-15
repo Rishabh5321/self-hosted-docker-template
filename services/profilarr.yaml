@@ -17,10 +17,11 @@ services:
       - "glance.description=Custom Format Manager"
       - "traefik.enable=true"
       # - "traefik.http.routers.bazarr.middlewares=authentik@docker"
-      - "traefik.http.routers.bazarr.rule=Host(`profilarr.${BASE_DOMAIN}`)"
-      - "traefik.http.routers.bazarr.entrypoints=web"
-      - "traefik.http.services.bazarr.loadbalancer.server.port=6868"
+      - "traefik.http.routers.profilarr.rule=Host(`profilarr.${BASE_DOMAIN}`)"
+      - "traefik.http.routers.profilarr.entrypoints=web"
+      - "traefik.http.services.profilarr.loadbalancer.server.port=6868"
       - "docker-volume-backup.stop-during-backup=stop"
+      - "traefik.http.routers.profilarr.middlewares=tinyauth"
     networks:
       - proxy_network
     restart: unless-stopped

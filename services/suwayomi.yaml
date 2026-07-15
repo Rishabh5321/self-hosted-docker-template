@@ -19,10 +19,11 @@ services:
       - "glance.description=Manga Server"
       - "glance.id=suwayomi"
       - "docker-volume-backup.stop-during-backup=stop"
-      # - "traefik.enable=true"
-      # - "traefik.http.routers.tachidesk.rule=Host(`tachidesk.${BASE_DOMAIN}`)"
-      # - "traefik.http.routers.tachidesk.entrypoints=web"
-      # - "traefik.http.services.tachidesk.loadbalancer.server.port=4567"
+      - "traefik.enable=true"
+      - "traefik.http.routers.suwayomi.rule=Host(`suwayomi.${BASE_DOMAIN}`)"
+      - "traefik.http.routers.suwayomi.entrypoints=web"
+      - "traefik.http.services.suwayomi.loadbalancer.server.port=4567"
+      - "traefik.http.routers.suwayomi.middlewares=tinyauth"
     networks:
       - proxy_network
     depends_on:

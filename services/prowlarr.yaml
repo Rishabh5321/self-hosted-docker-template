@@ -17,6 +17,7 @@ services:
       - "traefik.http.routers.prowlarr.rule=Host(`prowlarr.${BASE_DOMAIN}`)"
       - "traefik.http.routers.prowlarr.entrypoints=web"
       - "traefik.http.services.prowlarr.loadbalancer.server.port=9696"
+      - "traefik.http.routers.prowlarr.middlewares=tinyauth"
       - "docker-volume-backup.stop-during-backup=stop"
     volumes:
       - ${DOCKER_CONFIG_BASE}/Prowlarr_Config:/config

@@ -1,0 +1,44 @@
+services:
+    tinyauth:
+        image: ghcr.io/tinyauthapp/tinyauth:latest
+        container_name: tinyauth
+        restart: unless-stopped
+        environment:
+            - TINYAUTH_APPURL=https://${APP_URL}
+            - TINYAUTH_AUTH_USERS=${USERS}
+            - TINYAUTH_LOG_LEVEL=info
+
+            - TINYAUTH_OIDC_CLIENTS_BESZEL_CLIENTID=${TINYAUTH_OIDC_CLIENTS_BESZEL_CLIENTID}
+            - TINYAUTH_OIDC_CLIENTS_BESZEL_CLIENTSECRET=${TINYAUTH_OIDC_CLIENTS_BESZEL_CLIENTSECRET}
+            - TINYAUTH_OIDC_CLIENTS_BESZEL_TRUSTEDREDIRECTURIS=https://beszel.${BASE_DOMAIN}/api/oauth2-redirect
+            - TINYAUTH_OIDC_CLIENTS_BESZEL_NAME=Beszel
+
+            - TINYAUTH_OIDC_CLIENTS_PORTAINER_CLIENTID=${TINYAUTH_OIDC_CLIENTS_PORTAINER_CLIENTID}
+            - TINYAUTH_OIDC_CLIENTS_PORTAINER_CLIENTSECRET=${TINYAUTH_OIDC_CLIENTS_PORTAINER_CLIENTSECRET}
+            - TINYAUTH_OIDC_CLIENTS_PORTAINER_TRUSTEDREDIRECTURIS=https://portainer.${BASE_DOMAIN}/
+            - TINYAUTH_OIDC_CLIENTS_PORTAINER_NAME=Portainer
+
+            - TINYAUTH_APPS_PROWLARR_PATH_ALLOW=/api
+
+            - TINYAUTH_APPS_RADARR_PATH_ALLOW=/api
+
+            - TINYAUTH_APPS_SONARR_PATH_ALLOW=/api
+            - TINYAUTH_APPS_SONARR_RESPONSE_BASICAUTH_USERNAME=${TINYAUTH_APPS_SONARR_RESPONSE_BASICAUTH_USERNAME}
+            - TINYAUTH_APPS_SONARR_RESPONSE_BASICAUTH_PASSWORD=${TINYAUTH_APPS_SONARR_RESPONSE_BASICAUTH_PASSWORD}
+
+            # - TINYAUTH_OAUTH_PROVIDERS_GITHUB_CLIENTID=${TINYAUTH_OAUTH_PROVIDERS_GITHUB_CLIENTID}
+            # - TINYAUTH_OAUTH_PROVIDERS_GITHUB_CLIENTSECRET=${TINYAUTH_OAUTH_PROVIDERS_GITHUB_CLIENTSECRET}
+            # - TINYAUTH_OAUTH_WHITELIST=${TINYAUTH_OAUTH_WHITELIST}
+        volumes:
+            - /mnt/Docker/Docker/TinyAuth_Config:/data
+        networks:
+            - proxy_network
+        labels:
+            - "traefik.enable=true"
+            - "traefik.http.routers.tinyauth.entrypoints=web"
+            - "traefik.http.routers.tinyauth.rule=Host(`${APP_URL}`)"
+            - "traefik.http.routers.tinyauth.service=tinyauth"
+            - "traefik.http.services.tinyauth.loadbalancer.server.port=3000"
+            - "traefik.http.middlewares.tinyauth.forwardauth.address=http://tinyauth:3000/api/auth/traefik"
+            - "traefik.http.middlewares.tinyauth.forwardauth.trustForwardHeader=true"
+            - "traefik.http.middlewares.tinyauth.forwardauth.authResponseHeaders=authorization"
