@@ -19,6 +19,7 @@ services:
       - "traefik.http.routers.seerr.rule=Host(`seerr.${BASE_DOMAIN}`)"
       - "traefik.http.routers.seerr.entrypoints=web"
       - "traefik.http.services.seerr.loadbalancer.server.port=5055"
+      - "traefik.http.routers.seerr.middlewares=tinyauth"
       - "docker-volume-backup.stop-during-backup=stop"
     networks:
       - proxy_network

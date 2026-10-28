@@ -1,0 +1,39 @@
+services:
+  cleanuparr:
+    image: ghcr.io/cleanuparr/cleanuparr:latest
+    container_name: cleanuparr
+    environment:
+      - PORT=11011
+      - BASE_PATH=
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - UMASK=022
+      - TZ=${TZ}
+    ports:
+      - 11011:11011
+    networks:
+      - proxy_network
+    volumes:
+      - ${DOCKER_CONFIG_BASE}/Cleanuparr_Config:/config
+      - ${MEDIA_DOWNLOADS_PATH}:/downloads
+      # Mounted for orphaned/unlinked file scanning, keep paths identical to Sonarr/Radarr
+      - ${MEDIA_LIBRARY_PATH_RAID}:/data
+      - ${MEDIA_LIBRARY_PATH_EDISK}:/data1
+    labels:
+      - "glance.name=Cleanuparr"
+      - "glance.icon=https://cdn.jsdelivr.net/gh/Cleanuparr/Cleanuparr@main/Logo/256.png"
+      - "glance.url=http://cleanuparr.${BASE_DOMAIN}/"
+      - "glance.description=Download Queue Cleaner"
+      - "traefik.enable=true"
+      - "traefik.http.routers.cleanuparr.rule=Host(`cleanuparr.${BASE_DOMAIN}`)"
+      - "traefik.http.routers.cleanuparr.entrypoints=web"
+      - "traefik.http.services.cleanuparr.loadbalancer.server.port=11011"
+      - "traefik.http.routers.cleanuparr.middlewares=tinyauth"
+      - "docker-volume-backup.stop-during-backup=stop"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:11011/health"]
+      interval: 30s
+      timeout: 10s
+      start_period: 30s
+      retries: 3
+    restart: unless-stopped
